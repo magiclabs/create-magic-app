@@ -42,12 +42,11 @@ const cli = meow({
     transitionGradient: true,
   });
 
-  await generator.run();
+  const props = await generator.run();
   console.log(); // Add empty line for spacing
 
   // Start running the example app!
-
-  // eslint-disable-next-line
-  const isNext = !!require(`${process.cwd()}/package.json`).scripts?.dev;
-  await execa.command(`yarn ${isNext ? 'dev' : 'start'}`, { stdio: 'inherit' });
+  if (props.startCommand) {
+    await execa.command(props.startCommand, { stdio: 'inherit' });
+  }
 })();

@@ -2099,7 +2099,7 @@ lodash.chunk@^4.2.0:
   resolved "https://registry.yarnpkg.com/lodash.chunk/-/lodash.chunk-4.2.0.tgz#66e5ce1f76ed27b4303d8c6512e8d1216e8106bc"
   integrity sha1-ZuXOH3btJ7QwPYxlEujRIW6BBrw=
 
-lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20:
+lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
@@ -3248,10 +3248,10 @@ yargs-parser@^20.2.3:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.4.tgz#b42890f14566796f85ae8e3a25290d205f154a54"
   integrity sha512-WOkpgNhPTlE73h4VFAFsOnomJVaovO8VqLDzy5saChRBFQFBoMYirowyW+Q9HB4HFF4Z7VZTiG3iSzJJA29yRA==
 
-zombi@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-2.1.0.tgz#d6b8c1977cf8e79b75b30c6e5ca254f43ed1fbb8"
-  integrity sha512-TAFsxj/Cooj7brztynu11jB3HHzmX9J0L6MtUkMLlYsGaT0z/gPn2IghH9dcoJLO9sN0Er+koCy1iAxG1J0cHA==
+zombi@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-2.3.0.tgz#5ef5cfaca51794cbe0dfaad3da11cd6ecf1f9a95"
+  integrity sha512-/m1H8omKcMpAAqXOxlZcQrZN7a2MG6rUcGqm6+LeNYe4CUoKQjeBrn58vh/3BYPbbWOzU6WAoXbvu4twypYAUA==
   dependencies:
     caller "~1.0.1"
     chalk "^2.4.1"

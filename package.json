@@ -18,9 +18,8 @@
   "dependencies": {
     "cfonts": "^2.9.0",
     "execa": "^5.0.0",
-    "lodash": "^4.17.20",
     "meow": "^8.0.0",
-    "zombi": "^2.1.0"
+    "zombi": "^2.3.0"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
