@@ -1,0 +1,53 @@
+{
+  "name": "create-magic-app",
+  "version": "0.1.0",
+  "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
+  "license": "MIT",
+  "bin": {
+    "create-magic-app": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "dev": "yarn clean && tsc -w",
+    "build": "yarn clean && tsc && chmod +x ./dist/cli.js",
+    "clean": "rimraf dist",
+    "lint": "eslint --fix --ext .ts,.tsx .",
+    "test": "echo \"No unit tests... yet :(\" && exit 0"
+  },
+  "dependencies": {
+    "cfonts": "^2.9.0",
+    "execa": "^5.0.0",
+    "lodash": "^4.17.20",
+    "meow": "^8.0.0",
+    "zombi": "^2.1.0"
+  },
+  "devDependencies": {
+    "@ikscodes/eslint-config": "^7.0.2",
+    "@ikscodes/prettier-config": "^2.0.1",
+    "@types/ejs": "^3.0.5",
+    "@types/lodash": "^4.14.165",
+    "@types/node": "^14.14.12",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "auto": "^10.5.0",
+    "eslint": "^7.14.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2"
+  },
+  "auto": {
+    "plugins": [
+      "npm"
+    ]
+  },
+  "repository": "magiclabs/create-magic-app",
+  "author": "Magic Labs <team@magic.link>"
+}
