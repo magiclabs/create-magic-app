@@ -6,13 +6,14 @@ aliases: [
   # List of dependency paths that should be persisted to the
   # CircleCI workspace.
   &dependency-paths [
-    "node_modules"
+    "node_modules",
   ],
 
   # List of build output paths that should be persisted to the
   # CircleCI workspace.
   &build-output-paths [
     "dist",
+    "templates.zip",
   ],
 
   # NPM lockfile cache key (update "vN" => "vN+1" to cache-bust).
