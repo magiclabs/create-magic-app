@@ -6,7 +6,7 @@ aliases: [
   # List of dependency paths that should be persisted to the
   # CircleCI workspace.
   &dependency-paths [
-    "node_modules"
+    "node_modules",
   ],
 
   # List of build output paths that should be persisted to the
