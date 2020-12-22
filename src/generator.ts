@@ -1,20 +1,33 @@
-import { copy, yarnInstall, zombi } from 'zombi';
-import { resolve } from 'path';
-import { snakeCase, toLower } from 'lodash';
+/* eslint-disable no-param-reassign */
 
-const generator = zombi({
+import { copy, sideEffect, yarnInstall, zombi } from 'zombi';
+import { resolve } from 'path';
+
+interface Props {
+  projectName: string;
+  framework: string;
+  database: string;
+  socialLogins: string[];
+  magicPublishableKey: string;
+  magicSecretKey: string;
+  faunaSecretKey?: string;
+  startCommand?: string;
+}
+
+const generator = zombi<Props>({
   name: 'create-magic-app',
   templateRoot: resolve(__dirname, '..', 'templates'),
 });
 
 export default generator
-  .prompt<{ projectName: string }>({
-    name: 'projectName',
-    message: 'What is your project named?',
-    type: 'Input',
-    initial: 'my-app',
-  })
-  .prompt<{ framework: string; database: string; socialLogins: string[] }>([
+  .prompt([
+    {
+      name: 'projectName',
+      message: 'What is your project named?',
+      type: 'Input',
+      initial: 'my-app',
+    },
+
     {
       name: 'framework',
       message: 'Choose a full-stack framework:',
@@ -46,7 +59,7 @@ export default generator
       ],
     },
   ])
-  .prompt<{ magicPublishableKey: string; magicSecretKey: string; faunaSecretKey?: string }>(({ props }) => [
+  .prompt(({ props }) => [
     {
       name: 'magicPublishableKey',
       message: `Paste your Magic public API key:`,
@@ -75,8 +88,22 @@ export default generator
         ]
           .filter(Boolean)
           .join('-'),
-      ({ props }) => `./${toLower(snakeCase(props.projectName))}`,
+      ({ props }) => `./${props.projectName}`,
     ),
+
+    sideEffect(({ props }) => {
+      process.chdir(props.projectName);
+    }),
+
+    sideEffect(({ props }) => {
+      const startCommands: Record<string, string> = {
+        'react-express': 'yarn start',
+        nextjs: 'yarn dev',
+      };
+
+      const framework = Object.keys(startCommands).find((f) => props.framework === f);
+      if (framework) props.startCommand = startCommands[framework];
+    }),
 
     yarnInstall(),
   );
