@@ -1,6 +1,6 @@
 {
   "name": "@magiclabs/create-magic-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
   "license": "MIT",
   "bin": "./dist/cli.js",
