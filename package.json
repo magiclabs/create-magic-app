@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
   "license": "MIT",
-  "bin": {
-    "@magiclabs/create-magic-app": "./dist/cli.js"
-  },
+  "bin": "./dist/cli.js",
   "files": [
     "dist",
     "templates"
