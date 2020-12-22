@@ -1,3 +1,15 @@
+# v0.1.2 (Tue Dec 22 2020)
+
+#### 🐛 Bug Fix
+
+- Add template ENV files [#4](https://github.com/magiclabs/create-magic-app/pull/4) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v0.1.1 (Tue Dec 22 2020)
 
 #### 🐛 Bug Fix
