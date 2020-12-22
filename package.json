@@ -5,8 +5,7 @@
   "license": "MIT",
   "bin": "./dist/cli.js",
   "files": [
-    "dist",
-    "templates.zip"
+    "dist"
   ],
   "scripts": {
     "dev": "yarn clean && tsc -w",
