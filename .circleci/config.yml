@@ -95,7 +95,7 @@ jobs:
       - *attach-workspace
       - run:
           name: Build modules
-          command: yarn run build:lib
+          command: yarn run build
       - persist_to_workspace:
           paths: *build-output-paths
           root: *workspace-root
@@ -109,9 +109,6 @@ jobs:
       - run:
           name: Run unit tests
           command: yarn run test
-      - run:
-          name: Test tree-shaking
-          command: yarn agadoo
       # For display in CircleCI Artifacts: https://circleci.com/docs/2.0/artifacts/
       - store_artifacts:
           path: coverage
