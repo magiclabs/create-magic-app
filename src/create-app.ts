@@ -4,7 +4,7 @@ import { copy, sideEffect, yarnInstall, zombi } from 'zombi';
 import path from 'path';
 import fs from 'fs';
 import { URL } from 'url';
-import { downloadAndExtractRepo, getRepoInfo, hasRepo } from './utils/repo';
+import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL, TEMPLATE_ROOT } from './config';
 
@@ -101,18 +101,12 @@ export async function createApp() {
         const repoInfo = await getRepoInfo(repoUrl, path.join('templates', example));
 
         if (repoInfo) {
-          const found = await hasRepo(repoInfo);
+          const root = context.template(example);
 
-          if (found) {
-            const root = context.template(example);
-
-            if (!fs.existsSync(root)) {
-              utils.statusIO.write('Pulling templates...');
-              await makeDir(root);
-              await downloadAndExtractRepo(root, repoInfo);
-            }
-          } else {
-            // TODO: Handle case where repo is not found
+          if (!fs.existsSync(root)) {
+            utils.statusIO.write('Pulling templates...');
+            await makeDir(root);
+            await downloadAndExtractRepo(root, repoInfo);
           }
         } else {
           // TODO: Handle case where repo info is not found
