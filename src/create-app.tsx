@@ -115,6 +115,8 @@ export async function createApp() {
   const { data: globalData } = await scaffold<TemplateData>(template);
   const { 'create-magic-app': data } = globalData;
 
+  console.log(); // Aesthetics!
+
   // Move the current working directory to the rendered scaffold.
   process.chdir(data.projectName);
 
