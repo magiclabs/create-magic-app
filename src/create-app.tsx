@@ -20,24 +20,13 @@ interface TemplateData {
   faunaSecretKey?: string;
 }
 
-function getExamplePath(data: Partial<TemplateData>) {
-  return [
-    data.framework,
-    data.database !== 'none' && data.database,
-    data.socialLogins?.length ? 'withsocial' : 'emailonly',
-  ]
-    .filter(Boolean)
-    .join('-');
-}
-
 export async function createApp() {
-  const templateRoot = path.resolve(__dirname, '../templates');
   const destinationRoot = process.cwd();
 
   const template = (
     <Zombi<TemplateData>
       name="create-magic-app"
-      templateRoot={templateRoot}
+      templateRoot={TEMPLATE_ROOT}
       destinationRoot={destinationRoot}
       prompts={[
         {
@@ -104,7 +93,7 @@ export async function createApp() {
         const repoInfo = await getRepoInfo(repoUrl, path.join('templates', example));
 
         if (repoInfo) {
-          const root = path.resolve(templateRoot, example);
+          const root = path.resolve(TEMPLATE_ROOT, example);
 
           if (!fs.existsSync(root)) {
             await makeDir(root);
@@ -132,6 +121,19 @@ export async function createApp() {
   // Do post-render actions.
   await installDependencies(data);
   await runApp(data);
+}
+
+/**
+ * Resolve a path to the target template.
+ */
+function getExamplePath(data: Partial<TemplateData>) {
+  return [
+    data.framework,
+    data.database !== 'none' && data.database,
+    data.socialLogins?.length ? 'withsocial' : 'emailonly',
+  ]
+    .filter(Boolean)
+    .join('-');
 }
 
 /**
