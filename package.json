@@ -20,8 +20,9 @@
     "execa": "^5.0.0",
     "got": "^11.8.1",
     "meow": "^8.0.0",
+    "react": "^17.0.1",
     "tar": "^6.0.5",
-    "zombi": "^2.3.0"
+    "zombi": "^3.0.0"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
@@ -29,6 +30,7 @@
     "@types/ejs": "^3.0.5",
     "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.12",
+    "@types/react": "^17.0.0",
     "@types/tar": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "auto": "^10.5.0",

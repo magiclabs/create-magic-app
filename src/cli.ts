@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import meow from 'meow';
-import execa from 'execa';
 import CFonts from 'cfonts';
 import { createApp } from './create-app';
 import { makeDir } from './utils/make-dir';
@@ -43,13 +42,5 @@ function sayHello() {
   await makeDir(TEMPLATE_ROOT);
 
   // Run the scaffold...
-  const props = await createApp();
-
-  // Add an empty line for "aesthetic"
-  console.log();
-
-  // Run the example app we just scaffolded!
-  if (props.startCommand) {
-    await execa.command(props.startCommand, { stdio: 'inherit' });
-  }
+  await createApp();
 })();
