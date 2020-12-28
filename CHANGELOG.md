@@ -1,3 +1,19 @@
+# v0.1.3 (Mon Dec 28 2020)
+
+#### 🐛 Bug Fix
+
+- Make NPM client customizable [#7](https://github.com/magiclabs/create-magic-app/pull/7) ([@smithki](https://github.com/smithki))
+
+#### 🏠 Internal
+
+- Remove 'templates.zip' from 'package.json#files' [#5](https://github.com/magiclabs/create-magic-app/pull/5) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v0.1.2 (Tue Dec 22 2020)
 
 #### 🐛 Bug Fix
