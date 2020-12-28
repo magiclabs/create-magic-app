@@ -18,6 +18,7 @@ interface TemplateData {
   magicPublishableKey: string;
   magicSecretKey: string;
   faunaSecretKey?: string;
+  npmClient: 'npm' | 'yarn';
 }
 
 export async function createApp() {
@@ -86,6 +87,16 @@ export async function createApp() {
             message: `Paste your FaunaDB secret:`,
           },
         ],
+
+        {
+          type: 'select',
+          name: 'npmClient',
+          message: 'Which NPM client would you like to use?',
+          choices: [
+            { name: 'npm', message: 'NPM' },
+            { name: 'yarn', message: 'Yarn' },
+          ],
+        },
       ]}
       onPromptResponse={async (data) => {
         const example = getExamplePath(data);
@@ -144,8 +155,8 @@ function getExamplePath(data: Partial<TemplateData>) {
  */
 async function installDependencies(data: TemplateData) {
   const installCommands: Record<string, string> = {
-    'react-express': 'yarn install',
-    nextjs: 'yarn install',
+    'react-express': data.npmClient === 'npm' ? 'npm install' : 'yarn install',
+    nextjs: data.npmClient === 'npm' ? 'npm install' : 'yarn install',
   };
 
   const framework = Object.keys(installCommands).find((f) => data.framework === f)!;
@@ -162,8 +173,8 @@ async function installDependencies(data: TemplateData) {
  */
 async function runApp(data: TemplateData) {
   const startCommands: Record<string, string> = {
-    'react-express': 'yarn start',
-    nextjs: 'yarn dev',
+    'react-express': data.npmClient === 'npm' ? 'npm run start' : 'yarn start',
+    nextjs: data.npmClient === 'npm' ? 'npm run dev' : 'yarn dev',
   };
 
   const framework = Object.keys(startCommands).find((f) => data.framework === f)!;
