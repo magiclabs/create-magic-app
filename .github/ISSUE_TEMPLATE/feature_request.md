@@ -8,7 +8,7 @@ labels: ✨Feature Request
 ### ✅ Prerequisites
 
 - [ ] Did you perform a cursory search of open issues? Is this feature already requested elsewhere?
-- [ ] Are you reporting to the correct repository (`create-magic-app`)?
+- [ ] Are you reporting to the correct repository (`make-magic`)?
 
 ### ✨ Feature Request
 
