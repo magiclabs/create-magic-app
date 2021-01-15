@@ -1,4 +1,4 @@
-# 🪄 `@magiclabs/create-magic-app`
+# 🪄 `make-magic`
 
 > A tool for quickly scaffolding an app with Magic authentication baked-in!
 
@@ -12,7 +12,7 @@
 Getting started with the interactive scaffolding tool is easy. Just run the following command in your preferred shell:
 
 ```zsh
-npx @magiclabs/create-magic-app
+npx make-magic
 ```
 
 Follow the interactive prompts to customize your project. Done! ✨

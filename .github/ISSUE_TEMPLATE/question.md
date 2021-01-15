@@ -8,7 +8,7 @@ labels: ❓Question
 ### ✅ Prerequisites
 
 - [ ] Did you perform a cursory search of open issues? Is this question already asked elsewhere?
-- [ ] Are you reporting to the correct repository (`create-magic-app`)?
+- [ ] Are you reporting to the correct repository (`make-magic`)?
 
 ### ❓ Question
 
@@ -18,7 +18,7 @@ labels: ❓Question
 
 | Software            | Version(s) |
 | ------------------- | ---------- |
-| `create-magic-app`  |
+| `make-magic`        |
 | Node                |
 | `yarn`              |
 | Operating System    |
