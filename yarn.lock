@@ -859,11 +859,6 @@ call-bind@^1.0.0:
     function-bind "^1.1.1"
     get-intrinsic "^1.0.0"
 
-caller@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/caller/-/caller-1.0.1.tgz#b851860f70e195db3d277395aa1a7e23ea30ecf5"
-  integrity sha1-uFGGD3Dhlds9J3OVqhp+I+ow7PU=
-
 callsites@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
@@ -3678,12 +3673,11 @@ zip-stream@^3.0.1:
     compress-commons "^3.0.0"
     readable-stream "^3.6.0"
 
-zombi@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.0.tgz#1be6d412418ef9eb8b16986889b69a6c04940da8"
-  integrity sha512-sMizucrAjZa4hxdoh0g+FCS+ZrnbO8PHBcjxC+/BoCFGZQXvl5jUIpeu1qxDKYUCEH9ySqgKbBX2ULnUAEuEOQ==
+zombi@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.2.tgz#efd879f55a0e515b357ec0c3bfab56ee0eb0fbe0"
+  integrity sha512-BntwzasAEqG+eU3W2GtTarxFkdE3d0rQkaMK11mbz4quHVmBMw/XT8/gE8rEDeqcsky0JyxehdK+tsonMT1Pgg==
   dependencies:
-    caller "^1.0.1"
     chalk "^2.4.1"
     ejs "^2.5.7"
     enquirer "^2.3.6"
@@ -3693,7 +3687,5 @@ zombi@^3.0.0:
     lodash "^4.17.19"
     ora "^5.1.0"
     pretty-time "~1.1.0"
-    react "^17.0.1"
-    react-is "^17.0.1"
     react-ssr-prepass "^1.2.1"
     semaphore-async-await "^1.5.1"
