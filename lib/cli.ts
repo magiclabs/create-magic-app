@@ -1,7 +1,5 @@
-#!/usr/bin/env node
-
-import meow from 'meow';
-import CFonts from 'cfonts';
+import meow from 'compiled/meow';
+import CFonts from 'compiled/cfonts';
 import { createApp } from './create-app';
 import { helpText } from './help-text';
 

@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk from 'compiled/chalk';
 import { BINARY } from './config';
 
 const styled = {

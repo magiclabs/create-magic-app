@@ -1,5 +1,5 @@
 import path from 'path';
-import pkgUp from 'pkg-up';
+import pkgUp from 'compiled/pkg-up';
 
 export const REPO_ROOT = path.dirname(pkgUp.sync()!);
 export const GITHUB_BASE_URL = 'https://github.com';

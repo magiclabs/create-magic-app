@@ -8,12 +8,14 @@ import { Zombi, Directory, Template, scaffold } from 'zombi';
 import path from 'path';
 import fs from 'fs';
 import { URL } from 'url';
-import execa from 'execa';
+import execa from 'compiled/execa';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
 import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
 import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
+
+console.log(execa);
 
 export interface CreateMagicAppData {
   projectName: string;
