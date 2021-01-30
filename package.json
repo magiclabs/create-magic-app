@@ -2,14 +2,18 @@
   "name": "make-magic",
   "version": "0.1.3",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
+  "repository": "magiclabs/create-magic-app",
+  "author": "Magic Labs <team@magic.link>",
   "license": "MIT",
-  "bin": "./dist/cli.js",
+  "bin": "./bin.js",
   "files": [
-    "dist"
+    "./bin.js",
+    "./dist/src",
+    "./dist/scaffolds/*/scaffold.tsx"
   ],
   "scripts": {
     "dev": "yarn clean && tsc -w",
-    "build": "yarn clean && tsc && chmod +x ./dist/cli.js",
+    "build": "yarn clean && tsc",
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "echo \"No unit tests... yet :(\" && exit 0"
@@ -20,6 +24,7 @@
     "execa": "^5.0.0",
     "got": "^11.8.1",
     "meow": "^8.0.0",
+    "pkg-up": "^3.1.0",
     "react": "^17.0.1",
     "react-is": "^17.0.1",
     "tar": "^6.0.5",
@@ -51,7 +56,5 @@
     "plugins": [
       "npm"
     ]
-  },
-  "repository": "magiclabs/create-magic-app",
-  "author": "Magic Labs <team@magic.link>"
+  }
 }

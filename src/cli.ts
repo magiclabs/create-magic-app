@@ -3,8 +3,6 @@
 import meow from 'meow';
 import CFonts from 'cfonts';
 import { createApp } from './create-app';
-import { makeDir } from './utils/make-dir';
-import { TEMPLATE_ROOT } from './config';
 import { helpText } from './help-text';
 
 const cli = meow({
@@ -37,9 +35,6 @@ function sayHello() {
   }
 
   sayHello();
-
-  // Make sure there's at least a root template directory to work from.
-  await makeDir(TEMPLATE_ROOT);
 
   // Run the scaffold...
   await createApp();

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
@@ -8,26 +11,22 @@ import { URL } from 'url';
 import execa from 'execa';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
-import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL, TEMPLATE_ROOT } from './config';
+import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
+import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
+import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
 
-interface TemplateData {
+export interface CreateMagicAppData {
   projectName: string;
-  framework: string;
-  database: string;
-  socialLogins: string[];
-  magicPublishableKey: string;
-  magicSecretKey: string;
-  faunaSecretKey?: string;
-  npmClient: 'npm' | 'yarn';
+  scaffoldName: string;
 }
 
 export async function createApp() {
   const destinationRoot = process.cwd();
 
   const template = (
-    <Zombi<TemplateData>
+    <Zombi<CreateMagicAppData>
       name="create-magic-app"
-      templateRoot={TEMPLATE_ROOT}
+      templateRoot={false}
       destinationRoot={destinationRoot}
       prompts={[
         {
@@ -39,92 +38,37 @@ export async function createApp() {
 
         {
           type: 'select',
-          name: 'framework',
+          name: 'scaffoldName',
           message: 'Choose a full-stack framework:',
-          choices: [
-            { name: 'react-express', message: 'React + Express' },
-            { name: 'nextjs', message: 'NextJS' },
-          ],
-        },
-
-        {
-          type: 'select',
-          name: 'database',
-          message: 'Choose a database:',
-          choices: [
-            { name: 'none', message: 'None' },
-            { name: 'fauna', message: 'FaunaDB' },
-          ],
-        },
-
-        {
-          type: 'multiselect',
-          name: 'socialLogins',
-          message: 'Choose social login providers:',
-          choices: [
-            { name: 'google', message: 'Sign in with Google' },
-            { name: 'facebook', message: 'Sign in with Facebook' },
-            { name: 'github', message: 'Sign in with GitHub' },
-          ],
-        },
-
-        {
-          type: 'input',
-          name: 'magicPublishableKey',
-          message: `Paste your Magic public API key:`,
-        },
-
-        {
-          type: 'password',
-          name: 'magicSecretKey',
-          message: `Paste your Magic secret API key:`,
-        },
-
-        (data) => [
-          data.database.includes('fauna') && {
-            type: 'password',
-            name: 'faunaSecretKey',
-            message: `Paste your FaunaDB secret:`,
-          },
-        ],
-
-        {
-          type: 'select',
-          name: 'npmClient',
-          message: 'Which NPM client would you like to use?',
-          choices: [
-            { name: 'npm', message: 'NPM' },
-            { name: 'yarn', message: 'Yarn' },
-          ],
+          choices: fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
+            return { name, message: getScaffoldDefinition(name).shortDescription };
+          }),
         },
       ]}
       onPromptResponse={async (data) => {
-        const example = getExamplePath(data);
         const repoUrl = new URL(DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL);
-        const repoInfo = await getRepoInfo(repoUrl, path.join('templates', example));
+        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.scaffoldName));
 
         if (repoInfo) {
-          const root = path.resolve(TEMPLATE_ROOT, example);
+          const templatePath = getAbsoluteTemplatePath(data.scaffoldName);
 
-          if (!fs.existsSync(root)) {
-            await makeDir(root);
-            await downloadAndExtractRepo(root, repoInfo);
+          if (!fs.existsSync(templatePath)) {
+            await makeDir(templatePath);
+            await downloadAndExtractRepo(templatePath, repoInfo);
           }
         } else {
           // TODO: Handle case where repo info is not found
         }
       }}
     >
-      {(data) => (
-        <Directory name={data.projectName}>
-          <Template source={getExamplePath(data)} name="." />
-        </Directory>
-      )}
+      {(data) => {
+        const renderTemplate = getScaffoldRender(data);
+        return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
+      }}
     </Zombi>
   );
 
-  const { data: globalData } = await scaffold<TemplateData>(template);
-  const { 'create-magic-app': data } = globalData;
+  const data = (await scaffold<CreateMagicAppData>(template)).data['create-magic-app'];
 
   console.log(); // Aesthetics!
 
@@ -137,50 +81,37 @@ export async function createApp() {
 }
 
 /**
- * Resolve a path to the target template.
- */
-function getExamplePath(data: Partial<TemplateData>) {
-  return [
-    data.framework,
-    data.database !== 'none' && data.database,
-    data.socialLogins?.length ? 'withsocial' : 'emailonly',
-  ]
-    .filter(Boolean)
-    .join('-');
-}
-
-/**
  * After the scaffold is rendered, we call this function to install any
  * dependencies the example app requires.
  */
-async function installDependencies(data: TemplateData) {
-  const installCommands: Record<string, string> = {
-    'react-express': data.npmClient === 'npm' ? 'npm install' : 'yarn install',
-    nextjs: data.npmClient === 'npm' ? 'npm install' : 'yarn install',
-  };
-
-  const framework = Object.keys(installCommands).find((f) => data.framework === f)!;
-  const installCommand = installCommands[framework];
-
-  if (installCommand) {
-    await execa.command(installCommand, { stdio: 'inherit' });
-  }
+async function installDependencies(data: CreateMagicAppData) {
+  // const installCommands: Record<string, string> = {
+  //   'react-express': data.npmClient === 'npm' ? 'npm install' : 'yarn install',
+  //   nextjs: data.npmClient === 'npm' ? 'npm install' : 'yarn install',
+  // };
+  //
+  // const framework = Object.keys(installCommands).find((f) => data.framework === f)!;
+  // const installCommand = installCommands[framework];
+  //
+  // if (installCommand) {
+  //   await execa.command(installCommand, { stdio: 'inherit' });
+  // }
 }
 
 /**
  * After the scaffold is rendered, we call this function to start the example
  * app, providing instant gratification for first-time Magic developers!
  */
-async function runApp(data: TemplateData) {
-  const startCommands: Record<string, string> = {
-    'react-express': data.npmClient === 'npm' ? 'npm run start' : 'yarn start',
-    nextjs: data.npmClient === 'npm' ? 'npm run dev' : 'yarn dev',
-  };
-
-  const framework = Object.keys(startCommands).find((f) => data.framework === f)!;
-  const startCommand = startCommands[framework];
-
-  if (startCommand) {
-    await execa.command(startCommand, { stdio: 'inherit' });
-  }
+async function runApp(data: CreateMagicAppData) {
+  // const startCommands: Record<string, string> = {
+  //   'react-express': data.npmClient === 'npm' ? 'npm run start' : 'yarn start',
+  //   nextjs: data.npmClient === 'npm' ? 'npm run dev' : 'yarn dev',
+  // };
+  //
+  // const framework = Object.keys(startCommands).find((f) => data.framework === f)!;
+  // const startCommand = startCommands[framework];
+  //
+  // if (startCommand) {
+  //   await execa.command(startCommand, { stdio: 'inherit' });
+  // }
 }

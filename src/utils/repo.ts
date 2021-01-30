@@ -25,25 +25,14 @@ interface RepoInfo {
 
 /**
  * Gets repository information for the given remote
- * `url` (must be a GitHub origin) and `examplePath`.
+ * `url` (must be a GitHub origin) and `scaffoldPath`.
  */
-export async function getRepoInfo(url: URL, examplePath?: string): Promise<RepoInfo | undefined> {
+export async function getRepoInfo(url: URL, templatePath?: string): Promise<RepoInfo | undefined> {
   const [, username, name, t, _branch, ...file] = url.pathname.split('/');
-  const filePath = examplePath ? examplePath.replace(/^\//, '') : file.join('/');
-
-  // Support repos whose entire purpose is to be a Magic example, e.g.
-  // https://github.com/:username/:my-cool-magic-example-repo-name.
-  if (t === undefined) {
-    const infoResponse = await got(`https://api.github.com/repos/${username}/${name}`).catch((e) => e);
-    if (infoResponse.statusCode !== 200) {
-      return;
-    }
-    const info = JSON.parse(infoResponse.body);
-    return { username, name, branch: info.default_branch, filePath };
-  }
+  const filePath = templatePath ? templatePath.replace(/^\//, '') : file.join('/');
 
   // If examplePath is available, the branch name takes the entire path
-  const branch = examplePath ? `${_branch}/${file.join('/')}`.replace(new RegExp(`/${filePath}|/$`), '') : _branch;
+  const branch = templatePath ? `${_branch}/${file.join('/')}`.replace(new RegExp(`/${filePath}|/$`), '') : _branch;
 
   if (username && name && branch && t === 'tree') {
     return { username, name, branch, filePath };

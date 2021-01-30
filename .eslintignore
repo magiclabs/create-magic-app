@@ -1,2 +1,2 @@
-/templates/*
-/dist/*
+/scaffolds/*/template/
+/bin.js

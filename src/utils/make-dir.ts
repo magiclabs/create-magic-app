@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 /**
- * Creates a directory recursively use NodeJS `fs` promises.
+ * Creates a directory recursively using NodeJS `fs` promises.
  *
  * Based on the `helpers/make-dir.ts` utility from `create-next-app`.
  *
