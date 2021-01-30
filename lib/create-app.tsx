@@ -4,8 +4,7 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
-import { Zombi, Directory, Template, scaffold } from 'zombi';
-import path from 'path';
+import { Zombi, Directory, scaffold } from 'zombi';
 import fs from 'fs';
 import { URL } from 'url';
 import execa from 'compiled/execa';
@@ -14,8 +13,6 @@ import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
 import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
 import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
-
-console.log(execa);
 
 export interface CreateMagicAppData {
   projectName: string;
@@ -78,42 +75,21 @@ export async function createApp() {
   process.chdir(data.projectName);
 
   // Do post-render actions.
-  await installDependencies(data);
-  await runApp(data);
+  await executePostRenderAction(data, 'installDependenciesCommand');
+  await executePostRenderAction(data, 'startCommand');
 }
 
 /**
- * After the scaffold is rendered, we call this function to install any
- * dependencies the example app requires.
+ * After the scaffold is rendered, we call this
+ * function to invoke post-render shell commands.
  */
-async function installDependencies(data: CreateMagicAppData) {
-  // const installCommands: Record<string, string> = {
-  //   'react-express': data.npmClient === 'npm' ? 'npm install' : 'yarn install',
-  //   nextjs: data.npmClient === 'npm' ? 'npm install' : 'yarn install',
-  // };
-  //
-  // const framework = Object.keys(installCommands).find((f) => data.framework === f)!;
-  // const installCommand = installCommands[framework];
-  //
-  // if (installCommand) {
-  //   await execa.command(installCommand, { stdio: 'inherit' });
-  // }
-}
+async function executePostRenderAction(
+  data: CreateMagicAppData,
+  cmdType: 'installDependenciesCommand' | 'startCommand',
+) {
+  const cmd = getScaffoldDefinition(data.scaffoldName)[cmdType];
 
-/**
- * After the scaffold is rendered, we call this function to start the example
- * app, providing instant gratification for first-time Magic developers!
- */
-async function runApp(data: CreateMagicAppData) {
-  // const startCommands: Record<string, string> = {
-  //   'react-express': data.npmClient === 'npm' ? 'npm run start' : 'yarn start',
-  //   nextjs: data.npmClient === 'npm' ? 'npm run dev' : 'yarn dev',
-  // };
-  //
-  // const framework = Object.keys(startCommands).find((f) => data.framework === f)!;
-  // const startCommand = startCommands[framework];
-  //
-  // if (startCommand) {
-  //   await execa.command(startCommand, { stdio: 'inherit' });
-  // }
+  if (cmd) {
+    await execa.command(cmd, { stdio: 'inherit' });
+  }
 }

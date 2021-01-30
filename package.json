@@ -11,13 +11,20 @@
     "./dist"
   ],
   "scripts": {
-    "build": "yarn clean && tsc && tsc-alias",
-    "clean": "rimraf dist",
     "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
+    "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
+    "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "echo \"No unit tests... yet :(\" && exit 0",
     "ncc:add": "./scripts/ncc:add.ts",
-    "ncc:remove": "./scripts/ncc:remove.ts"
+    "ncc:remove": "./scripts/ncc:remove.ts",
+    "ncc:update": "./scripts/ncc:update.ts"
+  },
+  "dependencies": {
+    "next": "^10.0.6",
+    "react": "^17.0.1",
+    "react-is": "^17.0.1",
+    "zombi": "^3.0.3"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
@@ -33,8 +40,9 @@
     "@vercel/ncc": "^0.27.0",
     "auto": "^10.5.0",
     "bytes": "^3.1.0",
-    "cfonts": "^2.9.0",
+    "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.14.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",
@@ -44,18 +52,15 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "execa": "^5.0.0",
     "got": "^11.8.1",
-    "meow": "^8.0.0",
+    "meow": "^9.0.0",
     "parse-package-name": "^0.1.0",
-    "pkg-up": "3.1.0",
+    "pkg-up": "^3.1.0",
     "prettier": "^2.2.0",
-    "react": "^17.0.1",
-    "react-is": "^17.0.1",
     "rimraf": "^3.0.2",
-    "tar": "^6.0.5",
+    "tar": "^6.1.0",
     "tsc-alias": "^1.2.6",
     "tsc-watch": "^4.2.9",
-    "typescript": "^4.1.2",
-    "zombi": "^3.0.3"
+    "typescript": "^4.1.2"
   },
   "auto": {
     "plugins": [

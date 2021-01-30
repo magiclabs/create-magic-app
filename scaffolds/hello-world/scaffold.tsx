@@ -11,5 +11,7 @@ export default createScaffold(
 
   {
     shortDescription: 'Just testing...',
+    installDependenciesCommand: 'echo install deps',
+    startCommand: 'echo start app',
   },
 );

@@ -13,23 +13,31 @@ import bytes from 'bytes';
 
 // Parse command input
 const [input] = process.argv.slice(2);
-if (!input) handleError(new Error('Please specify a dependency to install and compile.'));
+if (!input) handleError(new Error('Please specify a dependency to install and pre-compile.'));
 
 // Parse the specified package information
-// and resolve some important paths
+// and resolve a destination path
 const pkg = parse(input);
 const destination = path.resolve(__dirname, '..', 'compiled', pkg.name);
 
-// Install and compile the specified dependency
-console.log(`Installing ${pkg.name}@${pkg.version}`);
-execa
-  .command(`yarn add -D ${pkg.name}@${pkg.version}`)
-  .then(() => {
-    console.log(`Compiling ${pkg.name}@${pkg.version}`);
-    return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6' });
-  })
-  .then(postBuild)
-  .catch(handleError);
+if (process.env['ncc:add:SKIP_INSTALL']) {
+  // Just compile the dependency (skip install)
+  console.log(`Compiling ${getPkgIdentifier()}`);
+  ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6' })
+    .then(postBuild)
+    .catch(handleError);
+} else {
+  // Install and compile the dependency
+  console.log(`Installing ${getPkgIdentifier()}`);
+  execa
+    .command(`yarn add -D ${getPkgIdentifier()}`)
+    .then(() => {
+      console.log(`Compiling ${getPkgIdentifier()}`);
+      return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6' });
+    })
+    .then(postBuild)
+    .catch(handleError);
+}
 
 /**
  * Write a file with the given data to `[root]/compiled/[pkg.name]`.
@@ -42,7 +50,7 @@ function write(file: string, data: any) {
 }
 
 /**
- * Once the dependency is build using `@vercel/ncc`,
+ * Once the dependency is built using `@vercel/ncc`,
  * write the output to `[root]/compiled/[pkg.name]`.
  */
 function postBuild({ code }) {
@@ -75,10 +83,11 @@ function writeLicense() {
  */
 function writePackageJson() {
   const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
-  const { name, author, license } = require(pkgJsonPath);
+  const { name, version, author, license } = require(pkgJsonPath);
 
   const data = `${JSON.stringify({
     name,
+    version,
     main: 'index.js',
     ...(author ? { author } : undefined),
     ...(license ? { license } : undefined),
@@ -88,7 +97,15 @@ function writePackageJson() {
 }
 
 /**
- * Log the given `err` and exit the process.
+ * Normalize the package identifier based
+ * on whether a version range was provided.
+ */
+function getPkgIdentifier() {
+  return pkg.version ? `${pkg.name}@${pkg.version}` : pkg.name;
+}
+
+/**
+ * Log the given `err` and exit the process with status code `1`.
  */
 function handleError<T extends Error>(err: T) {
   console.error(err);
