@@ -5487,10 +5487,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zombi@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.3.tgz#0f114367891e51c5ce86dd259c54c99db8314489"
-  integrity sha512-l15pbIhdMLeJSLEOTbkHj12DmHDWNjb5cZIxr3aNgRMwmV2iux+yMM6E0QKfaveTS1Umyys0LPNv8GGvZddt+w==
+zombi@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.5.tgz#34ccabd61bcad504ba70360835161eb1ae2d6df5"
+  integrity sha512-fsygH+de0CubaAK4n9Vptttrw5cugu0AZqyuJE7N/jN2i8tEXtvXCvSPlN3DdFjqUPZypUVsgLDvLSPUbD3jYA==
   dependencies:
     chalk "^2.4.1"
     ejs "^2.5.7"

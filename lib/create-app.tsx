@@ -8,6 +8,7 @@ import { Zombi, Directory, scaffold } from 'zombi';
 import fs from 'fs';
 import { URL } from 'url';
 import execa from 'compiled/execa';
+import chalk from 'compiled/chalk';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -19,14 +20,28 @@ export interface CreateMagicAppData {
   scaffoldName: string;
 }
 
-export async function createApp() {
+export async function createApp(chosenScaffold?: string) {
   const destinationRoot = process.cwd();
+
+  const availableScaffolds = fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
+    return { name, message: getScaffoldDefinition(name).shortDescription };
+  });
+
+  const isChosenScaffoldValid = availableScaffolds.map((i) => i.name).includes(chosenScaffold as any);
+
+  if (chosenScaffold && !isChosenScaffoldValid) {
+    console.warn(
+      `${chalk.yellow('Warning:')} '${chalk.bold(chosenScaffold)}' does not match any of the included templates.`,
+    );
+    console.warn(); // Aesthetics!
+  }
 
   const template = (
     <Zombi<CreateMagicAppData>
       name="create-magic-app"
       templateRoot={false}
       destinationRoot={destinationRoot}
+      data={isChosenScaffoldValid ? ({ scaffoldName: chosenScaffold } as any) : undefined}
       prompts={[
         {
           type: 'input',
@@ -35,13 +50,11 @@ export async function createApp() {
           initial: 'my-app',
         },
 
-        {
+        !isChosenScaffoldValid && {
           type: 'select',
           name: 'scaffoldName',
-          message: 'Choose a full-stack framework:',
-          choices: fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
-            return { name, message: getScaffoldDefinition(name).shortDescription };
-          }),
+          message: 'Choose a template:',
+          choices: availableScaffolds,
         },
       ]}
       onPromptResponse={async (data) => {

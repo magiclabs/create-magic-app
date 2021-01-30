@@ -24,7 +24,7 @@
     "next": "^10.0.6",
     "react": "^17.0.1",
     "react-is": "^17.0.1",
-    "zombi": "^3.0.3"
+    "zombi": "^3.0.5"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",

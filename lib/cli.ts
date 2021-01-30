@@ -35,5 +35,5 @@ function sayHello() {
   sayHello();
 
   // Run the scaffold...
-  await createApp();
+  await createApp(cli.input[0]);
 })();
