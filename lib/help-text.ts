@@ -12,9 +12,13 @@ const styled = {
 export const helpText = `
   ${styled.Usage}
 
-    ${styled.sh} ${styled.bin} [...options]
+    ${styled.sh} ${styled.bin} [...options] <template>
 
   ${styled.Options}
+
+    <template>      The base template can optionally be provided as a
+                    positional argument. If omitted, the template will be
+                    prompted for interactively.
 
     --version, -v   Show which version of \`${BINARY}\` is
                     currently in use.
@@ -25,4 +29,5 @@ export const helpText = `
 
     ${styled.sh} npx ${styled.bin}
     ${styled.sh} npx ${styled.bin} --version
+    ${styled.sh} npx ${styled.bin} hello-world
 `;
