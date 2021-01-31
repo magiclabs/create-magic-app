@@ -80,7 +80,7 @@ export async function createApp(chosenScaffold?: string) {
     </Zombi>
   );
 
-  const data = (await scaffold<CreateMagicAppData>(template)).data['create-magic-app'];
+  const data = (await scaffold<{ 'create-magic-app': CreateMagicAppData }>(template)).data['create-magic-app'];
 
   console.log(); // Aesthetics!
 

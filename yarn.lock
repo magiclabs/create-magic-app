@@ -3905,10 +3905,10 @@ yargs@^16.1.0:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-zombi@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.5.tgz#34ccabd61bcad504ba70360835161eb1ae2d6df5"
-  integrity sha512-fsygH+de0CubaAK4n9Vptttrw5cugu0AZqyuJE7N/jN2i8tEXtvXCvSPlN3DdFjqUPZypUVsgLDvLSPUbD3jYA==
+zombi@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.0.6.tgz#9b3c9f654d15f4f15fc728921d6eb4217547fad2"
+  integrity sha512-oho6SlFaJru2zoFw9H2Q4wDw1Xwd0t+8N1HrRColaN2uFk50bgRtVzV2hcqwc3RNNkWlfLgERe3HjBW4QOHBug==
   dependencies:
     chalk "^2.4.1"
     ejs "^2.5.7"
