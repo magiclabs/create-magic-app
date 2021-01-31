@@ -30,9 +30,7 @@ export async function createApp(chosenScaffold?: string) {
   const isChosenScaffoldValid = availableScaffolds.map((i) => i.name).includes(chosenScaffold as any);
 
   if (chosenScaffold && !isChosenScaffoldValid) {
-    console.warn(
-      `${chalk.yellow('Warning:')} '${chalk.bold(chosenScaffold)}' does not match any of the included templates.`,
-    );
+    console.warn(`${chalk.yellow('Warning:')} '${chalk.bold(chosenScaffold)}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
