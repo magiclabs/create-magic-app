@@ -36,4 +36,7 @@ function sayHello() {
 
   // Run the scaffold...
   await createApp(cli.input[0]);
-})();
+})().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
