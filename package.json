@@ -7,8 +7,8 @@
   "author": "Magic Labs <team@magic.link>",
   "bin": "./bin.js",
   "files": [
-    "./bin.js",
-    "./dist"
+    "bin.js",
+    "dist"
   ],
   "scripts": {
     "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
