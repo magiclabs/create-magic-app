@@ -16,20 +16,23 @@ export const helpText = `
 
   ${styled.Options}
 
-    --project-name  The name of your project. A top-level directory will be
-                    created from this value.
+    --project-name, -p  The name of your project. A top-level directory will be
+                        created from this value.
 
-    --template      The base template to use. If omitted or invalid, the
-                    template will be prompted for interactively.
+    --template, -t      The base template to use. If omitted or invalid, the
+                        template will be prompted for interactively.
 
-    --version, -v   Show which version of \`${BINARY}\` is
-                    currently in use.
+    --branch, -b        The remote Git branch of \`${BINARY}\` from which to
+                        source templates. [default: "master"]
 
-    --help, -h      Show help (you're lookin' at it).
+    --version, -v       Show which version of \`${BINARY}\` is
+                        currently in use.
 
-    [...]           Any additional CLI flags will be given as data to the
-                    template. Any data required by the template that's provided
-                    as CLI flags will not be prompted for interactively.
+    --help, -h          Show help (you're lookin' at it).
+
+    [...]               Additional CLI flags are given as data to the template.
+                        Any data required by the template that's provided as CLI
+                        flags will not be prompted for interactively.
 
   ${styled.Examples}
 
