@@ -25,9 +25,13 @@ function sayHello() {
 }
 
 (async () => {
-  if (cli.flags.version) cli.showVersion();
+  const { version, help, ...otherFlags } = cli.flags;
 
-  if (cli.flags.help) {
+  if (version) {
+    cli.showVersion();
+  }
+
+  if (help) {
     sayHello();
     cli.showHelp();
   }
@@ -35,7 +39,7 @@ function sayHello() {
   sayHello();
 
   // Run the scaffold...
-  await createApp(cli.input[0]);
+  await createApp(otherFlags as any);
 })().catch((err) => {
   console.error(err);
   process.exit(1);

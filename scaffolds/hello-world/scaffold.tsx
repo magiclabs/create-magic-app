@@ -3,7 +3,7 @@ import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'lib/utils/scaffold-helpers';
 
 export default createScaffold(
-  (data, props) => (
+  (props) => (
     <Zombi {...props}>
       <Template source="./" />
     </Zombi>

@@ -14,23 +14,24 @@ import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
 import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
 import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
+import { filterNilValues } from './utils/filter-nil-values';
 
 export interface CreateMagicAppData {
   projectName: string;
-  scaffoldName: string;
+  template: string;
 }
 
-export async function createApp(chosenScaffold?: string) {
+export async function createApp(initialData?: CreateMagicAppData & Record<string, any>) {
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
     return { name, message: getScaffoldDefinition(name).shortDescription };
   });
 
-  const isChosenScaffoldValid = availableScaffolds.map((i) => i.name).includes(chosenScaffold as any);
+  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(initialData?.template as any);
 
-  if (chosenScaffold && !isChosenScaffoldValid) {
-    console.warn(`${chalk.yellow('Warning:')} '${chalk.bold(chosenScaffold)}' does not match any templates.`);
+  if (initialData?.template && !isChosenTemplateValid) {
+    console.warn(`${chalk.yellow('Warning:')} '${chalk.bold(initialData.template)}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
@@ -39,28 +40,31 @@ export async function createApp(chosenScaffold?: string) {
       name="create-magic-app"
       templateRoot={false}
       destinationRoot={destinationRoot}
-      data={isChosenScaffoldValid ? ({ scaffoldName: chosenScaffold } as any) : undefined}
+      data={filterNilValues({
+        projectName: initialData?.projectName,
+        template: isChosenTemplateValid ? initialData?.template : undefined,
+      })}
       prompts={[
-        {
+        !initialData?.projectName && {
           type: 'input',
           name: 'projectName',
           message: 'What is your project named?',
           initial: 'my-app',
         },
 
-        !isChosenScaffoldValid && {
+        !isChosenTemplateValid && {
           type: 'select',
-          name: 'scaffoldName',
+          name: 'template',
           message: 'Choose a template:',
           choices: availableScaffolds,
         },
       ]}
       onPromptResponse={async (data) => {
         const repoUrl = new URL(DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL);
-        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.scaffoldName));
+        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.template));
 
         if (repoInfo) {
-          const templatePath = getAbsoluteTemplatePath(data.scaffoldName);
+          const templatePath = getAbsoluteTemplatePath(data.template);
 
           if (!fs.existsSync(templatePath)) {
             await makeDir(templatePath);
@@ -72,7 +76,7 @@ export async function createApp(chosenScaffold?: string) {
       }}
     >
       {(data) => {
-        const renderTemplate = getScaffoldRender(data);
+        const renderTemplate = getScaffoldRender(filterNilValues({ ...initialData, ...data }));
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
@@ -98,7 +102,7 @@ async function executePostRenderAction(
   data: CreateMagicAppData,
   cmdType: 'installDependenciesCommand' | 'startCommand',
 ) {
-  const cmd = getScaffoldDefinition(data.scaffoldName)[cmdType];
+  const cmd = getScaffoldDefinition(data.template)[cmdType];
 
   if (cmd) {
     await execa.command(cmd, { stdio: 'inherit' });

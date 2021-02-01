@@ -23,7 +23,7 @@
   "dependencies": {
     "react": "^17.0.1",
     "react-is": "^17.0.1",
-    "zombi": "^3.0.7"
+    "zombi": "^3.0.8"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",

@@ -6,7 +6,11 @@
 import { getAbsoluteTemplatePath, resolveToDist } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
 
-type ScaffoldRender = (data: CreateMagicAppData, props: { name: string; templateRoot: string }) => JSX.Element;
+type ScaffoldRender = (props: {
+  name: string;
+  templateRoot: string;
+  data: CreateMagicAppData & Record<string, any>;
+}) => JSX.Element;
 
 type ScaffoldMetadata = {
   shortDescription: string;
@@ -39,13 +43,14 @@ export function getScaffoldDefinition(scaffoldName: string): ScaffoldDefinition 
  * Gets the render function for a scaffolding template.
  * The returned function is bound with `data` and some initial `Zombi` props.
  */
-export function getScaffoldRender(data: CreateMagicAppData): () => JSX.Element {
+export function getScaffoldRender(data: CreateMagicAppData & Record<string, any>): () => JSX.Element {
   // We are requiring this file in context of the
   // transpiled `/dist`, so we use a JS extension...
-  const scaffoldModule = getScaffoldDefinition(data.scaffoldName);
+  const scaffoldModule = getScaffoldDefinition(data.template);
 
-  return scaffoldModule.bind(scaffoldModule, data, {
-    name: data.scaffoldName,
-    templateRoot: getAbsoluteTemplatePath(data.scaffoldName),
+  return scaffoldModule.bind(scaffoldModule, {
+    data,
+    name: data.template,
+    templateRoot: getAbsoluteTemplatePath(data.template),
   });
 }
