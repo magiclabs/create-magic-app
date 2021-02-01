@@ -12,22 +12,29 @@ const styled = {
 export const helpText = `
   ${styled.Usage}
 
-    ${styled.sh} ${styled.bin} [...options] <template>
+    ${styled.sh} ${styled.bin} [...options]
 
   ${styled.Options}
 
-    <template>      The base template can optionally be provided as a
-                    positional argument. If omitted, the template will be
-                    prompted for interactively.
+    --project-name  The name of your project. A top-level directory will be
+                    created from this value.
+
+    --template      The base template to use. If omitted or invalid, the
+                    template will be prompted for interactively.
 
     --version, -v   Show which version of \`${BINARY}\` is
                     currently in use.
 
     --help, -h      Show help (you're lookin' at it).
 
+    [...]           Any additional CLI flags will be given as data to the
+                    template. Any data required by the template that's provided
+                    as CLI flags will not be prompted for interactively.
+
   ${styled.Examples}
 
     ${styled.sh} npx ${styled.bin}
     ${styled.sh} npx ${styled.bin} --version
-    ${styled.sh} npx ${styled.bin} hello-world
+    ${styled.sh} npx ${styled.bin} --template=hello-world
+    ${styled.sh} npx ${styled.bin} --project-name=my-app
 `;
