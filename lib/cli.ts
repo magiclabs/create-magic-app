@@ -5,6 +5,9 @@ import { helpText } from './help-text';
 
 const cli = meow({
   flags: {
+    projectName: { type: 'string', alias: 'p' },
+    template: { type: 'string', alias: 't' },
+    branch: { type: 'string', default: 'master', alias: 'b' },
     help: { type: 'boolean', default: false, alias: 'h' },
     version: { type: 'boolean', default: false, alias: 'v' },
   },

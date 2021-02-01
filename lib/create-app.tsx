@@ -17,11 +17,12 @@ import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpe
 import { filterNilValues } from './utils/filter-nil-values';
 
 export interface CreateMagicAppData {
+  branch: string;
   projectName: string;
   template: string;
 }
 
-export async function createApp(initialData?: CreateMagicAppData & Record<string, any>) {
+export async function createApp(initialData: Partial<CreateMagicAppData> & Record<string, any>) {
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
@@ -41,6 +42,7 @@ export async function createApp(initialData?: CreateMagicAppData & Record<string
       templateRoot={false}
       destinationRoot={destinationRoot}
       data={filterNilValues({
+        branch: initialData?.branch ?? 'master',
         projectName: initialData?.projectName,
         template: isChosenTemplateValid ? initialData?.template : undefined,
       })}
@@ -60,7 +62,7 @@ export async function createApp(initialData?: CreateMagicAppData & Record<string
         },
       ]}
       onPromptResponse={async (data) => {
-        const repoUrl = new URL(DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL);
+        const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${data.branch}`, GITHUB_BASE_URL);
         const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.template));
 
         if (repoInfo) {
