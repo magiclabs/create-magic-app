@@ -45,7 +45,7 @@ export async function createApp(initialData?: CreateMagicAppData & Record<string
         template: isChosenTemplateValid ? initialData?.template : undefined,
       })}
       prompts={[
-        !initialData?.projectName && {
+        {
           type: 'input',
           name: 'projectName',
           message: 'What is your project named?',
