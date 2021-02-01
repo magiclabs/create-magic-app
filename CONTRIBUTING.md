@@ -20,13 +20,16 @@ Please note we have a **code of conduct**, please follow it in all your interact
 
 ### Development Scripts
 
-| NPM Script               | Description                                                                               |
-| ------------------------ | ----------------------------------------------------------------------------------------- |
-| `yarn dev`               | Start building the CLI tool in development mode. |
-| `yarn build`             | Build the CLI tool for production. |
-| `yarn clean`             | Run cleaning scripts. |
-| `yarn lint`              | Run the linter. |
-| `yarn test`              | Run unit tests. |
+| NPM Script                  | Description |
+| --------------------------- | ----------- |
+| `yarn dev`                  | Start building the CLI tool in development mode. |
+| `yarn build`                | Build the CLI tool for production. |
+| `yarn clean`                | Run cleaning scripts. |
+| `yarn lint`                 | Run the linter. |
+| `yarn test`                 | Run unit tests. |
+| `yarn ncc:add [package]`    | Install and pre-compile a NPM dependency for optimal `npx` performance. |
+| `yarn ncc:remove [package]` | Remove a pre-compiled NPM dependency that was previously added with `yarn ncc:add`. |
+| `yarn ncc:update`           | Update pre-compiled NPM dependencies based on current `node_modules`. |
 
 ## Opening a Pull Request
 
