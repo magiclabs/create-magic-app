@@ -31,4 +31,12 @@ export namespace NpmClientPrompt {
     message: 'Choose an NPM client:',
     choices: ['npm', 'yarn'],
   };
+
+  export function getInstallCommand(data: Data) {
+    return data.npmClient === 'npm' ? 'npm install' : 'yarn install';
+  }
+
+  export function getStartCommand(data: Data) {
+    return data.npmClient === 'npm' ? 'npm start' : 'yarn start';
+  }
 }

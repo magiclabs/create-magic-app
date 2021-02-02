@@ -14,8 +14,8 @@ export default createScaffold<HelloWorldData>(
   ),
 
   {
-    shortDescription: 'Just testing...',
-    installDependenciesCommand: (data) => (data.npmClient === 'npm' ? 'npm install' : 'yarn install'),
-    startCommand: (data) => (data.npmClient === 'npm' ? 'npm start' : 'yarn start'),
+    shortDescription: 'Hello world',
+    installDependenciesCommand: NpmClientPrompt.getInstallCommand,
+    startCommand: NpmClientPrompt.getStartCommand,
   },
 );
