@@ -1,3 +1,25 @@
+# v1.0.0 (Tue Feb 02 2021)
+
+#### 💥 Breaking Change
+
+- Road to v1 [#9](https://github.com/magiclabs/create-magic-app/pull/9) ([@smithki](https://github.com/smithki))
+
+#### 🚀 Enhancement
+
+- Add basic hello world template [#13](https://github.com/magiclabs/create-magic-app/pull/13) ([@smithki](https://github.com/smithki))
+
+#### 🐛 Bug Fix
+
+- Add option to change which branch templates are sourced from [#12](https://github.com/magiclabs/create-magic-app/pull/12) ([@smithki](https://github.com/smithki))
+- Remove 'pkg-up' dependency [#11](https://github.com/magiclabs/create-magic-app/pull/11) ([@smithki](https://github.com/smithki))
+- Fix NPM tarball omitting dist [#10](https://github.com/magiclabs/create-magic-app/pull/10) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v0.1.4 (Tue Feb 02 2021)
 
 #### 🐛 Bug Fix
