@@ -1,3 +1,19 @@
+# v0.1.4 (Tue Feb 02 2021)
+
+#### 🐛 Bug Fix
+
+- Add 'react' and 'react-is' dependencies [#14](https://github.com/magiclabs/create-magic-app/pull/14) ([@smithki](https://github.com/smithki))
+
+#### 🏠 Internal
+
+- Introduce the new package name:  `make-magic` [#8](https://github.com/magiclabs/create-magic-app/pull/8) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v0.1.3 (Mon Dec 28 2020)
 
 #### 🐛 Bug Fix
