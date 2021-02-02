@@ -84,16 +84,18 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
     </Zombi>
   );
 
-  const data = (await scaffold<{ 'create-magic-app': CreateMagicAppData }>(template)).data['create-magic-app'];
+  const { data } = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
+  const { projectName: chosenProjectName, template: chosenTemplate } = data['create-magic-app'];
 
   console.log(); // Aesthetics!
 
-  // Move the current working directory to the rendered scaffold.
-  process.chdir(data.projectName);
+  // Move the current working directory to the rendered scaffold
+  process.chdir(chosenProjectName);
 
-  // Do post-render actions.
-  await executePostRenderAction(data, 'installDependenciesCommand');
-  await executePostRenderAction(data, 'startCommand');
+  // Do post-render actions
+  const baseDataMixedWithTemplateData = { ...data['create-magic-app'], ...data[chosenTemplate] };
+  await executePostRenderAction(baseDataMixedWithTemplateData, 'installDependenciesCommand');
+  await executePostRenderAction(baseDataMixedWithTemplateData, 'startCommand');
 }
 
 /**
@@ -101,10 +103,11 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
  * function to invoke post-render shell commands.
  */
 async function executePostRenderAction(
-  data: CreateMagicAppData,
+  data: CreateMagicAppData & Record<string, any>,
   cmdType: 'installDependenciesCommand' | 'startCommand',
 ) {
-  const cmd = getScaffoldDefinition(data.template)[cmdType];
+  const getCmd = getScaffoldDefinition(data.template)[cmdType];
+  const cmd = typeof getCmd === 'function' ? getCmd(data) : getCmd;
 
   if (cmd) {
     await execa.command(cmd, { stdio: 'inherit' });
