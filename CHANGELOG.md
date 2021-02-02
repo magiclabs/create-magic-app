@@ -1,3 +1,15 @@
+# v1.0.1 (Tue Feb 02 2021)
+
+#### 🐛 Bug Fix
+
+- Use `localhost` as the address for Hello World server [#16](https://github.com/magiclabs/create-magic-app/pull/16) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.0.0 (Tue Feb 02 2021)
 
 #### 💥 Breaking Change
