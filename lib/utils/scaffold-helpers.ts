@@ -6,19 +6,19 @@
 import { getAbsoluteTemplatePath, resolveToDist } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
 
-type ScaffoldRender = (props: {
+type ScaffoldRender<T = Record<string, any>> = (props: {
   name: string;
   templateRoot: string;
-  data: CreateMagicAppData & Record<string, any>;
+  data: T & CreateMagicAppData;
 }) => JSX.Element;
 
-type ScaffoldMetadata = {
+type ScaffoldMetadata<T = Record<string, any>> = {
   shortDescription: string;
-  installDependenciesCommand?: string;
-  startCommand?: string;
+  installDependenciesCommand?: string | ((data: T & CreateMagicAppData) => string);
+  startCommand?: string | ((data: T & CreateMagicAppData) => string);
 };
 
-export type ScaffoldDefinition = ScaffoldRender & ScaffoldMetadata;
+export type ScaffoldDefinition<T = Record<string, any>> = ScaffoldRender<T> & ScaffoldMetadata<T>;
 
 /**
  * Creates the definition object for a scaffolding template.
@@ -26,7 +26,10 @@ export type ScaffoldDefinition = ScaffoldRender & ScaffoldMetadata;
  * The return value of this function should be the default export
  * of a `[root]/scaffolds/[scaffoldName]/scaffold.{ts,tsx}` file.
  */
-export function createScaffold(scaffoldRender: ScaffoldRender, metadata: ScaffoldMetadata): ScaffoldDefinition {
+export function createScaffold<T>(
+  scaffoldRender: ScaffoldRender<T>,
+  metadata: ScaffoldMetadata<T>,
+): ScaffoldDefinition<T> {
   return Object.assign(scaffoldRender, { ...metadata });
 }
 
