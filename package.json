@@ -2,40 +2,46 @@
   "name": "make-magic",
   "version": "0.1.4",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
+  "repository": "magiclabs/create-magic-app",
   "license": "MIT",
-  "bin": "./dist/cli.js",
+  "author": "Magic Labs <team@magic.link>",
+  "bin": "./bin.js",
   "files": [
+    "bin.js",
     "dist"
   ],
   "scripts": {
-    "dev": "yarn clean && tsc -w",
-    "build": "yarn clean && tsc && chmod +x ./dist/cli.js",
+    "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
+    "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "test": "echo \"No unit tests... yet :(\" && exit 0"
+    "test": "echo \"No unit tests... yet :(\" && exit 0",
+    "ncc:add": "./scripts/ncc:add.ts",
+    "ncc:remove": "./scripts/ncc:remove.ts",
+    "ncc:update": "./scripts/ncc:update.ts"
   },
   "dependencies": {
-    "cfonts": "^2.9.0",
-    "chalk": "^4.1.0",
-    "execa": "^5.0.0",
-    "got": "^11.8.1",
-    "meow": "^8.0.0",
     "react": "^17.0.1",
     "react-is": "^17.0.1",
-    "tar": "^6.0.5",
-    "zombi": "^3.0.0"
+    "zombi": "^3.0.8"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
     "@ikscodes/prettier-config": "^2.0.1",
+    "@types/bytes": "^3.1.0",
     "@types/ejs": "^3.0.5",
     "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.12",
+    "@types/parse-package-name": "^0.1.0",
     "@types/react": "^17.0.0",
     "@types/tar": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@vercel/ncc": "^0.27.0",
     "auto": "^10.5.0",
-    "bestzip": "^2.1.7",
+    "bytes": "^3.1.0",
+    "cfonts": "^2.9.1",
+    "chalk": "^4.1.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.14.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",
@@ -43,15 +49,20 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "execa": "^5.0.0",
+    "got": "^11.8.1",
+    "meow": "^9.0.0",
+    "parse-package-name": "^0.1.0",
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
+    "tar": "^6.1.0",
+    "tsc-alias": "^1.2.6",
+    "tsc-watch": "^4.2.9",
     "typescript": "^4.1.2"
   },
   "auto": {
     "plugins": [
       "npm"
     ]
-  },
-  "repository": "magiclabs/create-magic-app",
-  "author": "Magic Labs <team@magic.link>"
+  }
 }

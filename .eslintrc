@@ -4,7 +4,7 @@
   "extends": ["@ikscodes/eslint-config"],
 
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./scripts/tsconfig.json"]
   },
 
   "rules": {
@@ -29,7 +29,7 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": ["./tsconfig.json"]
+        "project": ["./tsconfig.json", "./scripts/tsconfig.json"]
       }
     }
   }
