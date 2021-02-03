@@ -17,5 +17,9 @@ export default createScaffold<HelloWorldData>(
     shortDescription: 'Hello world',
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand,
+    docs: {
+      ...NpmClientPrompt.docs,
+      ...PublicApiKeyPrompt.docs,
+    },
   },
 );

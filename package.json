@@ -42,6 +42,7 @@
     "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
     "copyfiles": "^2.4.1",
+    "decamelize-keys": "^1.1.0",
     "eslint": "^7.14.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",

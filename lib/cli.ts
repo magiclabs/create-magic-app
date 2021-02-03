@@ -1,7 +1,9 @@
 import meow from 'compiled/meow';
 import CFonts from 'compiled/cfonts';
+import fs from 'fs';
 import { createApp } from './create-app';
-import { helpText } from './help-text';
+import { printHelp } from './help-text';
+import { resolveToRoot } from './utils/path-helpers';
 
 const cli = meow({
   flags: {
@@ -12,8 +14,8 @@ const cli = meow({
     version: { type: 'boolean', default: false, alias: 'v' },
   },
 
-  help: helpText,
   autoHelp: false,
+  autoVersion: false,
 });
 
 function sayHello() {
@@ -31,12 +33,15 @@ function sayHello() {
   const { version, help, ...otherFlags } = cli.flags;
 
   if (version) {
-    cli.showVersion();
+    const { version: pkgVersion } = JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8'));
+    console.log(pkgVersion);
+    process.exit(2);
   }
 
   if (help) {
     sayHello();
-    cli.showHelp();
+    printHelp(otherFlags.template);
+    process.exit(2);
   }
 
   sayHello();
