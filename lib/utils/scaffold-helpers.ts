@@ -16,6 +16,9 @@ type ScaffoldMetadata<T = Record<string, any>> = {
   shortDescription: string;
   installDependenciesCommand?: string | ((data: T & CreateMagicAppData) => string);
   startCommand?: string | ((data: T & CreateMagicAppData) => string);
+  docs?: {
+    [P in keyof T]?: string;
+  };
 };
 
 export type ScaffoldDefinition<T = Record<string, any>> = ScaffoldRender<T> & ScaffoldMetadata<T>;

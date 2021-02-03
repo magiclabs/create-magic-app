@@ -15,6 +15,10 @@ export namespace PublicApiKeyPrompt {
     name: 'publicApiKey',
     message: 'Enter your Magic public API key:',
   };
+
+  export const docs: Record<keyof Data, string> = {
+    publicApiKey: 'The Magic public API key for your app.',
+  };
 }
 
 /**
@@ -30,6 +34,10 @@ export namespace NpmClientPrompt {
     name: 'npmClient',
     message: 'Choose an NPM client:',
     choices: ['npm', 'yarn'],
+  };
+
+  export const docs: Record<keyof Data, string> = {
+    npmClient: 'The NPM client of your choice. (one of: npm, yarn)',
   };
 
   export function getInstallCommand(data: Data) {
