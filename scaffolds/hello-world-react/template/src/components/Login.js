@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { magic } from '../magic';
+import { magic } from "../magic";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,9 +17,9 @@ export default function Login() {
     try {
       await magic.auth.loginWithMagicLink({
         email,
-        redirectURI: new URL('/callback', window.location.origin).href,
+        redirectURI: new URL("/callback", window.location.origin).href,
       });
-      history.push('/');
+      history.push("/");
     } catch {
       setIsLoggingIn(false);
     }
