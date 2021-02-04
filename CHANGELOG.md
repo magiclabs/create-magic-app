@@ -1,3 +1,16 @@
+# v1.1.0 (Thu Feb 04 2021)
+
+#### 🚀 Enhancement
+
+- Add "Hello world (React)" template [#18](https://github.com/magiclabs/create-magic-app/pull/18) ([@smithki](https://github.com/smithki))
+- Document individual template options [#17](https://github.com/magiclabs/create-magic-app/pull/17) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.0.1 (Tue Feb 02 2021)
 
 #### 🐛 Bug Fix
