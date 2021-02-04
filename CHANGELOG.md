@@ -1,3 +1,15 @@
+# v1.1.1 (Thu Feb 04 2021)
+
+#### 🐛 Bug Fix
+
+- Small template updates [#19](https://github.com/magiclabs/create-magic-app/pull/19) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.1.0 (Thu Feb 04 2021)
 
 #### 🚀 Enhancement
