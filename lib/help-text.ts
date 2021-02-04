@@ -7,9 +7,9 @@ import { BINARY } from './config';
 import { getScaffoldDefinition } from './utils/scaffold-helpers';
 
 const styled = {
-  Usage: chalk.bold('Usage'),
-  GlobalOptions: chalk.bold('Global Options'),
-  Examples: chalk.bold('Examples'),
+  Usage: chalk.bold.inverse(' USAGE '),
+  Options: chalk.bold.inverse(' OPTIONS '),
+  Examples: chalk.bold.inverse(' EXAMPLES '),
   sh: chalk.gray.dim('$'),
   bin: chalk.green(BINARY),
 };
@@ -20,9 +20,9 @@ export function printHelp(scaffoldName?: string) {
   console.log(`  ${styled.sh} ${styled.bin} [...options]`);
 
   // Print global options
-  console.log(`\n\n${styled.GlobalOptions}\n`);
+  console.log(`\n${styled.Options}\n`);
   console.log(
-    printOptionsTable({
+    createOptionsTable({
       '--project-name, -p': 'The name of your project. A top-level directory will be created from this value.',
       '--template, -t':
         'The base template to use. If omitted or invalid, the template will be prompted for interactively.',
@@ -38,13 +38,14 @@ export function printHelp(scaffoldName?: string) {
     const { docs } = getScaffoldDefinition(scaffoldName!);
 
     if (docs) {
-      const sectionHeading = chalk.bold(`Options for ${chalk.cyan(`\`${scaffoldName}\``)}`);
-      console.log(`\n\n${sectionHeading}\n\n${printOptionsTable(docs)}`);
+      const sectionHeading =
+        styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` --template=${scaffoldName} `);
+      console.log(`\n${sectionHeading}\n\n${createOptionsTable(docs)}`);
     }
   } catch {}
 
   // Print usage examples
-  console.log(`\n\n${styled.Examples}\n`);
+  console.log(`\n${styled.Examples}\n`);
   console.log(
     [
       `  ${styled.sh} npx ${styled.bin}`,
@@ -59,7 +60,7 @@ export function printHelp(scaffoldName?: string) {
  * From the record of args to descriptions given by `source`,
  * output a printable table of arguments for the help text.
  */
-function printOptionsTable(source: Record<string, string | undefined>) {
+function createOptionsTable(source: Record<string, string | undefined>) {
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
   const rows: Array<[string, string]> = Object.entries(

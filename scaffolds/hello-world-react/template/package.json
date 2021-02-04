@@ -1,0 +1,19 @@
+{
+  "name": "<%= projectName %>",
+  "version": "0.1.0",
+  "description": "A React + JS app with Magic passwordless authentication.",
+  "scripts": {
+    "start": "parcel serve ./src/index.html --open",
+    "build": "parcel build ./src/index.html"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "magic-sdk": "^4.1.1"
+  },
+  "devDependencies": {
+    "parcel": "next"
+  }
+}
