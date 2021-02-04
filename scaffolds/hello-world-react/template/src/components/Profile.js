@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router";
 import { magic } from '../magic';
+import Loading from './Loading';
 
 export default function Profile() {
   const [userMetadata, setUserMetadata] = useState();
@@ -28,17 +29,9 @@ export default function Profile() {
     })
   }, [history]);
 
-  return (
-    <div className="container">
-      {userMetadata
-        ? (
-          <>
-            <h1>Current user: {userMetadata.email}</h1>
-            <button onClick={logout}>Logout</button>
-          </>
-        )
-        : <p>Loading...</p>}
-    </div>
-  );
+  return userMetadata ? <div className="container">
+    <h1>Current user: {userMetadata.email}</h1>
+    <button onClick={logout}>Logout</button>
+  </div>: <Loading />;
 }
 

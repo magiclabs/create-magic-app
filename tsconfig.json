@@ -14,11 +14,12 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "lib/*": ["lib/*"],
+      "cli/*": ["cli/*"],
+      "scaffolds/*": ["scaffolds/*"],
       "compiled/*": ["compiled/*", "node_modules/*"],
     },
   },
 
-  "include": ["lib", "scaffolds", "compiled"],
+  "include": ["cli", "scaffolds", "compiled"],
   "exclude": ["scaffolds/*/template"],
 }
