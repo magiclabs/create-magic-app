@@ -3,9 +3,9 @@ import { Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 // Views
-import Login from './Login';
-import Callback from './Callback';
-import Profile from './Profile';
+import Login from "./Login";
+import Callback from "./Callback";
+import Profile from "./Profile";
 
 export default function App() {
   return (

@@ -25,7 +25,7 @@ interface RepoInfo {
 
 /**
  * Gets repository information for the given remote
- * `url` (must be a GitHub origin) and `scaffoldPath`.
+ * `url` (must be a GitHub origin) and `templatePath`.
  */
 export async function getRepoInfo(url: URL, templatePath?: string): Promise<RepoInfo | undefined> {
   const [, username, name, t, _branch, ...file] = url.pathname.split('/');
