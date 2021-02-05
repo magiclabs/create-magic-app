@@ -48,3 +48,26 @@ export namespace NpmClientPrompt {
     return data.npmClient === 'npm' ? 'npm start' : 'yarn start';
   }
 }
+
+/**
+ * Types and questions related to NPM client selection for JS-based projects.
+ */
+export namespace SocialLoginsPrompt {
+  export type SocialLoginProvider = 'facebook';
+
+  export type Data = {
+    socialLogins: SocialLoginProvider | SocialLoginProvider[];
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'multiselect',
+    name: 'socialLogins',
+    message: 'Choose your social login providers:',
+    choices: ['facebook'],
+  };
+
+  export const docs: Record<keyof Data, string> = {
+    socialLogins:
+      'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook)',
+  };
+}
