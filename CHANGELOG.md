@@ -1,3 +1,21 @@
+# v1.2.0 (Fri Feb 05 2021)
+
+#### 🚀 Enhancement
+
+- Add social logins template [#22](https://github.com/magiclabs/create-magic-app/pull/22) ([@smithki](https://github.com/smithki))
+- Added Binance Smart Chain scaffold [#20](https://github.com/magiclabs/create-magic-app/pull/20) ([@seanli](https://github.com/seanli))
+
+#### 🐛 Bug Fix
+
+- Included gas to allow contract deploy [#21](https://github.com/magiclabs/create-magic-app/pull/21) ([@seanli](https://github.com/seanli))
+
+#### Authors: 2
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+- Sean Li ([@seanli](https://github.com/seanli))
+
+---
+
 # v1.1.1 (Thu Feb 04 2021)
 
 #### 🐛 Bug Fix
