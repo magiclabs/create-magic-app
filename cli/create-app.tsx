@@ -26,7 +26,11 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs.readdirSync(resolveToDist('scaffolds')).map((name) => {
-    return { name, message: getScaffoldDefinition(name).shortDescription };
+    return {
+      name,
+      message: getScaffoldDefinition(name).shortDescription,
+      order: getScaffoldDefinition(name).order ?? 0,
+    };
   });
 
   const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(initialData?.template as any);
@@ -58,7 +62,7 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
           type: 'select',
           name: 'template',
           message: 'Choose a template:',
-          choices: availableScaffolds,
+          choices: availableScaffolds.sort((a, b) => a.order - b.order),
         },
       ]}
       onPromptResponse={async (data) => {
@@ -78,7 +82,24 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
       }}
     >
       {(data) => {
-        const renderTemplate = getScaffoldRender(filterNilValues({ ...initialData, ...data }));
+        /**
+         * Certain template-specific flags should be transformed into arrays
+         * before passing along to the chosen scaffold. Here, we do such
+         * transforms on the initial data retrieved from CLI flags.
+         */
+        const arrayifiedMultiFlagData = Object.fromEntries(
+          Object.entries(initialData).map(([key, value]) => {
+            const flagDefinitionFromTemplate = getScaffoldDefinition(data.template).flags?.[key];
+
+            if (typeof flagDefinitionFromTemplate !== 'string' && flagDefinitionFromTemplate?.isMultiple) {
+              return [key, Array.isArray(value) ? value : [value]];
+            }
+
+            return [key, value];
+          }),
+        );
+
+        const renderTemplate = getScaffoldRender(filterNilValues({ ...arrayifiedMultiFlagData, ...data }));
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>

@@ -4,9 +4,9 @@ import { createScaffold } from 'cli/utils/scaffold-helpers';
 import { NpmClientPrompt, PublicApiKeyPrompt } from 'cli/utils/common-prompts';
 import { mergePrompts } from 'cli/utils/merge-prompts';
 
-type HelloWorldData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data;
+type HelloWorldReactData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data;
 
-export default createScaffold<HelloWorldData>(
+export default createScaffold<HelloWorldReactData>(
   (props) => (
     <Zombi {...props} prompts={mergePrompts(PublicApiKeyPrompt.questions, NpmClientPrompt.questions)}>
       <Template source="./" />
@@ -15,11 +15,12 @@ export default createScaffold<HelloWorldData>(
 
   {
     shortDescription: 'Hello world (React)',
+    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand,
-    docs: {
-      ...NpmClientPrompt.docs,
-      ...PublicApiKeyPrompt.docs,
+    flags: {
+      ...NpmClientPrompt.flags,
+      ...PublicApiKeyPrompt.flags,
     },
   },
 );
