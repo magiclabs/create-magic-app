@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import { Questions } from 'zombi';
+import { ScaffoldFlags } from './scaffold-helpers';
 
-/**
- * Types and questions related to Magic public API key selection.
- */
 export namespace PublicApiKeyPrompt {
   export type Data = {
     publicApiKey: 'npm' | 'yarn';
@@ -16,14 +14,11 @@ export namespace PublicApiKeyPrompt {
     message: 'Enter your Magic public API key:',
   };
 
-  export const docs: Record<keyof Data, string> = {
+  export const flags: ScaffoldFlags<Data> = {
     publicApiKey: 'The Magic public API key for your app.',
   };
 }
 
-/**
- * Types and questions related to NPM client selection for JS-based projects.
- */
 export namespace NpmClientPrompt {
   export type Data = {
     npmClient: 'npm' | 'yarn';
@@ -36,7 +31,7 @@ export namespace NpmClientPrompt {
     choices: ['npm', 'yarn'],
   };
 
-  export const docs: Record<keyof Data, string> = {
+  export const flags: ScaffoldFlags<Data> = {
     npmClient: 'The NPM client of your choice. (one of: npm, yarn)',
   };
 
@@ -49,14 +44,11 @@ export namespace NpmClientPrompt {
   }
 }
 
-/**
- * Types and questions related to NPM client selection for JS-based projects.
- */
 export namespace SocialLoginsPrompt {
   export type SocialLoginProvider = 'facebook' | 'google' | 'github' | 'linkedin';
 
   export type Data = {
-    socialLogins: SocialLoginProvider | SocialLoginProvider[];
+    socialLogins: SocialLoginProvider[];
   };
 
   export const questions: Questions<Data> = {
@@ -66,8 +58,11 @@ export namespace SocialLoginsPrompt {
     choices: ['facebook', 'google', 'github', 'linkedin'],
   };
 
-  export const docs: Record<keyof Data, string> = {
-    socialLogins:
-      'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook)',
+  export const flags: ScaffoldFlags<Data> = {
+    socialLogins: {
+      description:
+        'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook, google, github, linkedin)',
+      isMultiple: true,
+    },
   };
 }

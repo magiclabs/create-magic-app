@@ -15,11 +15,12 @@ export default createScaffold<HelloWorldData>(
 
   {
     shortDescription: 'Hello world',
+    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand,
-    docs: {
-      ...NpmClientPrompt.docs,
-      ...PublicApiKeyPrompt.docs,
+    flags: {
+      ...NpmClientPrompt.flags,
+      ...PublicApiKeyPrompt.flags,
     },
   },
 );
