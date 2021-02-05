@@ -53,7 +53,7 @@ export namespace NpmClientPrompt {
  * Types and questions related to NPM client selection for JS-based projects.
  */
 export namespace SocialLoginsPrompt {
-  export type SocialLoginProvider = 'facebook';
+  export type SocialLoginProvider = 'facebook' | 'google' | 'github' | 'linkedin';
 
   export type Data = {
     socialLogins: SocialLoginProvider | SocialLoginProvider[];
@@ -63,7 +63,7 @@ export namespace SocialLoginsPrompt {
     type: 'multiselect',
     name: 'socialLogins',
     message: 'Choose your social login providers:',
-    choices: ['facebook'],
+    choices: ['facebook', 'google', 'github', 'linkedin'],
   };
 
   export const docs: Record<keyof Data, string> = {

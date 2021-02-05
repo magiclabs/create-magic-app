@@ -8,7 +8,7 @@ export default function Callback() {
 
   useEffect(() => {
     // On mount, we try to login with a Magic credential in the URL query.
-    magic.auth.loginWithCredential().finally(() => {
+    magic.oauth.getRedirectResult().finally(() => {
       history.push("/");
     });
   }, []);
