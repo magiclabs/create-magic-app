@@ -13,19 +13,24 @@ export default createScaffold<HelloWorldSocialLoginData>(
       prompts={mergePrompts(PublicApiKeyPrompt.questions, SocialLoginsPrompt.questions, NpmClientPrompt.questions)}
     >
       {(data) => {
-        const enabledProviders = Array.isArray(data.socialLogins) ? data.socialLogins : [data.socialLogins];
         return (
           <>
             <Template source="./package.json" />
-            <Template source="./public" />
-
+            <Template source="./public/index.html" />
             <Template source="./src/components" />
             <Template source="./src/index.js" />
             <Template source="./src/magic.js" />
             <Template source="./src/styles.css" />
 
-            {enabledProviders.map((provider) => {
-              return <Template key={provider} source={`./src/social-logins/${provider}.js`} />;
+            {data.socialLogin.map((provider) => {
+              return (
+                <React.Fragment key={provider}>
+                  <Template source={`./src/social-logins/${provider}.js`} />
+                  {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
+                    <Template source={`./public/img/${provider}.svg`} />
+                  )}
+                </React.Fragment>
+              );
             })}
           </>
         );

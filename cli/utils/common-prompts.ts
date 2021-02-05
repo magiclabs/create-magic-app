@@ -45,23 +45,23 @@ export namespace NpmClientPrompt {
 }
 
 export namespace SocialLoginsPrompt {
-  export type SocialLoginProvider = 'facebook' | 'google' | 'github' | 'linkedin';
+  export type SocialLoginProvider = 'facebook' | 'google' | 'apple' | 'linkedin' | 'github' | 'gitlab' | 'bitbucket';
 
   export type Data = {
-    socialLogins: SocialLoginProvider[];
+    socialLogin: SocialLoginProvider[];
   };
 
   export const questions: Questions<Data> = {
     type: 'multiselect',
-    name: 'socialLogins',
+    name: 'socialLogin',
     message: 'Choose your social login providers:',
-    choices: ['facebook', 'google', 'github', 'linkedin'],
+    choices: ['facebook', 'google', 'apple', 'linkedin', 'github', 'gitlab', 'bitbucket'],
   };
 
   export const flags: ScaffoldFlags<Data> = {
-    socialLogins: {
+    socialLogin: {
       description:
-        'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook, google, github, linkedin)',
+        'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of:  facebook, google, apple, linkedin, github, gitlab, bitbucket)',
       isMultiple: true,
     },
   };

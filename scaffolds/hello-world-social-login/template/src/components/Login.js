@@ -31,6 +31,7 @@ export default function Login() {
         return React.createElement(require(`../social-logins/${provider}`).default.Button, {
           onClick: () => login(provider),
           disabled: isLoggingIn,
+          key: provider,
         });
       })}
     </div>
