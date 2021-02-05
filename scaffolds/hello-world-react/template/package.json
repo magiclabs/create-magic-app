@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "A React + JS app with Magic passwordless authentication.",
   "scripts": {
-    "start": "parcel serve ./src/index.html --open",
-    "build": "parcel build ./src/index.html"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "react": "^16.13.1",
@@ -14,6 +16,18 @@
     "magic-sdk": "^4.1.1"
   },
   "devDependencies": {
-    "parcel": "next"
+    "react-scripts": "4.0.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
