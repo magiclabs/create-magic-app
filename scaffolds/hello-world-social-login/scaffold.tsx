@@ -39,7 +39,7 @@ export default createScaffold<HelloWorldSocialLoginData>(
   ),
 
   {
-    shortDescription: 'Hello world with social logins',
+    shortDescription: 'Hello World with Social Logins',
     order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand,
