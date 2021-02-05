@@ -1,3 +1,15 @@
+# v1.2.1 (Fri Feb 05 2021)
+
+#### 🐛 Bug Fix
+
+- Fix broken template interpolation in `hello-world-social-logins` [#23](https://github.com/magiclabs/create-magic-app/pull/23) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.2.0 (Fri Feb 05 2021)
 
 #### 🚀 Enhancement
