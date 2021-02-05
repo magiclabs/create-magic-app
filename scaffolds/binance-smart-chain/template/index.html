@@ -189,7 +189,8 @@
             arguments: ["Hello World!"]
           })
           .send({
-            from: fromAddress
+            from: fromAddress,
+            gas: 910000
           });
         console.log("Completed:", contractInstance.options);
         contractAddress = contractInstance.options.address;
