@@ -4,7 +4,7 @@
 import chalk from 'compiled/chalk';
 import decamelizeKeys from 'compiled/decamelize-keys';
 import { BINARY } from './config';
-import { getScaffoldDefinition, ScaffoldFlag, ScaffoldFlags } from './utils/scaffold-helpers';
+import { getScaffoldDefinition, ScaffoldFlag } from './utils/scaffold-helpers';
 
 const styled = {
   Usage: chalk.bold.inverse(' USAGE '),
@@ -55,15 +55,12 @@ export function printHelp(scaffoldName?: string) {
   // Template-specific options
   try {
     const { flags } = getScaffoldDefinition(scaffoldName!);
-
-    if (flags) {
-      helpSections.push(
-        createHelpSection({
-          heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),
-          content: createOptionsTable(flags),
-        }),
-      );
-    }
+    helpSections.push(
+      createHelpSection({
+        heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),
+        content: createOptionsTable(flags as any),
+      }),
+    );
   } catch {}
 
   // Usage examples

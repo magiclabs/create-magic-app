@@ -21,6 +21,7 @@ export namespace PublicApiKeyPrompt {
 
   export const flags: ScaffoldFlags<Data> = {
     publicApiKey: {
+      type: String,
       validate,
       description: 'The Magic public API key for your app.',
     },
@@ -43,6 +44,7 @@ export namespace NpmClientPrompt {
 
   export const flags: ScaffoldFlags<Data> = {
     npmClient: {
+      type: String,
       validate: (value: string) => (clients.includes(value) ? true : `\`${value}\` is not a valid NPM client.`),
       description: 'The NPM client of your choice. (one of: npm, yarn)',
     },
@@ -58,6 +60,7 @@ export namespace NpmClientPrompt {
 }
 
 export namespace SocialLoginsPrompt {
+  export const test = ['hello', 'world'];
   export const providers = ['facebook', 'google', 'apple', 'linkedin', 'github', 'gitlab', 'bitbucket'];
   export type SocialLoginProvider = ValuesOf<typeof providers>;
 
@@ -74,9 +77,21 @@ export namespace SocialLoginsPrompt {
 
   export const flags: ScaffoldFlags<Data> = {
     socialLogin: {
+      type: String,
       description:
-        'The social login provider your choice. You can provide this flag multiple times to select multiple providers. (one of:  facebook, google, apple, linkedin, github, gitlab, bitbucket)',
+        'The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook, google, apple, linkedin, github, gitlab, bitbucket)',
       isMultiple: true,
+      validate: (value) => {
+        const invalid: string[] = [];
+
+        value.forEach((i) => {
+          if (!providers.includes(i)) invalid.push(i);
+        });
+
+        if (invalid.length) {
+          return `Received incompatible social login provider(s): (${invalid.join(', ')})`;
+        }
+      },
     },
   };
 }

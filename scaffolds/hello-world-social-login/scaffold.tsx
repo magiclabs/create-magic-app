@@ -22,18 +22,16 @@ export default createScaffold<HelloWorldSocialLoginData>(
             <Template source="./src/magic.js" />
             <Template source="./src/styles.css" />
 
-            {data.socialLogin
-              .filter((provider) => SocialLoginsPrompt.providers.includes(provider))
-              .map((provider) => {
-                return (
-                  <React.Fragment key={provider}>
-                    <Template source={`./src/social-logins/${provider}.js`} />
-                    {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
-                      <Template source={`./public/img/${provider}.svg`} />
-                    )}
-                  </React.Fragment>
-                );
-              })}
+            {data.socialLogin.map((provider) => {
+              return (
+                <React.Fragment key={provider}>
+                  <Template source={`./src/social-logins/${provider}.js`} />
+                  {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
+                    <Template source={`./public/img/${provider}.svg`} />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </>
         );
       }}

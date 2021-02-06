@@ -24,6 +24,9 @@ export interface CreateMagicAppData {
   template: string;
 }
 
+/**
+ * Generates and runs a project scaffold using `initialData`.
+ */
 export async function createApp(initialData: Partial<CreateMagicAppData> & Record<string, any>) {
   const destinationRoot = process.cwd();
 
@@ -92,32 +95,43 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
          * transforms on the initial data retrieved from CLI flags as well as
          * perform any necessary validations.
          */
-        const arrayifiedMultiFlagData = Object.fromEntries(
+        const validatedTemplateData = Object.fromEntries(
           await Promise.all(
             Object.entries(initialData).map(async ([key, value]) => {
-              const flagDefinitionFromTemplate = getScaffoldDefinition(data.template).flags?.[key];
+              const flagDefinitionFromTemplate = getScaffoldDefinition(data.template).flags[key];
 
-              let result: any = value;
-              if (flagDefinitionFromTemplate?.isMultiple) {
-                result = Array.isArray(value) ? value : [value];
+              if (flagDefinitionFromTemplate) {
+                const typeFactory = flagDefinitionFromTemplate.type;
+
+                let result: any;
+                if (flagDefinitionFromTemplate?.isMultiple) {
+                  result = Array.isArray(value) ? value.map((i) => typeFactory(i)) : [typeFactory(value)];
+                } else {
+                  // In the case that we expect the flag argument to NOT be an
+                  // array, but we receive multiple instances of the flag anyway,
+                  // we simply use the last instance.
+                  result = Array.isArray(value) ? typeFactory(value[value.length - 1]) : typeFactory(value);
+                }
+
+                const invalidMessage = await flagDefinitionFromTemplate?.validate?.(result);
+
+                if (invalidMessage && typeof invalidMessage === 'string') {
+                  throw createValidationError(invalidMessage);
+                } else if (!invalidMessage && typeof invalidMessage === 'boolean') {
+                  throw createValidationError(
+                    `--${decamelize(key)} received invalid input. Please use --help for correct option usage.`,
+                  );
+                }
+
+                return [key, result];
               }
 
-              const invalidMessage = await flagDefinitionFromTemplate?.validate?.(value);
-
-              if (invalidMessage && typeof invalidMessage === 'string') {
-                throw createValidationError(invalidMessage);
-              } else if (!invalidMessage && typeof invalidMessage === 'boolean') {
-                throw createValidationError(
-                  `--${decamelize(key)} received invalid input. Please use --help for correct option usage.`,
-                );
-              }
-
-              return [key, result];
+              return [key, value];
             }),
           ),
         );
 
-        const renderTemplate = getScaffoldRender(filterNilValues({ ...arrayifiedMultiFlagData, ...data }));
+        const renderTemplate = getScaffoldRender(filterNilValues({ ...validatedTemplateData, ...data }));
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
