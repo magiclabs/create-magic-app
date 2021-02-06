@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { Questions } from 'zombi';
-import { ScaffoldFlags } from 'cli/utils/scaffold-helpers';
-import { ValuesOf } from 'cli/types/utility-types';
+import type { Questions } from 'zombi';
+import type { ScaffoldFlags } from 'cli/utils/scaffold-helpers';
+import type { ValuesOf } from 'cli/types/utility-types';
 
 export namespace PublicApiKeyPrompt {
   export type Data = {
@@ -77,10 +77,9 @@ export namespace SocialLoginsPrompt {
 
   export const flags: ScaffoldFlags<Data> = {
     socialLogin: {
-      type: String,
+      type: [String],
       description:
         'The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook, google, apple, linkedin, github, gitlab, bitbucket)',
-      isMultiple: true,
       validate: (value) => {
         const invalid: string[] = [];
 

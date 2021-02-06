@@ -8,15 +8,22 @@ import type { CreateMagicAppData } from '../create-app';
 
 type ValueType = string | string[] | number | number[] | boolean;
 
-type ScaffoldFlagType<T extends ValueType = ValueType> = T extends string | string[]
+type ScaffoldFlagType<T extends ValueType = ValueType> = T extends string
   ? StringConstructor
-  : T extends number | number[]
+  : T extends string[]
+  ? [StringConstructor]
+  : T extends number
   ? NumberConstructor
+  : T extends number[]
+  ? [NumberConstructor]
   : T extends boolean
   ? BooleanConstructor
   : StringConstructor | NumberConstructor | BooleanConstructor;
 
-type ScaffoldFlagBase<T extends ValueType = ValueType> = {
+/**
+ * Configuration to modify the behavior of flag-based template data inputs.
+ */
+export type ScaffoldFlag<T extends ValueType = ValueType> = {
   /**
    * A factory function to transform raw command-line input
    * into the requisite native type (string, boolean, or number).
@@ -36,13 +43,6 @@ type ScaffoldFlagBase<T extends ValueType = ValueType> = {
    */
   validate?: (value: T) => (string | boolean | Promise<string | boolean>) | undefined;
 };
-
-/**
- * Configuration to modify the behavior of flag-based template data inputs.
- */
-export type ScaffoldFlag<T extends ValueType = ValueType> = T extends Array<string | number>
-  ? ScaffoldFlagBase<T> & { isMultiple: true }
-  : ScaffoldFlagBase<T> & { isMultiple?: false };
 
 /**
  * A record of `ScaffoldFlag` values with data types given by `T`.

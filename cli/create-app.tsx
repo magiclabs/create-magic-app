@@ -104,8 +104,8 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
                 const typeFactory = flagDefinitionFromTemplate.type;
 
                 let result: any;
-                if (flagDefinitionFromTemplate?.isMultiple) {
-                  result = Array.isArray(value) ? value.map((i) => typeFactory(i)) : [typeFactory(value)];
+                if (Array.isArray(typeFactory)) {
+                  result = Array.isArray(value) ? value.map((i) => typeFactory[0](i)) : [typeFactory[0](value)];
                 } else {
                   // In the case that we expect the flag argument to NOT be an
                   // array, but we receive multiple instances of the flag anyway,
