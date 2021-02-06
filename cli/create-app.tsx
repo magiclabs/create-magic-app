@@ -118,9 +118,7 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
                 if (invalidMessage && typeof invalidMessage === 'string') {
                   throw createValidationError(invalidMessage);
                 } else if (!invalidMessage && typeof invalidMessage === 'boolean') {
-                  throw createValidationError(
-                    `--${decamelize(key)} received invalid input. Please use --help for correct option usage.`,
-                  );
+                  throw createValidationError(`--${decamelize(key)} received invalid input.`);
                 }
 
                 return [key, result];

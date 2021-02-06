@@ -1,4 +1,5 @@
 import meow from 'compiled/meow';
+import chalk from 'compiled/chalk';
 import CFonts from 'compiled/cfonts';
 import fs from 'fs';
 import { ZombiError, ZombiErrorCode } from 'zombi';
@@ -58,6 +59,7 @@ function sayHello() {
 
   if (err instanceof CreateMagicAppError) {
     console.error(`\n${err.message}`);
+    console.error(`\nSee ${chalk.bold('--help')} for information about proper options usage.`);
     process.exit(1);
   }
 
