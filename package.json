@@ -23,7 +23,7 @@
   "dependencies": {
     "react": "^17.0.1",
     "react-is": "^17.0.1",
-    "zombi": "^3.0.8"
+    "zombi": "^3.1.0"
   },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
@@ -42,6 +42,7 @@
     "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
     "copyfiles": "^2.4.1",
+    "decamelize": "^5.0.0",
     "decamelize-keys": "^1.1.0",
     "eslint": "^7.14.0",
     "eslint-import-resolver-typescript": "^2.3.0",

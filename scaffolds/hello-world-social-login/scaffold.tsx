@@ -1,8 +1,8 @@
 import React from 'react';
 import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
-import { NpmClientPrompt, PublicApiKeyPrompt, SocialLoginsPrompt } from 'cli/utils/common-prompts';
 import { mergePrompts } from 'cli/utils/merge-prompts';
+import { NpmClientPrompt, PublicApiKeyPrompt, SocialLoginsPrompt } from 'scaffolds/prompts';
 
 type HelloWorldSocialLoginData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data & SocialLoginsPrompt.Data;
 
@@ -22,16 +22,18 @@ export default createScaffold<HelloWorldSocialLoginData>(
             <Template source="./src/magic.js" />
             <Template source="./src/styles.css" />
 
-            {data.socialLogin.map((provider) => {
-              return (
-                <React.Fragment key={provider}>
-                  <Template source={`./src/social-logins/${provider}.js`} />
-                  {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
-                    <Template source={`./public/img/${provider}.svg`} />
-                  )}
-                </React.Fragment>
-              );
-            })}
+            {data.socialLogin
+              .filter((provider) => SocialLoginsPrompt.providers.includes(provider))
+              .map((provider) => {
+                return (
+                  <React.Fragment key={provider}>
+                    <Template source={`./src/social-logins/${provider}.js`} />
+                    {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
+                      <Template source={`./public/img/${provider}.svg`} />
+                    )}
+                  </React.Fragment>
+                );
+              })}
           </>
         );
       }}

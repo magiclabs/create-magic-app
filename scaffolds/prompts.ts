@@ -1,38 +1,51 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import { Questions } from 'zombi';
-import { ScaffoldFlags } from './scaffold-helpers';
+import { ScaffoldFlags } from 'cli/utils/scaffold-helpers';
+import { ValuesOf } from 'cli/types/utility-types';
 
 export namespace PublicApiKeyPrompt {
   export type Data = {
     publicApiKey: 'npm' | 'yarn';
   };
 
+  const validate = (value: string) =>
+    value.startsWith('pk') ? true : '--public-api-key should look like `pk_live_...` or `pk_test_...`';
+
   export const questions: Questions<Data> = {
     type: 'input',
     name: 'publicApiKey',
+    validate,
     message: 'Enter your Magic public API key:',
   };
 
   export const flags: ScaffoldFlags<Data> = {
-    publicApiKey: 'The Magic public API key for your app.',
+    publicApiKey: {
+      validate,
+      description: 'The Magic public API key for your app.',
+    },
   };
 }
 
 export namespace NpmClientPrompt {
+  const clients = ['npm', 'yarn'];
+
   export type Data = {
-    npmClient: 'npm' | 'yarn';
+    npmClient: ValuesOf<typeof clients>;
   };
 
   export const questions: Questions<Data> = {
     type: 'select',
     name: 'npmClient',
     message: 'Choose an NPM client:',
-    choices: ['npm', 'yarn'],
+    choices: clients,
   };
 
   export const flags: ScaffoldFlags<Data> = {
-    npmClient: 'The NPM client of your choice. (one of: npm, yarn)',
+    npmClient: {
+      validate: (value: string) => (clients.includes(value) ? true : `\`${value}\` is not a valid NPM client.`),
+      description: 'The NPM client of your choice. (one of: npm, yarn)',
+    },
   };
 
   export function getInstallCommand(data: Data) {
@@ -45,7 +58,8 @@ export namespace NpmClientPrompt {
 }
 
 export namespace SocialLoginsPrompt {
-  export type SocialLoginProvider = 'facebook' | 'google' | 'apple' | 'linkedin' | 'github' | 'gitlab' | 'bitbucket';
+  export const providers = ['facebook', 'google', 'apple', 'linkedin', 'github', 'gitlab', 'bitbucket'];
+  export type SocialLoginProvider = ValuesOf<typeof providers>;
 
   export type Data = {
     socialLogin: SocialLoginProvider[];
@@ -55,7 +69,7 @@ export namespace SocialLoginsPrompt {
     type: 'multiselect',
     name: 'socialLogin',
     message: 'Choose your social login providers:',
-    choices: ['facebook', 'google', 'apple', 'linkedin', 'github', 'gitlab', 'bitbucket'],
+    choices: providers,
   };
 
   export const flags: ScaffoldFlags<Data> = {

@@ -8,8 +8,17 @@ import type { CreateMagicAppData } from '../create-app';
 
 type ValueType = string | string[] | number | number[] | boolean;
 
+type ScaffoldFlagBase<T extends ValueType = ValueType> = {
+  description: string;
+  validate?: (value: T) => (string | boolean | Promise<string | boolean>) | undefined;
+};
+
+export type ScaffoldFlag<T extends ValueType = ValueType> = T extends Array<string | number>
+  ? ScaffoldFlagBase<T> & { isMultiple: true }
+  : ScaffoldFlagBase<T> & { isMultiple?: false };
+
 export type ScaffoldFlags<T extends Record<string, ValueType> = Record<string, any>> = {
-  [P in keyof T]: T[P] extends Array<string | number> ? { description: string; isMultiple: true } : string;
+  [P in keyof T]: ScaffoldFlag<T[P]>;
 };
 
 type ScaffoldRender<T extends Record<string, ValueType> = Record<string, any>> = (props: {

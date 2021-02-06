@@ -1,8 +1,8 @@
 import React from 'react';
 import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
-import { NpmClientPrompt, PublicApiKeyPrompt } from 'cli/utils/common-prompts';
 import { mergePrompts } from 'cli/utils/merge-prompts';
+import { NpmClientPrompt, PublicApiKeyPrompt } from 'scaffolds/prompts';
 
 type HelloWorldData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data;
 
