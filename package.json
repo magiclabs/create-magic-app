@@ -30,7 +30,6 @@
     "@ikscodes/prettier-config": "^2.0.1",
     "@types/bytes": "^3.1.0",
     "@types/ejs": "^3.0.5",
-    "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.12",
     "@types/parse-package-name": "^0.1.0",
     "@types/react": "^17.0.0",
