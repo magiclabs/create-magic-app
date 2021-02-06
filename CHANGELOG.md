@@ -1,3 +1,15 @@
+# v1.3.3 (Sat Feb 06 2021)
+
+#### 🐛 Bug Fix
+
+- Use exit code 0 upon --help or --version [#27](https://github.com/magiclabs/create-magic-app/pull/27) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.3.2 (Sat Feb 06 2021)
 
 #### 🐛 Bug Fix
