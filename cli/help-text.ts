@@ -4,7 +4,7 @@
 import chalk from 'compiled/chalk';
 import decamelizeKeys from 'compiled/decamelize-keys';
 import { BINARY } from './config';
-import { getScaffoldDefinition, ScaffoldFlags } from './utils/scaffold-helpers';
+import { getScaffoldDefinition, ScaffoldFlag } from './utils/scaffold-helpers';
 
 const styled = {
   Usage: chalk.bold.inverse(' USAGE '),
@@ -55,15 +55,12 @@ export function printHelp(scaffoldName?: string) {
   // Template-specific options
   try {
     const { flags } = getScaffoldDefinition(scaffoldName!);
-
-    if (flags) {
-      helpSections.push(
-        createHelpSection({
-          heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),
-          content: createOptionsTable(flags),
-        }),
-      );
-    }
+    helpSections.push(
+      createHelpSection({
+        heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),
+        content: createOptionsTable(flags as any),
+      }),
+    );
   } catch {}
 
   // Usage examples
@@ -94,13 +91,13 @@ function createHelpSection(config: { heading: string; content: string }) {
  * From the record of args to descriptions given by `source`,
  * output a printable table of arguments for the help text.
  */
-function createOptionsTable(flags: ScaffoldFlags) {
+function createOptionsTable(flags: Record<string, string | ScaffoldFlag>) {
   const normalizeArg = (arg: string) => (arg.startsWith('-') || arg.startsWith('[') ? arg : `--${arg}`);
 
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
   const rows: Array<[string, string]> = Object.entries(
-    decamelizeKeys(flags, '-') as ScaffoldFlags,
+    decamelizeKeys(flags, '-') as Record<string, string | ScaffoldFlag>,
   ).map(([arg, def]) => [`  ${normalizeArg(arg)}`, typeof def === 'string' ? def : def.description]);
 
   const gap = 2; // Space between args column & description text

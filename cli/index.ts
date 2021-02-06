@@ -1,9 +1,11 @@
 import meow from 'compiled/meow';
 import CFonts from 'compiled/cfonts';
 import fs from 'fs';
+import { ZombiError, ZombiErrorCode } from 'zombi';
 import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
+import { CreateMagicAppError } from './utils/errors-warnings';
 
 const cli = meow({
   flags: {
@@ -49,6 +51,16 @@ function sayHello() {
   // Run the scaffold...
   await createApp(otherFlags as any);
 })().catch((err) => {
+  if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {
+    // Skip logging errors about users canceling input, just exit!
+    process.exit(1);
+  }
+
+  if (err instanceof CreateMagicAppError) {
+    console.error(`\n${err.message}`);
+    process.exit(1);
+  }
+
   console.error(err);
   process.exit(1);
 });
