@@ -1,3 +1,15 @@
+# v1.3.1 (Sat Feb 06 2021)
+
+#### 🐛 Bug Fix
+
+- Add `--help` call-to-action upon reaching any validation message [#25](https://github.com/magiclabs/create-magic-app/pull/25) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.3.0 (Sat Feb 06 2021)
 
 #### 🚀 Enhancement
