@@ -1,3 +1,15 @@
+# v1.3.2 (Sat Feb 06 2021)
+
+#### 🐛 Bug Fix
+
+- Update NCC dependencies [#26](https://github.com/magiclabs/create-magic-app/pull/26) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.3.1 (Sat Feb 06 2021)
 
 #### 🐛 Bug Fix
