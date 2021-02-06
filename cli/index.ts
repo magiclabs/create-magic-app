@@ -38,13 +38,13 @@ function sayHello() {
   if (version) {
     const { version: pkgVersion } = JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8'));
     console.log(pkgVersion);
-    process.exit(2);
+    process.exit(0);
   }
 
   if (help) {
     sayHello();
     printHelp(otherFlags.template);
-    process.exit(2);
+    process.exit(0);
   }
 
   sayHello();

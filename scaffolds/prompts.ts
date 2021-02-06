@@ -60,7 +60,6 @@ export namespace NpmClientPrompt {
 }
 
 export namespace SocialLoginsPrompt {
-  export const test = ['hello', 'world'];
   export const providers = ['facebook', 'google', 'apple', 'linkedin', 'github', 'gitlab', 'bitbucket'];
   export type SocialLoginProvider = ValuesOf<typeof providers>;
 
