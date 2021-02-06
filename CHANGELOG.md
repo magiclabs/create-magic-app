@@ -1,3 +1,15 @@
+# v1.3.0 (Sat Feb 06 2021)
+
+#### 🚀 Enhancement
+
+- Add validation for template data provided as CLI flags [#24](https://github.com/magiclabs/create-magic-app/pull/24) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.2.1 (Fri Feb 05 2021)
 
 #### 🐛 Bug Fix
