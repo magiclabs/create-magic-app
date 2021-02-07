@@ -1,3 +1,15 @@
+# v1.3.5 (Sun Feb 07 2021)
+
+#### 🐛 Bug Fix
+
+- Remove 'meow' dependency, parse flags with 'yargs-parser' [#29](https://github.com/magiclabs/create-magic-app/pull/29) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.3.4 (Sat Feb 06 2021)
 
 #### 🐛 Bug Fix
