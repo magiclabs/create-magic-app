@@ -4,7 +4,8 @@
 import chalk from 'compiled/chalk';
 import decamelizeKeys from 'compiled/decamelize-keys';
 import { BINARY } from './config';
-import { getScaffoldDefinition, ScaffoldFlag } from './utils/scaffold-helpers';
+import { Flags, Flag } from './flags';
+import { getScaffoldDefinition } from './utils/scaffold-helpers';
 
 const styled = {
   Usage: chalk.bold.inverse(' USAGE '),
@@ -17,7 +18,7 @@ const styled = {
 /**
  * Prints help text, including specific options for the given `scaffoldName`.
  */
-export function printHelp(scaffoldName?: string) {
+export function printHelp(globalOptions: Flags, scaffoldName?: string) {
   const helpSections: string[] = [];
 
   // Basic usage information
@@ -33,20 +34,7 @@ export function printHelp(scaffoldName?: string) {
     createHelpSection({
       heading: styled.Options,
       content: createOptionsTable({
-        '--project-name, -p':
-          'The name of your project. A top-level directory will be created from this value. If omitted, the project name will be prompted for interactively.',
-
-        '--template, -t':
-          'The base template to use. If omitted or invalid, the template will be prompted for interactively.',
-
-        '--branch, -b': `The remote Git branch of \`${BINARY}\` from which to source templates. [default: "master"]`,
-
-        '--version, -v': `Show which version of \`${BINARY}\` is currently in use.`,
-
-        '--help, -h': `Show help (you're lookin' at it). ${chalk.bold(
-          `If --template or -t is provided, template-specific documentation will be printed, too.`,
-        )}`,
-
+        ...globalOptions,
         '[...]': `Additional CLI flags are given as data to the template. Any data required by the template that's provided as CLI flags will not be prompted for interactively.`,
       }),
     }),
@@ -91,14 +79,20 @@ function createHelpSection(config: { heading: string; content: string }) {
  * From the record of args to descriptions given by `source`,
  * output a printable table of arguments for the help text.
  */
-function createOptionsTable(flags: Record<string, string | ScaffoldFlag>) {
-  const normalizeArg = (arg: string) => (arg.startsWith('-') || arg.startsWith('[') ? arg : `--${arg}`);
+function createOptionsTable(flags: Record<string, string | Flag>) {
+  const normalizeArg = (arg: string, config?: Flag) => {
+    if (arg.startsWith('-') || arg.startsWith('[')) return arg;
+    return config?.alias ? `--${arg}, -${config?.alias}` : `--${arg}`;
+  };
 
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
   const rows: Array<[string, string]> = Object.entries(
-    decamelizeKeys(flags, '-') as Record<string, string | ScaffoldFlag>,
-  ).map(([arg, def]) => [`  ${normalizeArg(arg)}`, typeof def === 'string' ? def : def.description]);
+    decamelizeKeys(flags, '-') as Record<string, string | Flag>,
+  ).map(([arg, config]) => [
+    `  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`,
+    typeof config === 'string' ? config : config.description,
+  ]);
 
   const gap = 2; // Space between args column & description text
 

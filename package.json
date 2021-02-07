@@ -34,6 +34,7 @@
     "@types/parse-package-name": "^0.1.0",
     "@types/react": "^17.0.0",
     "@types/tar": "^4.0.4",
+    "@types/yargs-parser": "^20.2.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@vercel/ncc": "^0.27.0",
     "auto": "^10.5.0",
@@ -52,14 +53,14 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "execa": "^5.0.0",
     "got": "^11.8.1",
-    "meow": "^9.0.0",
     "parse-package-name": "^0.1.0",
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
     "tar": "^6.1.0",
     "tsc-alias": "^1.2.6",
     "tsc-watch": "^4.2.9",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "yargs-parser": "^20.2.4"
   },
   "auto": {
     "plugins": [

@@ -9,14 +9,14 @@ import fs from 'fs';
 import { URL } from 'url';
 import execa from 'compiled/execa';
 import chalk from 'compiled/chalk';
-import decamelize from 'compiled/decamelize';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
 import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
 import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
 import { filterNilValues } from './utils/filter-nil-values';
-import { createValidationError, printWarning } from './utils/errors-warnings';
+import { printWarning } from './utils/errors-warnings';
+import { parseFlags } from './flags';
 
 export interface CreateMagicAppData {
   branch: string;
@@ -27,7 +27,7 @@ export interface CreateMagicAppData {
 /**
  * Generates and runs a project scaffold using `initialData`.
  */
-export async function createApp(initialData: Partial<CreateMagicAppData> & Record<string, any>) {
+export async function createApp(initialData: Partial<CreateMagicAppData>) {
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs
@@ -89,47 +89,9 @@ export async function createApp(initialData: Partial<CreateMagicAppData> & Recor
           // TODO: Handle case where repo info is not found
         }
 
-        /**
-         * Certain template-specific flags should be transformed into arrays
-         * before passing along to the chosen scaffold. Here, we do such
-         * transforms on the initial data retrieved from CLI flags as well as
-         * perform any necessary validations.
-         */
-        const validatedTemplateData = Object.fromEntries(
-          await Promise.all(
-            Object.entries(initialData).map(async ([key, value]) => {
-              const flagDefinitionFromTemplate = getScaffoldDefinition(data.template).flags[key];
+        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags);
+        const renderTemplate = getScaffoldRender(filterNilValues({ ...initialData, ...templateData, ...data }));
 
-              if (flagDefinitionFromTemplate) {
-                const typeFactory = flagDefinitionFromTemplate.type;
-
-                let result: any;
-                if (Array.isArray(typeFactory)) {
-                  result = Array.isArray(value) ? value.map((i) => typeFactory[0](i)) : [typeFactory[0](value)];
-                } else {
-                  // In the case that we expect the flag argument to NOT be an
-                  // array, but we receive multiple instances of the flag anyway,
-                  // we simply use the last instance.
-                  result = Array.isArray(value) ? typeFactory(value[value.length - 1]) : typeFactory(value);
-                }
-
-                const invalidMessage = await flagDefinitionFromTemplate?.validate?.(result);
-
-                if (invalidMessage && typeof invalidMessage === 'string') {
-                  throw createValidationError(invalidMessage);
-                } else if (!invalidMessage && typeof invalidMessage === 'boolean') {
-                  throw createValidationError(`--${decamelize(key, { separator: '-' })} received invalid input.`);
-                }
-
-                return [key, result];
-              }
-
-              return [key, value];
-            }),
-          ),
-        );
-
-        const renderTemplate = getScaffoldRender(filterNilValues({ ...validatedTemplateData, ...data }));
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>

@@ -5,51 +5,7 @@
 
 import { getAbsoluteTemplatePath, resolveToDist } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
-
-type ValueType = string | string[] | number | number[] | boolean;
-
-type ScaffoldFlagType<T extends ValueType = ValueType> = T extends string
-  ? StringConstructor
-  : T extends string[]
-  ? [StringConstructor]
-  : T extends number
-  ? NumberConstructor
-  : T extends number[]
-  ? [NumberConstructor]
-  : T extends boolean
-  ? BooleanConstructor
-  : StringConstructor | NumberConstructor | BooleanConstructor;
-
-/**
- * Configuration to modify the behavior of flag-based template data inputs.
- */
-export type ScaffoldFlag<T extends ValueType = ValueType> = {
-  /**
-   * A factory function to transform raw command-line input
-   * into the requisite native type (string, boolean, or number).
-   */
-  type: ScaffoldFlagType<T>;
-
-  /**
-   * A help-text description for this flag. This will be printed along with
-   * global `make-magic` documentation when the respective template is used
-   * alongside the standard `--help` flag.
-   */
-  description: string;
-
-  /**
-   * An optional validation function that may return an error message
-   * to be raised indicating invalid command-line input.
-   */
-  validate?: (value: T) => (string | boolean | Promise<string | boolean>) | undefined;
-};
-
-/**
- * A record of `ScaffoldFlag` values with data types given by `T`.
- */
-export type ScaffoldFlags<T extends Record<string, ValueType> = Record<string, any>> = {
-  [P in keyof T]: ScaffoldFlag<T[P]>;
-};
+import { Flags, ValueType } from '../flags';
 
 /**
  * The render function for a `make-magic` scaffold.
@@ -92,7 +48,7 @@ type ScaffoldMetadata<T extends Record<string, ValueType> = Record<string, any>>
    * Provides metadata about CLI flags that may be used
    * to input template data for this scaffold.
    */
-  flags: ScaffoldFlags<T>;
+  flags: Flags<T>;
 };
 
 export type ScaffoldDefinition<T extends Record<string, ValueType> = Record<string, any>> = ScaffoldRender<T> &

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import type { Questions } from 'zombi';
-import type { ScaffoldFlags } from 'cli/utils/scaffold-helpers';
+import type { Flags } from 'cli/flags';
 import type { ValuesOf } from 'cli/types/utility-types';
 
 export namespace PublicApiKeyPrompt {
@@ -19,7 +19,7 @@ export namespace PublicApiKeyPrompt {
     message: 'Enter your Magic public API key:',
   };
 
-  export const flags: ScaffoldFlags<Data> = {
+  export const flags: Flags<Data> = {
     publicApiKey: {
       type: String,
       validate,
@@ -42,7 +42,7 @@ export namespace NpmClientPrompt {
     choices: clients,
   };
 
-  export const flags: ScaffoldFlags<Data> = {
+  export const flags: Flags<Data> = {
     npmClient: {
       type: String,
       validate: (value: string) => (clients.includes(value) ? true : `\`${value}\` is not a valid NPM client.`),
@@ -74,7 +74,7 @@ export namespace SocialLoginsPrompt {
     choices: providers,
   };
 
-  export const flags: ScaffoldFlags<Data> = {
+  export const flags: Flags<Data> = {
     socialLogin: {
       type: [String],
       description:

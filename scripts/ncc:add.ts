@@ -70,7 +70,11 @@ function writeLicense() {
   const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
   const licensePath = [
     path.join(path.dirname(pkgJsonPath), './LICENSE'),
+    path.join(path.dirname(pkgJsonPath), './LICENSE.md'),
+    path.join(path.dirname(pkgJsonPath), './LICENSE.txt'),
     path.join(path.dirname(pkgJsonPath), './license'),
+    path.join(path.dirname(pkgJsonPath), './license.md'),
+    path.join(path.dirname(pkgJsonPath), './license.txt'),
   ].find((file) => fs.existsSync(file));
 
   if (licensePath) {
