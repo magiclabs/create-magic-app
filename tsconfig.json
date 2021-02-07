@@ -16,7 +16,7 @@
     "paths": {
       "cli/*": ["cli/*"],
       "scaffolds/*": ["scaffolds/*"],
-      "compiled/*": ["compiled/*", "node_modules/*"],
+      "compiled/*": ["compiled/*", "node_modules/@types/*", "node_modules/*"],
     },
   },
 
