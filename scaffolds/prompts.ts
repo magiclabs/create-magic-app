@@ -4,26 +4,26 @@ import type { Questions } from 'zombi';
 import type { Flags } from 'cli/flags';
 import type { ValuesOf } from 'cli/types/utility-types';
 
-export namespace PublicApiKeyPrompt {
+export namespace PublishableApiKeyPrompt {
   export type Data = {
-    publicApiKey: 'npm' | 'yarn';
+    publishableApiKey: 'npm' | 'yarn';
   };
 
   const validate = (value: string) =>
-    value.startsWith('pk') ? true : '--public-api-key should look like `pk_live_...` or `pk_test_...`';
+    value.startsWith('pk') ? true : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
 
   export const questions: Questions<Data> = {
     type: 'input',
-    name: 'publicApiKey',
+    name: 'publishableApiKey',
     validate,
-    message: 'Enter your Magic public API key:',
+    message: 'Enter your Magic publishable API key:',
   };
 
   export const flags: Flags<Data> = {
-    publicApiKey: {
+    publishableApiKey: {
       type: String,
       validate,
-      description: 'The Magic public API key for your app.',
+      description: 'The Magic publishable API key for your app.',
     },
   };
 }

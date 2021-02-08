@@ -2,13 +2,13 @@ import React from 'react';
 import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
 import { mergePrompts } from 'cli/utils/merge-prompts';
-import { NpmClientPrompt, PublicApiKeyPrompt } from 'scaffolds/prompts';
+import { NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
-type HelloWorldReactData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data;
+type HelloWorldReactData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data;
 
 export default createScaffold<HelloWorldReactData>(
   (props) => (
-    <Zombi {...props} prompts={mergePrompts(PublicApiKeyPrompt.questions, NpmClientPrompt.questions)}>
+    <Zombi {...props} prompts={mergePrompts(PublishableApiKeyPrompt.questions, NpmClientPrompt.questions)}>
       <Template source="./" />
     </Zombi>
   ),
@@ -20,7 +20,7 @@ export default createScaffold<HelloWorldReactData>(
     startCommand: NpmClientPrompt.getStartCommand,
     flags: {
       ...NpmClientPrompt.flags,
-      ...PublicApiKeyPrompt.flags,
+      ...PublishableApiKeyPrompt.flags,
     },
   },
 );

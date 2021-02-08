@@ -2,15 +2,15 @@ import React from 'react';
 import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
 import { mergePrompts } from 'cli/utils/merge-prompts';
-import { NpmClientPrompt, PublicApiKeyPrompt, SocialLoginsPrompt } from 'scaffolds/prompts';
+import { NpmClientPrompt, PublishableApiKeyPrompt, SocialLoginsPrompt } from 'scaffolds/prompts';
 
-type HelloWorldSocialLoginData = NpmClientPrompt.Data & PublicApiKeyPrompt.Data & SocialLoginsPrompt.Data;
+type HelloWorldSocialLoginData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & SocialLoginsPrompt.Data;
 
 export default createScaffold<HelloWorldSocialLoginData>(
   (props) => (
     <Zombi
       {...props}
-      prompts={mergePrompts(PublicApiKeyPrompt.questions, SocialLoginsPrompt.questions, NpmClientPrompt.questions)}
+      prompts={mergePrompts(PublishableApiKeyPrompt.questions, SocialLoginsPrompt.questions, NpmClientPrompt.questions)}
     >
       {(data) => {
         return (
@@ -45,7 +45,7 @@ export default createScaffold<HelloWorldSocialLoginData>(
     startCommand: NpmClientPrompt.getStartCommand,
     flags: {
       ...NpmClientPrompt.flags,
-      ...PublicApiKeyPrompt.flags,
+      ...PublishableApiKeyPrompt.flags,
       ...SocialLoginsPrompt.flags,
     },
   },
