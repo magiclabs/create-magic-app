@@ -14,7 +14,7 @@
         chainId: 97 // Smart Chain Mainnet Chain ID
       };
       /* Configure Ethereum provider */
-      const magic = new Magic("<%= publicApiKey %>", {
+      const magic = new Magic("<%= publishableApiKey %>", {
         network: BSCOptions
       });
       const web3 = new Web3(magic.rpcProvider);
