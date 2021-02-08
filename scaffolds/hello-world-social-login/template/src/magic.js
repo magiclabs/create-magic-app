@@ -3,6 +3,6 @@ import { OAuthExtension } from "@magic-ext/oauth";
 
 export const socialLogins = [<%- socialLogin.reduce((a, b) => a ? `${a}, "${b}"` : `"${b}"`, "") %>];
 
-export const magic = new Magic("<%= publicApiKey %>", {
+export const magic = new Magic("<%= publishableApiKey %>", {
   extensions: [new OAuthExtension()],
 });
