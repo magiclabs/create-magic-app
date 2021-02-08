@@ -1,3 +1,15 @@
+# v2.0.0 (Mon Feb 08 2021)
+
+#### 💥 Breaking Change
+
+- Change '--public-api-key' to '--publishable-api-key' [#30](https://github.com/magiclabs/create-magic-app/pull/30) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v1.3.5 (Sun Feb 07 2021)
 
 #### 🐛 Bug Fix
