@@ -1,3 +1,15 @@
+# v2.0.1 (Wed Feb 10 2021)
+
+#### 🐛 Bug Fix
+
+- Updated BSC nomenclature with link to testnet faucet [#31](https://github.com/magiclabs/create-magic-app/pull/31) ([@seanli](https://github.com/seanli))
+
+#### Authors: 1
+
+- Sean Li ([@seanli](https://github.com/seanli))
+
+---
+
 # v2.0.0 (Mon Feb 08 2021)
 
 #### 💥 Breaking Change
