@@ -9,11 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.4/dist/web3.min.js"></script>
     <script>
       const BSCOptions = {
-        /* Smart Chain Mainnet RPC URL */
+        /* Smart Chain Testnet RPC URL */
         rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-        chainId: 97 // Smart Chain Mainnet Chain ID
+        chainId: 97 // Smart Chain Testnet Chain ID
       };
-      /* Configure Ethereum provider */
+      /* Configure Binance Smart Chain provider */
       const magic = new Magic("<%= publishableApiKey %>", {
         network: BSCOptions
       });
@@ -59,14 +59,15 @@
           `;
           userHtml = `
             <div class="container">
-              <h1>Ethereum address</h1>
+              <h1>Binance Smart Chain Address</h1>
               <div class="info">
-                <a href="https://rinkeby.etherscan.io/address/${userAddress}" target="_blank">${userAddress}</a>
+                <a href="https://testnet.bscscan.com/address/${userAddress}" target="_blank">${userAddress}</a>
               </div>
               <h1>Network</h1>
               <div class="info">${network}</div>
               <h1>Balance</h1>
-              <div class="info">${userBalance} ETH</div>
+              <div class="info">${userBalance} BNB</div>
+              <a href="https://testnet.binance.org/faucet-smart" target="_blank">Get Test BNB</a>
             </div>
           `;
           txnHtml = `
@@ -74,7 +75,7 @@
               <h1>Send Transaction</h1>
               <form onsubmit="handleSendTxn(event)">
                 <input type="text" name="destination" class="full-width" required="required" placeholder="Destination address" />
-                <input type="text" name="amount" class="full-width" required="required" placeholder="Amount in ETH" />
+                <input type="text" name="amount" class="full-width" required="required" placeholder="Amount in BNB" />
                 <button id="btn-send-txn" type="submit">Send Transaction</button>
               </form>
             </div>
@@ -97,7 +98,7 @@
             <div class="container">
               <h1>Smart Contract</h1>
               <div class="info">
-                <a href="https://rinkeby.etherscan.io/address/${contractAddress}" target="_blank">${contractAddress}</a>
+                <a href="https://testnet.bscscan.com/address/${contractAddress}" target="_blank">${contractAddress}</a>
               </div>
               <h1>Message</h1>
               <div class="info">${currentMessage}</div>
