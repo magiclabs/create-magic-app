@@ -4,7 +4,7 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
-import { Zombi, Directory, scaffold } from 'zombi';
+import { Zombi, Directory, scaffold } from 'compiled/zombi';
 import fs from 'fs';
 import { URL } from 'url';
 import execa from 'compiled/execa';

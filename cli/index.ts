@@ -1,7 +1,7 @@
 import chalk from 'compiled/chalk';
 import CFonts from 'compiled/cfonts';
 import fs from 'fs';
-import { ZombiError, ZombiErrorCode } from 'zombi';
+import { ZombiError, ZombiErrorCode } from 'compiled/zombi';
 import { createApp, CreateMagicAppData } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
