@@ -17,6 +17,10 @@
       "cli/*": ["cli/*"],
       "scaffolds/*": ["scaffolds/*"],
       "compiled/*": ["compiled/*", "node_modules/@types/*", "node_modules/*"],
+
+      // Special case for React because it's peer dependency of `zombi`
+      "react": ["compiled/react", "node_modules/@types/react"],
+      "react-is": ["compiled/react-is", "node_modules/@types/react-is"],
     },
   },
 
