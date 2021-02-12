@@ -1,3 +1,15 @@
+# v2.0.3 (Fri Feb 12 2021)
+
+#### 🐛 Bug Fix
+
+- Update dependencies [#34](https://github.com/magiclabs/create-magic-app/pull/34) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.0.2 (Fri Feb 12 2021)
 
 #### 🐛 Bug Fix
