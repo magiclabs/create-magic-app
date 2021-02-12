@@ -1,3 +1,15 @@
+# v2.0.2 (Fri Feb 12 2021)
+
+#### 🐛 Bug Fix
+
+- Add 'zombi', 'react', and 'react-is' as NCC dependencies [#32](https://github.com/magiclabs/create-magic-app/pull/32) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.0.1 (Wed Feb 10 2021)
 
 #### 🐛 Bug Fix
