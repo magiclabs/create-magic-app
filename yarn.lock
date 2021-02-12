@@ -795,10 +795,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-binaryextensions@4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-4.7.0.tgz#6ef6f69f6b885af9e6d1fd2a621195d0b7c686a2"
-  integrity sha512-yXyoXbBJj9i9FAUhAiOMcRsyr0HgSVzgeW8dOGIMQQ4m72R4Y03t+REqfPfsobWTN7y52hhdDXMwK0F3kHf/LA==
+binaryextensions@^4.15.0:
+  version "4.15.0"
+  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-4.15.0.tgz#c63a502e0078ff1b0e9b00a9f74d3c2b0f8bd32e"
+  integrity sha512-MkUl3szxXolQ2scI1PM14WOT951KnaTNJ0eMKg7WzOI4kvSxyNo/Cygx4LOBNhwyINhAuSQpJW1rYD9aBSxGaw==
 
 bl@^4.0.3:
   version "4.0.3"
@@ -1259,14 +1259,6 @@ duplexer@~0.1.1:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
-editions@^3.10.0:
-  version "3.16.0"
-  resolved "https://registry.yarnpkg.com/editions/-/editions-3.16.0.tgz#63ae6aa5d7921403dcc678aca28bfa9bc0212802"
-  integrity sha512-DUuN1+t7sMFVR4+kCbYNVNAg43It402JqEyGcgdqG/PlmReBUoULfJSP7nXVMzhyRexQbl3XEmLQsDdmS7nRqg==
-  dependencies:
-    errlop "^3.14.0"
-    semver "6.3.0"
-
 ejs@^2.5.7:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.7.4.tgz#48661287573dcc53e366c7a1ae52c3a120eec9ba"
@@ -1317,11 +1309,6 @@ env-ci@^5.0.1:
   dependencies:
     execa "^4.0.0"
     java-properties "^1.0.0"
-
-errlop@^3.14.0:
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/errlop/-/errlop-3.17.0.tgz#74f3a576447c5023266faac16a21e081f3bd989a"
-  integrity sha512-TDlb+YMx08OiaLq1g7Hu0nDca/oLo+LpMEgEI2lybBKE1rB8qsqFgXzEbnn1LU6NfDCfIdVcl3073aO3ZLTYNg==
 
 error-ex@^1.2.0, error-ex@^1.3.1:
   version "1.3.2"
@@ -2281,15 +2268,6 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
-istextorbinary@~5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/istextorbinary/-/istextorbinary-5.7.0.tgz#24ac39cfe9807d481e6d867f41ea3fde91ee99ed"
-  integrity sha512-6m7oXf0/SriI70K4TiGb1lWlykyHbKipY0PP5rBvCNrtKew5NiZfz/+1KoZJQ+EEvEdHJjmtmtBl1CxP2FIrbg==
-  dependencies:
-    binaryextensions "4.7.0"
-    editions "^3.10.0"
-    textextensions "5.6.0"
-
 java-properties@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/java-properties/-/java-properties-1.0.2.tgz#ccd1fa73907438a5b5c38982269d0e771fe78211"
@@ -3218,11 +3196,6 @@ semaphore-async-await@^1.5.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
-semver@6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
-  integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
-
 semver@^7.0.0, semver@^7.2.1, semver@^7.3.2:
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.4.tgz#27aaa7d2e4ca76452f98d3add093a72c943edc97"
@@ -3532,10 +3505,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-textextensions@5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-5.6.0.tgz#b8ebff97847941529d30cca7b8fe276b00d38445"
-  integrity sha512-NF+IgMk/8Apvt+j9e70zz77TjkdsJrz8A5qfUB4vFNezVy/so8Q+B/P/79FAn2rsKwn49U+TegDRjLBkwrpkbQ==
+textextensions@^5.12.0:
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-5.12.0.tgz#b908120b5c1bd4bb9eba41423d75b176011ab68a"
+  integrity sha512-IYogUDaP65IXboCiPPC0jTLLBzYlhhw2Y4b0a2trPgbHNGGGEfuHE6tds+yDcCf4mpNDaGISFzwSSezcXt+d6w==
 
 through2@^2.0.1:
   version "2.0.5"
@@ -3823,19 +3796,20 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-zombi@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.1.2.tgz#8db7ea54bc09a783bd8c0a55c061ca3f33851f50"
-  integrity sha512-plJAmlWuYDZt1IXcBDT201nl+ZQTbAuW1nA6XGTyRnkX94sMj1jMuo/lHAiQ+zk/yUMYTtrWqzPgn0ELXp62mg==
+zombi@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.1.3.tgz#71632694c8608cefa31363bba9b8bc00335b51db"
+  integrity sha512-n+/QwKipODQq/KWDjuSyfNFOk9CJUg+x49WjjXpqRy8EUl5zrp5Bc60Ed5i+DJotMeytUHHhDcS/vF7e36Xe3w==
   dependencies:
+    binaryextensions "^4.15.0"
     chalk "^2.4.1"
     ejs "^2.5.7"
     enquirer "^2.3.6"
     execa "^4.0.3"
     fs-extra "^5.0.0"
-    istextorbinary "~5.7.0"
     lodash "^4.17.19"
     ora "^5.1.0"
     pretty-time "~1.1.0"
     react-ssr-prepass "^1.2.1"
     semaphore-async-await "^1.5.1"
+    textextensions "^5.12.0"
