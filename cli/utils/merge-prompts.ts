@@ -1,4 +1,4 @@
-import { Questions } from 'zombi';
+import { Questions } from 'compiled/zombi';
 
 /**
  * Merge multiple `Zombi` prompt sources into one array.

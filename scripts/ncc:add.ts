@@ -23,17 +23,19 @@ const destination = path.resolve(__dirname, '..', 'compiled', pkg.name);
 if (process.env['ncc:add:SKIP_INSTALL']) {
   // Just compile the dependency (skip install)
   console.log(`Compiling ${getPkgIdentifier()}`);
-  ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6' })
+  const externals = Object.keys(require(`${pkg.name}/package.json`).peerDependencies ?? []);
+  ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals })
     .then(postBuild)
     .catch(handleError);
 } else {
   // Install and compile the dependency
   console.log(`Installing ${getPkgIdentifier()}`);
+  const externals = Object.keys(require(`${pkg.name}/package.json`).peerDependencies ?? []);
   execa
     .command(`yarn add -D ${getPkgIdentifier()}`)
     .then(() => {
       console.log(`Compiling ${getPkgIdentifier()}`);
-      return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6' });
+      return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals });
     })
     .then(postBuild)
     .catch(handleError);

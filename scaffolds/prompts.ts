@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import type { Questions } from 'zombi';
+import type { Questions } from 'compiled/zombi';
 import type { Flags } from 'cli/flags';
 import type { ValuesOf } from 'cli/types/utility-types';
 

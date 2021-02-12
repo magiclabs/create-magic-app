@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
-    "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
+    "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "echo \"No unit tests... yet :(\" && exit 0",
@@ -20,11 +20,7 @@
     "ncc:remove": "./scripts/ncc:remove.ts",
     "ncc:update": "./scripts/ncc:update.ts"
   },
-  "dependencies": {
-    "react": "^17.0.1",
-    "react-is": "^17.0.1",
-    "zombi": "^3.1.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
     "@ikscodes/prettier-config": "^2.0.1",
@@ -33,6 +29,7 @@
     "@types/node": "^14.14.12",
     "@types/parse-package-name": "^0.1.0",
     "@types/react": "^17.0.0",
+    "@types/react-is": "^17.0.0",
     "@types/tar": "^4.0.4",
     "@types/yargs-parser": "^20.2.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
@@ -55,12 +52,17 @@
     "got": "^11.8.1",
     "parse-package-name": "^0.1.0",
     "prettier": "^2.2.0",
+    "react": "^17.0.1",
+    "react-is": "^17.0.1",
     "rimraf": "^3.0.2",
     "tar": "^6.1.0",
+    "terser": "^5.6.0-beta",
+    "ts-node": "^9.1.1",
     "tsc-alias": "^1.2.6",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.1.2",
-    "yargs-parser": "^20.2.4"
+    "yargs-parser": "^20.2.4",
+    "zombi": "^3.1.2"
   },
   "auto": {
     "plugins": [
