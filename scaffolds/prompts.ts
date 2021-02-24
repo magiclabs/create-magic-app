@@ -101,8 +101,9 @@ export namespace SocialLoginsPrompt {
   export const flags: Flags<Data> = {
     socialLogin: {
       type: [String],
-      description:
-        'The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: facebook, google, apple, linkedin, github, gitlab, bitbucket)',
+      description: `The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: ${providers.join(
+        ', ',
+      )})`,
       validate: (value) => {
         const invalid: string[] = [];
 
