@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
 import type { Questions } from 'compiled/zombi';
 import type { Flags } from 'cli/flags';
 import type { ValuesOf } from 'cli/types/utility-types';
@@ -78,8 +76,10 @@ export namespace NpmClientPrompt {
     return data.npmClient === 'npm' ? 'npm install' : 'yarn install';
   }
 
-  export function getStartCommand(data: Data) {
-    return data.npmClient === 'npm' ? 'npm start' : 'yarn start';
+  export function getStartCommand(packageJsonScript: string) {
+    return (data: Data) => {
+      return data.npmClient === 'npm' ? `npm run ${packageJsonScript}` : `yarn ${packageJsonScript}`;
+    };
   }
 }
 
