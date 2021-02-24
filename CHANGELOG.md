@@ -1,3 +1,15 @@
+# v2.1.1 (Wed Feb 24 2021)
+
+#### ⚠️ Pushed to `master`
+
+- Document Twitter in social login help flags ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.1.0 (Wed Feb 24 2021)
 
 #### 🚀 Enhancement
