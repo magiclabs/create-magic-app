@@ -1,3 +1,17 @@
+# v2.1.0 (Wed Feb 24 2021)
+
+#### 🚀 Enhancement
+
+- Add Twitter OAuth to Social Logins scaffold [#36](https://github.com/magiclabs/create-magic-app/pull/36) ([@smithki](https://github.com/smithki))
+- added nextjs, hasura templates. updated react template to include env… [#35](https://github.com/magiclabs/create-magic-app/pull/35) ([@hcote](https://github.com/hcote))
+
+#### Authors: 2
+
+- Hunter Cote ([@hcote](https://github.com/hcote))
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.0.3 (Fri Feb 12 2021)
 
 #### 🐛 Bug Fix
