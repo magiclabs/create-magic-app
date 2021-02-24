@@ -28,6 +28,30 @@ export namespace PublishableApiKeyPrompt {
   };
 }
 
+export namespace SecretApiKeyPrompt {
+  export type Data = {
+    secretApiKey: 'npm' | 'yarn';
+  };
+
+  const validate = (value: string) =>
+    value.startsWith('sk') ? true : '--secret-api-key should look like `sk_live_...` or `sk_test_...`';
+
+  export const questions: Questions<Data> = {
+    type: 'input',
+    name: 'secretApiKey',
+    validate,
+    message: 'Enter your Magic secret API key:',
+  };
+
+  export const flags: Flags<Data> = {
+    secretApiKey: {
+      type: String,
+      validate,
+      description: 'The Magic secret API key for your app.',
+    },
+  };
+}
+
 export namespace NpmClientPrompt {
   const clients = ['npm', 'yarn'];
 
