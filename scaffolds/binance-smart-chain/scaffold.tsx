@@ -15,7 +15,7 @@ export default createScaffold<BinanceSmartChainData>(
 
   {
     shortDescription: 'Binance Smart Chain',
-    order: 1,
+    order: 3,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand,
     flags: {
