@@ -20,9 +20,7 @@ export default createScaffold<NextData>(
     shortDescription: 'Next.js',
     order: 1,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
-    startCommand: (data: NextData) => {
-      return data.npmClient === 'npm' ? 'npm run dev' : 'yarn dev';
-    },
+    startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {
       ...NpmClientPrompt.flags,
       ...PublishableApiKeyPrompt.flags,
