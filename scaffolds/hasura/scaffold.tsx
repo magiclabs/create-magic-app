@@ -3,6 +3,7 @@ import { Template, Zombi } from 'compiled/zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
 import { mergePrompts } from 'cli/utils/merge-prompts';
 import { NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
+import crypto = require('crypto');
 
 type HasuraData = NpmClientPrompt.Data &
   PublishableApiKeyPrompt.Data &
@@ -11,10 +12,16 @@ type HasuraData = NpmClientPrompt.Data &
     jwtSecret: string;
   };
 
+const generateJwtSecret = () => {
+  const buffer = crypto.randomBytes(32);
+  return buffer.toString('hex');
+};
+
 export default createScaffold<HasuraData>(
   (props) => (
     <Zombi
       {...props}
+      data={{ ...props.data, jwtSecret: props.data.jwtSecret ?? generateJwtSecret() }}
       prompts={mergePrompts(
         PublishableApiKeyPrompt.questions,
         SecretApiKeyPrompt.questions,
@@ -23,12 +30,6 @@ export default createScaffold<HasuraData>(
           type: 'input',
           name: 'hasuraUrl',
           message: "Enter your project's Hasura URL:",
-        },
-
-        {
-          type: 'input',
-          name: 'jwtSecret',
-          message: 'Enter your 32+ character JWT secret:',
         },
 
         NpmClientPrompt.questions,
