@@ -12,10 +12,10 @@ type HasuraData = NpmClientPrompt.Data &
     jwtSecret: string;
   };
 
-const generateJwtSecret = () => {
+function generateJwtSecret() {
   const buffer = crypto.randomBytes(32);
   return buffer.toString('hex');
-};
+}
 
 export default createScaffold<HasuraData>(
   (props) => (
