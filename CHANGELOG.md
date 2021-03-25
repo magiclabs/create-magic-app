@@ -1,3 +1,15 @@
+# v2.2.0 (Thu Mar 25 2021)
+
+#### 🚀 Enhancement
+
+- auto jwt gen for hasura template [#37](https://github.com/magiclabs/create-magic-app/pull/37) ([@hcote](https://github.com/hcote))
+
+#### Authors: 1
+
+- Hunter Cote ([@hcote](https://github.com/hcote))
+
+---
+
 # v2.1.1 (Wed Feb 24 2021)
 
 #### ⚠️ Pushed to `master`
