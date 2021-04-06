@@ -1,3 +1,15 @@
+# v2.2.1 (Tue Apr 06 2021)
+
+#### 🐛 Bug Fix
+
+- Rename script files to obey Windows pathing conventions [#38](https://github.com/magiclabs/create-magic-app/pull/38) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.2.0 (Thu Mar 25 2021)
 
 #### 🚀 Enhancement
