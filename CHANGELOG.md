@@ -1,3 +1,15 @@
+# v2.2.2 (Tue Apr 06 2021)
+
+#### ⚠️ Pushed to `master`
+
+- Normalize file paths when downloading templates from repo ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.2.1 (Tue Apr 06 2021)
 
 #### 🐛 Bug Fix
