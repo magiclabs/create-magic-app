@@ -13,6 +13,7 @@ import tar from 'compiled/tar';
 import { Stream } from 'stream';
 import { promisify } from 'util';
 import { URL } from 'url';
+import path from 'path';
 
 const pipeline = promisify(Stream.pipeline);
 
@@ -35,7 +36,7 @@ export async function getRepoInfo(url: URL, templatePath?: string): Promise<Repo
   const branch = templatePath ? `${_branch}/${file.join('/')}`.replace(new RegExp(`/${filePath}|/$`), '') : _branch;
 
   if (username && name && branch && t === 'tree') {
-    return { username, name, branch, filePath };
+    return { username, name, branch, filePath: filePath.split(path.sep).join('/') };
   }
 }
 
