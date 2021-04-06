@@ -16,9 +16,9 @@
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "echo \"No unit tests... yet :(\" && exit 0",
-    "ncc:add": "./scripts/ncc:add.ts",
-    "ncc:remove": "./scripts/ncc:remove.ts",
-    "ncc:update": "./scripts/ncc:update.ts",
+    "ncc:add": "./scripts/ncc-add.ts",
+    "ncc:remove": "./scripts/ncc-remove.ts",
+    "ncc:update": "./scripts/ncc-update.ts",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
