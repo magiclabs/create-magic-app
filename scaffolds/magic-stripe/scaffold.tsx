@@ -2,13 +2,8 @@ import React from 'react';
 import { Template, Zombi } from 'compiled/zombi';
 import { createScaffold } from 'cli/utils/scaffold-helpers';
 import { mergePrompts } from 'cli/utils/merge-prompts';
-import {
-  NpmClientPrompt,
-  PublishableApiKeyPrompt,
-  SecretApiKeyPrompt,
-  StripeSecretApiKeyPrompt,
-  StripePublishableApiKeyPrompt,
-} from 'scaffolds/prompts';
+import { NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
+import { StripeSecretApiKeyPrompt, StripePublishableApiKeyPrompt } from './stripePrompts';
 
 type StripeMagicData = NpmClientPrompt.Data &
   PublishableApiKeyPrompt.Data &
