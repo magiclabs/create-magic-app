@@ -1,3 +1,15 @@
+# v2.3.0 (Fri Apr 23 2021)
+
+#### 🚀 Enhancement
+
+- ch37324 add magic stripe scaffold [#39](https://github.com/magiclabs/create-magic-app/pull/39) ([@dgerrellsMagic](https://github.com/dgerrellsMagic))
+
+#### Authors: 1
+
+- [@dgerrellsMagic](https://github.com/dgerrellsMagic)
+
+---
+
 # v2.2.2 (Tue Apr 06 2021)
 
 #### ⚠️ Pushed to `master`
