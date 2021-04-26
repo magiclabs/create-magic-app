@@ -1,3 +1,15 @@
+# v2.3.1 (Mon Apr 26 2021)
+
+#### 🐛 Bug Fix
+
+- add template and scaffold for vue and magic guide [#40](https://github.com/magiclabs/create-magic-app/pull/40) ([@dgerrellsMagic](https://github.com/dgerrellsMagic))
+
+#### Authors: 1
+
+- [@dgerrellsMagic](https://github.com/dgerrellsMagic)
+
+---
+
 # v2.3.0 (Fri Apr 23 2021)
 
 #### 🚀 Enhancement
