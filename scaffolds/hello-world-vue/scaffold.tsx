@@ -16,9 +16,7 @@ export default createScaffold<HelloWorldVueData>(
       <Template source="./babel.config.js" />
       <Template source="./package.json" />
       <Template source="./README.md" />
-      <Zombi {...props} data={false}>
-        <Template source="./public" />
-      </Zombi>
+      <Template source="./public" data={false} />
     </Zombi>
   ),
 
