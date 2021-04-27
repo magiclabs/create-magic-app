@@ -9,13 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/magic-sdk@latest/dist/magic.js"></script>
     <script>
       /* 2️⃣ Initialize Magic Instance */
-      let magic = new Magic("<%= publishableApiKey %>");
+      let magic = new Magic("pk_test_2157633C1ED4869C", { endpoint: 'http://localhost:3014' });
 
       /* 3️⃣ Implement Render Function */
       const render = async () => {
         let html = "";
 
-        if (window.loca tion.pathname === "/callback") {
+        if (window.location.pathname === "/callback") {
           try {
             /* Complete the "authentication callback" */
             await magic.auth.loginWithCredential();
@@ -23,10 +23,8 @@
             /* Get user metadata including email */
             const userMetadata = await magic.user.getMetadata();
 
-            html = `
-              <h1>Current user: ${userMetadata.email}</h1>
-              <button onclick="handleLogout()">Logout</button>
-            `;
+            // window.open('https://dashboard.magic.link');
+            window.open('http://localhost:3015/referral/success');
           } catch {
             window.location.href = window.location.origin;
           }
