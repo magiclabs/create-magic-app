@@ -1,3 +1,15 @@
+# v2.4.0 (Thu Apr 29 2021)
+
+#### 🚀 Enhancement
+
+- Add template and scaffold for Nuxt JS [#41](https://github.com/magiclabs/create-magic-app/pull/41) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
 # v2.3.1 (Mon Apr 26 2021)
 
 #### 🐛 Bug Fix
