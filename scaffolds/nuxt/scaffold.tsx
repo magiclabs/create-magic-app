@@ -20,7 +20,7 @@ export default createScaffold<NuxtData>(
       <Template source="./.env" />
       <Template source="./.gitignore" />
       <Template source="./.prettierrc" />
-      <Template source="./jsconfig.config.js" />
+      <Template source="./jsconfig.json" />
       <Template source="./nuxt.config.js" />
       <Template source="./package.json" />
       <Template source="./README.md" />
