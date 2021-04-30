@@ -1,3 +1,15 @@
+# v2.4.1 (Fri Apr 30 2021)
+
+#### 🐛 Bug Fix
+
+- Updated Nuxt Template [#42](https://github.com/magiclabs/create-magic-app/pull/42) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
 # v2.4.0 (Thu Apr 29 2021)
 
 #### 🚀 Enhancement
