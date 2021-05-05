@@ -1,3 +1,15 @@
+# v2.5.0 (Wed May 05 2021)
+
+#### 🚀 Enhancement
+
+- Add template and scaffold for ExpressJS APIs [#44](https://github.com/magiclabs/create-magic-app/pull/44) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
 # v2.4.2 (Fri Apr 30 2021)
 
 #### 🐛 Bug Fix
