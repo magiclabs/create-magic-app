@@ -1,3 +1,75 @@
+# v2.5.0 (Wed May 05 2021)
+
+#### 🚀 Enhancement
+
+- Add template and scaffold for ExpressJS APIs [#44](https://github.com/magiclabs/create-magic-app/pull/44) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
+# v2.4.2 (Fri Apr 30 2021)
+
+#### 🐛 Bug Fix
+
+- Nuxt Template minor update [#43](https://github.com/magiclabs/create-magic-app/pull/43) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
+# v2.4.1 (Fri Apr 30 2021)
+
+#### 🐛 Bug Fix
+
+- Updated Nuxt Template [#42](https://github.com/magiclabs/create-magic-app/pull/42) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
+# v2.4.0 (Thu Apr 29 2021)
+
+#### 🚀 Enhancement
+
+- Add template and scaffold for Nuxt JS [#41](https://github.com/magiclabs/create-magic-app/pull/41) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
+# v2.3.1 (Mon Apr 26 2021)
+
+#### 🐛 Bug Fix
+
+- add template and scaffold for vue and magic guide [#40](https://github.com/magiclabs/create-magic-app/pull/40) ([@dgerrellsMagic](https://github.com/dgerrellsMagic))
+
+#### Authors: 1
+
+- [@dgerrellsMagic](https://github.com/dgerrellsMagic)
+
+---
+
+# v2.3.0 (Fri Apr 23 2021)
+
+#### 🚀 Enhancement
+
+- ch37324 add magic stripe scaffold [#39](https://github.com/magiclabs/create-magic-app/pull/39) ([@dgerrellsMagic](https://github.com/dgerrellsMagic))
+
+#### Authors: 1
+
+- [@dgerrellsMagic](https://github.com/dgerrellsMagic)
+
+---
+
 # v2.2.2 (Tue Apr 06 2021)
 
 #### ⚠️ Pushed to `master`
