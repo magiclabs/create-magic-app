@@ -1,3 +1,15 @@
+# v2.6.0 (Wed May 19 2021)
+
+#### 🚀 Enhancement
+
+- Jerryliu ch33208 create hello world template for magic dashboard [#45](https://github.com/magiclabs/create-magic-app/pull/45) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.5.0 (Wed May 05 2021)
 
 #### 🚀 Enhancement
