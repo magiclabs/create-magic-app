@@ -1,3 +1,15 @@
+# v2.6.1 (Thu May 20 2021)
+
+#### 🐛 Bug Fix
+
+- NIT for the quickstart template [#48](https://github.com/magiclabs/create-magic-app/pull/48) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.6.0 (Wed May 19 2021)
 
 #### 🚀 Enhancement
