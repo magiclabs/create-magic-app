@@ -14,7 +14,7 @@ export default createScaffold<HelloWorldData>(
   ),
 
   {
-    shortDescription: 'Hello World',
+    shortDescription: 'Hello World QuickStart',
     order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),

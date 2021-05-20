@@ -28,7 +28,7 @@
 
           /* Show login form if user is not logged in */
           html = `
-            <h1>Please sign up or login 1</h1>
+            <h1>Please sign up or login</h1>
             <form onsubmit="handleLogin(event)">
               <input type="email" name="email" required="required" placeholder="Enter your email" />
               <button type="submit">Send</button>
@@ -48,8 +48,7 @@
 
           html = `
               <h1>Current user: ${userMetadata.email}</h1>
-                  <button onclick="handleLogout()">Logout</button>
-              <h1>Check out your first sign up!</h1>
+              <button onclick="handleLogout()">Logout</button>
             `;
 
           window.open('https://dashboard.magic.link/referral/success');
