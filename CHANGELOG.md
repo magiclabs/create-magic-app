@@ -1,3 +1,15 @@
+# v2.6.2 (Fri May 21 2021)
+
+#### 🐛 Bug Fix
+
+- Detect invalid Social Login provider input in the interactive flow [#49](https://github.com/magiclabs/create-magic-app/pull/49) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.6.1 (Thu May 20 2021)
 
 #### 🐛 Bug Fix
