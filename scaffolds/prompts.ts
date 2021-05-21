@@ -96,6 +96,15 @@ export namespace SocialLoginsPrompt {
     name: 'socialLogin',
     message: 'Choose your social login providers:',
     choices: providers,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: This is a bug in the typing from `zombi`. `validate` should be an acceptable field...
+    validate: (value: SocialLoginProvider[]) => {
+      if (!value.length) {
+        return `Please select at least one social login provider.`;
+      }
+
+      return true;
+    },
   };
 
   export const flags: Flags<Data> = {
@@ -104,7 +113,7 @@ export namespace SocialLoginsPrompt {
       description: `The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: ${providers.join(
         ', ',
       )})`,
-      validate: (value) => {
+      validate: (value: SocialLoginProvider[]) => {
         const invalid: string[] = [];
 
         value.forEach((i) => {
