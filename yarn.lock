@@ -3974,10 +3974,10 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-zombi@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.1.3.tgz#71632694c8608cefa31363bba9b8bc00335b51db"
-  integrity sha512-n+/QwKipODQq/KWDjuSyfNFOk9CJUg+x49WjjXpqRy8EUl5zrp5Bc60Ed5i+DJotMeytUHHhDcS/vF7e36Xe3w==
+zombi@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.1.4.tgz#c3159ee711ebe0fe24768053d488c798558b58ed"
+  integrity sha512-S6gZozCsWA9Gl6hGtwgAfwQjF6rXz2WdVVfcqEhvt1QMrQ/3qbAvvbzffBziOt/4YKhrJTfOQTZClhve2NMYFQ==
   dependencies:
     binaryextensions "^4.15.0"
     chalk "^2.4.1"
