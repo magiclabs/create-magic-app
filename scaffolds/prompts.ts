@@ -110,7 +110,7 @@ export namespace SocialLoginsPrompt {
       description: `The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: ${providers.join(
         ', ',
       )})`,
-      validate: (value: string[]) => {
+      validate: (value) => {
         const invalid: string[] = [];
 
         value.forEach((i) => {
