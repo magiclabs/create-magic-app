@@ -1,3 +1,15 @@
+# v2.6.3 (Mon May 24 2021)
+
+#### 🐛 Bug Fix
+
+- Update `zombi` dependency and re-compile NCC dependencies [#50](https://github.com/magiclabs/create-magic-app/pull/50) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.6.2 (Fri May 21 2021)
 
 #### 🐛 Bug Fix
