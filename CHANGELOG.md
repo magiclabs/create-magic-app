@@ -1,3 +1,15 @@
+# v2.7.1 (Tue May 25 2021)
+
+#### 🐛 Bug Fix
+
+- * change success page link from referral to quickstart [#52](https://github.com/magiclabs/create-magic-app/pull/52) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.7.0 (Tue May 25 2021)
 
 #### 🚀 Enhancement
