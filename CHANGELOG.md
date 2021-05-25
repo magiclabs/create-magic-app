@@ -1,3 +1,15 @@
+# v2.7.0 (Tue May 25 2021)
+
+#### 🚀 Enhancement
+
+- use redirection in quickstart template [#51](https://github.com/magiclabs/create-magic-app/pull/51) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.6.3 (Mon May 24 2021)
 
 #### 🐛 Bug Fix
