@@ -1,3 +1,39 @@
+# v2.6.3 (Mon May 24 2021)
+
+#### 🐛 Bug Fix
+
+- Update `zombi` dependency and re-compile NCC dependencies [#50](https://github.com/magiclabs/create-magic-app/pull/50) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
+# v2.6.2 (Fri May 21 2021)
+
+#### 🐛 Bug Fix
+
+- Detect invalid Social Login provider input in the interactive flow [#49](https://github.com/magiclabs/create-magic-app/pull/49) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
+# v2.6.1 (Thu May 20 2021)
+
+#### 🐛 Bug Fix
+
+- NIT for the quickstart template [#48](https://github.com/magiclabs/create-magic-app/pull/48) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.6.0 (Wed May 19 2021)
 
 #### 🚀 Enhancement
