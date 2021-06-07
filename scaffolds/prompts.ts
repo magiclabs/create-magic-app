@@ -84,7 +84,17 @@ export namespace NpmClientPrompt {
 }
 
 export namespace SocialLoginsPrompt {
-  export const providers = ['facebook', 'google', 'apple', 'twitter', 'linkedin', 'github', 'gitlab', 'bitbucket'];
+  export const providers = [
+    'apple',
+    'bitbucket',
+    'discord',
+    'facebook',
+    'github',
+    'gitlab',
+    'google',
+    'linkedin',
+    'twitter',
+  ];
 
   export type Data = {
     socialLogin: string[];

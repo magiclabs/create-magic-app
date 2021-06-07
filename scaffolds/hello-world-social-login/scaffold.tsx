@@ -23,10 +23,16 @@ export default createScaffold<HelloWorldSocialLoginData>(
             <Template source="./src/styles.css" />
 
             {data.socialLogin.map((provider) => {
+              // In the demo app, we use the "react-social-login-buttons" NPM
+              // package to render buttons. This package does not natively
+              // support some of the providers that Magic does, so we need to
+              // add additional image assets for these providers.
+              const providersRequiringLogoTemplate = ['bitbucket', 'gitlab'];
+
               return (
                 <React.Fragment key={provider}>
                   <Template source={`./src/social-logins/${provider}.js`} />
-                  {['apple', 'bitbucket', 'gitlab'].includes(provider) && (
+                  {providersRequiringLogoTemplate.includes(provider) && (
                     <Template source={`./public/img/${provider}.svg`} />
                   )}
                 </React.Fragment>
