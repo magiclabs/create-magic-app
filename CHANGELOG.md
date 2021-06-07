@@ -1,3 +1,15 @@
+# v2.8.0 (Mon Jun 07 2021)
+
+#### 🚀 Enhancement
+
+- Add Discord OAuth to the `"hello-world-social-login"` template [#53](https://github.com/magiclabs/create-magic-app/pull/53) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.7.1 (Tue May 25 2021)
 
 #### 🐛 Bug Fix
