@@ -23,12 +23,6 @@ export const globalOptions: Flags<GlobalOptions> = {
     description: 'The base template to use. If omitted or invalid, the template will be prompted for interactively.',
   },
 
-  test: {
-    type: String,
-    alias: 't',
-    description: 'The base template to use. If omitted or invalid, the template will be prompted for interactively.',
-  },
-
   branch: {
     type: String,
     alias: 'b',

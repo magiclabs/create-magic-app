@@ -79,15 +79,7 @@ export type Flags<T extends Record<string, ValueType | null | undefined> = Recor
     : BaseFlagWithRequiredDefault<NonNullable<T[P]>>;
 };
 
-type TypedFlag<F extends Flag> = F extends BaseFlagWithRequiredDefault<infer R1>
-  ? R1
-  : F extends BaseFlag<infer R2>
-  ? R2 | undefined
-  : unknown;
-
-export type TypedFlags<F extends Flags> = {
-  [P in keyof F]: TypedFlag<F[P]>;
-};
+export type TypedFlags<F extends Flags> = F extends Flags<infer R> ? R : unknown;
 
 /**
  * Parse and validate input given by the user via CLI flags.

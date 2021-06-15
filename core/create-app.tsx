@@ -19,12 +19,28 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 
 export interface CreateMagicAppData {
+  /**
+   * The `make-magic` project branch to source templates from.
+   */
   branch: string;
+
+  /**
+   * The project name maps to a base directory
+   * created to wrap the generated code.
+   */
   projectName: string;
+
+  /**
+   * The base template to use for scaffolding your Magic-enabled application.
+   */
   template: string;
 }
 
 export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
+  /**
+   * Arbitrary data to passthrough to the template being scaffolded.
+   * This data will be made available for any template-specific variables.
+   */
   data?: {};
 }
 
