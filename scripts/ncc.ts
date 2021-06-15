@@ -92,14 +92,14 @@ async function precompileDependency(input: string) {
    * Write a LICENSE file for the dependency currently being compiled.
    */
   const writeLicense = () => {
-    const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
+    const pkgPath = path.join(__dirname, '../node_modules', pkg.name);
     const licensePath = [
-      path.join(path.dirname(pkgJsonPath), './LICENSE'),
-      path.join(path.dirname(pkgJsonPath), './LICENSE.md'),
-      path.join(path.dirname(pkgJsonPath), './LICENSE.txt'),
-      path.join(path.dirname(pkgJsonPath), './license'),
-      path.join(path.dirname(pkgJsonPath), './license.md'),
-      path.join(path.dirname(pkgJsonPath), './license.txt'),
+      path.join(pkgPath, './LICENSE'),
+      path.join(pkgPath, './LICENSE.md'),
+      path.join(pkgPath, './LICENSE.txt'),
+      path.join(pkgPath, './license'),
+      path.join(pkgPath, './license.md'),
+      path.join(pkgPath, './license.txt'),
     ].find((file) => fs.existsSync(file));
 
     if (licensePath) {
