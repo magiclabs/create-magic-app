@@ -5,7 +5,7 @@
 
 import { getAbsoluteTemplatePath, resolveToDist } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
-import { Flags, ValueType } from '../flags';
+import type { Flags, ValueType } from '../flags';
 
 /**
  * The render function for a `make-magic` scaffold.
