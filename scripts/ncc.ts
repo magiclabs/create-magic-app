@@ -125,7 +125,8 @@ async function precompileDependency(input: string) {
     write(path.join(destination, 'package.json'), data);
   };
 
-  const externals = Object.keys(require(`${pkg.name}/package.json`).peerDependencies ?? []);
+  const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
+  const externals = require(pkgJsonPath).peerDependencies ?? [];
   return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals })
     .then(postBuild)
     .catch(handleError);
