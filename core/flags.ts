@@ -107,7 +107,7 @@ export async function parseFlags<T extends Flags>(flags: T, input?: string | {})
       : input;
 
   const defaultResults = getFlagDefaults(flags);
-  const validatedResults = validateFlagInputs(flags, results);
+  const validatedResults = await validateFlagInputs(flags, results);
   const finalResults = { ...defaultResults, ...validatedResults };
 
   // If `input` is provided as an object of data, we validate that all required

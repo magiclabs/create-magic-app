@@ -25,8 +25,6 @@ function sayHello() {
 (async () => {
   const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
 
-  console.log(help);
-
   if (version) {
     const { version: pkgVersion } = JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8'));
     console.log(pkgVersion);

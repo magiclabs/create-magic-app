@@ -132,7 +132,7 @@ async function precompileDependency(input: string) {
     write(path.join(destination, 'package.json'), data);
   };
 
-  const externals = getPackageJson().peerDependencies ?? [];
+  const externals = Object.keys(getPackageJson().peerDependencies ?? {});
   return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals })
     .then(postBuild)
     .catch(handleError);
