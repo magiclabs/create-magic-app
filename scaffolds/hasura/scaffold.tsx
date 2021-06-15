@@ -21,7 +21,6 @@ export default createScaffold<HasuraData>(
   (props) => (
     <Zombi
       {...props}
-      data={{ ...props.data, jwtSecret: props.data.jwtSecret ?? generateJwtSecret() }}
       prompts={mergePrompts(
         PublishableApiKeyPrompt.questions,
         SecretApiKeyPrompt.questions,
@@ -57,6 +56,7 @@ export default createScaffold<HasuraData>(
       jwtSecret: {
         type: String,
         description: 'The shared JWT secret between your app and Hasura.',
+        default: generateJwtSecret,
       },
     },
   },

@@ -16,7 +16,7 @@ export namespace StripePublishableApiKeyPrompt {
     message: 'Enter your Stripe publishable API key:',
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     stripePublishableApiKey: {
       type: String,
       validate,
@@ -40,7 +40,7 @@ export namespace StripeSecretApiKeyPrompt {
     message: 'Enter your Stripe secret API key:',
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     stripeSecretApiKey: {
       type: String,
       validate,

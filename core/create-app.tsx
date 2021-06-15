@@ -24,10 +24,15 @@ export interface CreateMagicAppData {
   template: string;
 }
 
+export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
+  data?: {};
+}
+
 /**
- * Generates and runs a project scaffold using `initialData`.
+ * Generates and runs a project scaffold.
  */
-export async function createApp(initialData: Partial<CreateMagicAppData>) {
+export async function createApp(config: CreateMagicAppConfig) {
+  const isStaticFlow = !!config.data;
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs
@@ -41,10 +46,10 @@ export async function createApp(initialData: Partial<CreateMagicAppData>) {
       };
     });
 
-  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(initialData?.template as any);
+  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
-  if (initialData?.template && !isChosenTemplateValid) {
-    printWarning(chalk`'{bold ${initialData.template}}' does not match any templates.`);
+  if (config?.template && !isChosenTemplateValid) {
+    printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
@@ -54,9 +59,9 @@ export async function createApp(initialData: Partial<CreateMagicAppData>) {
       templateRoot={false}
       destinationRoot={destinationRoot}
       data={filterNilValues({
-        branch: initialData?.branch ?? 'master',
-        projectName: initialData?.projectName,
-        template: isChosenTemplateValid ? initialData?.template : undefined,
+        branch: config?.branch ?? 'master',
+        projectName: config?.projectName,
+        template: isChosenTemplateValid ? config?.template : undefined,
       })}
       prompts={[
         {
@@ -89,26 +94,39 @@ export async function createApp(initialData: Partial<CreateMagicAppData>) {
           // TODO: Handle case where repo info is not found
         }
 
-        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags);
-        const renderTemplate = getScaffoldRender(filterNilValues({ ...initialData, ...templateData, ...data }));
+        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
+        const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
 
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
   );
 
-  const { data } = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
-  const { projectName: chosenProjectName, template: chosenTemplate } = data['create-magic-app'];
+  const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
+  const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
 
   console.log(); // Aesthetics!
 
-  // Move the current working directory to the rendered scaffold
+  // Save the current working directory and
+  // change directories into the rendered scaffold.
+  const cwd = process.cwd();
   process.chdir(chosenProjectName);
 
-  // Do post-render actions
-  const baseDataMixedWithTemplateData = { ...data['create-magic-app'], ...data[chosenTemplate] };
+  // Do post-render actions...
+  const baseDataMixedWithTemplateData = {
+    ...scaffoldResult.data['create-magic-app'],
+    ...scaffoldResult.data[chosenTemplate],
+  };
+
   await executePostRenderAction(baseDataMixedWithTemplateData, 'installDependenciesCommand');
-  await executePostRenderAction(baseDataMixedWithTemplateData, 'startCommand');
+  if (!isStaticFlow) {
+    await executePostRenderAction(baseDataMixedWithTemplateData, 'startCommand');
+  }
+
+  // Return to the working directory from before "post-render actions" executed.
+  process.chdir(cwd);
+
+  return scaffoldResult;
 }
 
 /**
@@ -120,9 +138,9 @@ async function executePostRenderAction(
   cmdType: 'installDependenciesCommand' | 'startCommand',
 ) {
   const getCmd = getScaffoldDefinition(data.template)[cmdType];
-  const cmd = typeof getCmd === 'function' ? getCmd(data) : getCmd;
+  const [cmd, ...args] = typeof getCmd === 'function' ? getCmd(data) : getCmd ?? [];
 
   if (cmd) {
-    await execa.command(cmd, { stdio: 'inherit' });
+    await execa(cmd, args, { stdio: 'inherit' });
   }
 }

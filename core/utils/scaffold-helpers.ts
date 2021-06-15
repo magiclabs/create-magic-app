@@ -37,18 +37,18 @@ type ScaffoldMetadata<T extends Record<string, ValueType> = Record<string, any>>
    * Provides an optional shell command to install dependencies
    * required by the scaffolded project.
    */
-  installDependenciesCommand?: string | ((data: T & CreateMagicAppData) => string);
+  installDependenciesCommand?: string[] | ((data: T & CreateMagicAppData) => string[]);
 
   /**
    * Provides an optional shell command to start the scaffolded project.
    */
-  startCommand?: string | ((data: T & CreateMagicAppData) => string);
+  startCommand?: string[] | ((data: T & CreateMagicAppData) => string[]);
 
   /**
    * Provides metadata about CLI flags that may be used
    * to input template data for this scaffold.
    */
-  flags: Flags<T>;
+  flags: Flags<Partial<T>>;
 };
 
 export type ScaffoldDefinition<T extends Record<string, ValueType> = Record<string, any>> = ScaffoldRender<T> &

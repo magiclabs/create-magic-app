@@ -6,11 +6,8 @@
   "license": "MIT",
   "author": "Magic Labs <team@magic.link>",
   "main": "./dist/core/lib.js",
-  "bin": "./bin.js",
-  "files": [
-    "bin.js",
-    "dist"
-  ],
+  "bin": "./dist/core/cli.js",
+  "files": ["dist"],
   "scripts": {
     "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",

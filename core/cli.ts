@@ -1,13 +1,15 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import chalk from 'compiled/chalk';
 import CFonts from 'compiled/cfonts';
 import { ZombiError, ZombiErrorCode } from 'compiled/zombi';
-import { createApp } from 'core/create-app';
-import { printHelp } from 'core/help-text';
-import { resolveToRoot } from 'core/utils/path-helpers';
-import { CreateMagicAppError } from 'core/utils/errors-warnings';
-import { parseFlags } from 'core/flags';
-import { globalOptions } from 'core/global-options';
+import { createApp } from './create-app';
+import { printHelp } from './help-text';
+import { resolveToRoot } from './utils/path-helpers';
+import { CreateMagicAppError } from './utils/errors-warnings';
+import { parseFlags } from './flags';
+import { globalOptions } from './global-options';
 
 function sayHello() {
   CFonts.say('Create|Magic|App', {
@@ -21,7 +23,9 @@ function sayHello() {
 }
 
 (async () => {
-  const { version, help, projectName, template, branch = 'master' } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
+
+  console.log(help);
 
   if (version) {
     const { version: pkgVersion } = JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8'));

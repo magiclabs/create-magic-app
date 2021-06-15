@@ -11,7 +11,9 @@ import ncc from '@vercel/ncc';
 import parse from 'parse-package-name';
 import bytes from 'bytes';
 
+console.log();
 console.log(`Pre-compiling dependencies...`);
+console.log();
 
 const baseDir = path.resolve(__dirname, '..', 'compiled');
 
@@ -23,12 +25,20 @@ for (const dir of cleanups) {
 
 // Pre-compile certain node_modules defined in `compiled/config.json`
 const pkgs = JSON.parse(fs.readFileSync(path.join(baseDir, 'config.json')).toString());
-Promise.all(
+Promise.all<number>(
   pkgs.map(async (pkg) => {
     await precompileDependency(pkg);
-    console.log(`✓ ${pkg} (${bytes(await getDirectorySize(path.join(baseDir, pkg)))})`);
+    const footprint = await getDirectorySize(path.join(baseDir, pkg));
+    console.log(`✓ ${pkg} (${bytes(footprint)})`);
+    return footprint;
   }),
-).catch(handleError);
+)
+  .then((result) => {
+    console.log();
+    console.log(`Total footprint: ${bytes(result.reduce((acc, next) => acc + next, 0))}`);
+    console.log();
+  })
+  .catch(handleError);
 
 /**
  * Get the size of a directory's contents, recursively.

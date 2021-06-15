@@ -24,7 +24,6 @@ export default createScaffold<NuxtData>(
       <Template source="./nuxt.config.js" />
       <Template source="./package.json" />
       <Template source="./README.md" />
-      <Template source="./yarn.lock" />
     </Zombi>
   ),
 

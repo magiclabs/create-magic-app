@@ -1,8 +1,8 @@
-import { TypedFlags } from 'core/flags';
-import { globalOptions } from 'core/global-options';
+import { createApp, CreateMagicAppConfig } from './create-app';
 
-export type MakeMagicOptions = Omit<Partial<TypedFlags<typeof globalOptions>>, 'version' | 'help'> & { data?: {} };
+export default async function makeMagic(options: CreateMagicAppConfig = {}) {
+  const { projectName = 'my-app', template = 'hello-world', branch = 'master', data = {} } = options;
+  await createApp({ projectName, template, branch, data });
+}
 
-export default function makeMagic(options?: MakeMagicOptions) {}
-
-makeMagic({ template: '', data: { hello: 'world' } });
+makeMagic({ projectName: 'my-app', template: 'hello-world', branch: 'master' });
