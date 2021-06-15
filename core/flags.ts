@@ -57,7 +57,7 @@ export type Flags<T extends Record<string, ValueType> = Record<string, any>> = {
 
 type TypedFlag<F extends Flag> = F extends Flag<infer R> ? R : unknown;
 
-type TypedFlags<F extends Flags> = {
+export type TypedFlags<F extends Flags> = {
   [P in keyof F]: TypedFlag<F[P]> | undefined;
 };
 

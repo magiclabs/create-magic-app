@@ -3,6 +3,7 @@
 
 import chalk from 'compiled/chalk';
 import decamelizeKeys from 'compiled/decamelize-keys';
+import wrapAnsi from 'compiled/wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
 import { getScaffoldDefinition } from './utils/scaffold-helpers';
@@ -129,7 +130,7 @@ function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmoun
     // Insert a line break at the `maxWidth` position
     // (the word is too long to wrap)
     if (!foundWhitespace) {
-      res += [str.slice(0, maxWidth), '\n'].join('');
+      res += [wrapAnsi(str, maxWidth), '\n'].join('');
       str = str.slice(maxWidth);
     }
   }

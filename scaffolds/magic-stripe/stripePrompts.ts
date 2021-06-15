@@ -1,5 +1,5 @@
 import type { Questions } from 'compiled/zombi';
-import type { Flags } from 'cli/flags';
+import type { Flags } from 'core/flags';
 
 export namespace StripePublishableApiKeyPrompt {
   export type Data = {

@@ -14,16 +14,16 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "cli/*": ["cli/*"],
+      "core/*": ["core/*"],
       "scaffolds/*": ["scaffolds/*"],
       "compiled/*": ["compiled/*", "node_modules/@types/*", "node_modules/*"],
 
-      // Special case for React because it's peer dependency of `zombi`
+      // Special case for React because it's a peer dependency of `zombi`
       "react": ["compiled/react", "node_modules/@types/react"],
       "react-is": ["compiled/react-is", "node_modules/@types/react-is"],
     },
   },
 
-  "include": ["cli", "scaffolds", "compiled"],
+  "include": ["core", "scaffolds", "compiled"],
   "exclude": ["scaffolds/*/template"],
 }

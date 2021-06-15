@@ -1,0 +1,14 @@
+[
+  "cfonts",
+  "chalk",
+  "decamelize",
+  "decamelize-keys",
+  "execa",
+  "got",
+  "react",
+  "react-is",
+  "tar",
+  "wrap-ansi",
+  "yargs-parser",
+  "zombi"
+]

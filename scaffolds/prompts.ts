@@ -1,6 +1,6 @@
 import type { Questions } from 'compiled/zombi';
-import type { Flags } from 'cli/flags';
-import type { ValuesOf } from 'cli/types/utility-types';
+import type { Flags } from 'core/flags';
+import type { ValuesOf } from 'core/types/utility-types';
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {

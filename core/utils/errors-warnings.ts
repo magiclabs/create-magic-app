@@ -13,7 +13,7 @@ export enum CreateMagicAppErrorCode {
  */
 export class CreateMagicAppError<Code extends CreateMagicAppErrorCode = CreateMagicAppErrorCode> extends Error {
   constructor(public readonly code: Code, message?: string) {
-    super(`${chalk.red('Error:')} ${message}`);
+    super(chalk`{red Error:} ${message}`);
   }
 }
 
@@ -21,7 +21,7 @@ export class CreateMagicAppError<Code extends CreateMagicAppErrorCode = CreateMa
  * Prints a prefixed warning to the console.
  */
 export function printWarning(message?: string) {
-  console.warn(`${chalk.yellow('Warning:')} ${message}`);
+  console.warn(chalk`{yellow Warning:} ${message}`);
 }
 
 /**

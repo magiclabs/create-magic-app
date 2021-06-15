@@ -44,7 +44,7 @@ export async function createApp(initialData: Partial<CreateMagicAppData>) {
   const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(initialData?.template as any);
 
   if (initialData?.template && !isChosenTemplateValid) {
-    printWarning(`'${chalk.bold(initialData.template)}' does not match any templates.`);
+    printWarning(chalk`'{bold ${initialData.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
