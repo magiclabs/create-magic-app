@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import fs from 'fs';
 import chalk from 'compiled/chalk';
 import CFonts from 'compiled/cfonts';
