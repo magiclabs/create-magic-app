@@ -89,7 +89,7 @@ async function precompileDependency(input: string) {
   };
 
   /**
-   * Write a LICENSE file for the dependency.
+   * Write a LICENSE file for the dependency currently being compiled.
    */
   const writeLicense = () => {
     const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
@@ -108,11 +108,18 @@ async function precompileDependency(input: string) {
   };
 
   /**
-   * Write a minimal `package.json` file for the dependency.
+   * Get the `package.json` file for the dependency currently being compiled.
+   */
+  const getPackageJson = () => {
+    const pkgJsonPath = path.join(__dirname, '../node_modules', pkg.name, 'package.json');
+    return JSON.parse(fs.readFileSync(pkgJsonPath).toString());
+  };
+
+  /**
+   * Write a minimal `package.json` file for the dependency currently being compiled.
    */
   const writePackageJson = () => {
-    const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
-    const { name, version, author, license } = require(pkgJsonPath);
+    const { name, version, author, license } = getPackageJson();
 
     const data = `${JSON.stringify({
       name,
@@ -125,8 +132,7 @@ async function precompileDependency(input: string) {
     write(path.join(destination, 'package.json'), data);
   };
 
-  const pkgJsonPath = require.resolve(`${pkg.name}/package.json`);
-  const externals = require(pkgJsonPath).peerDependencies ?? [];
+  const externals = getPackageJson().peerDependencies ?? [];
   return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals })
     .then(postBuild)
     .catch(handleError);
