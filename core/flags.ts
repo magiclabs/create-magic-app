@@ -1,5 +1,5 @@
-import decamelize from 'compiled/decamelize';
-import parseArgs from 'compiled/yargs-parser';
+import decamelize from 'decamelize';
+import parseArgs from 'yargs-parser';
 import { createValidationError } from './utils/errors-warnings';
 import { filterNilValues } from './utils/filter-nil-values';
 

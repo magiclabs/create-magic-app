@@ -10,6 +10,8 @@ import fs from 'fs';
 import ncc from '@vercel/ncc';
 import parse from 'parse-package-name';
 import bytes from 'bytes';
+import JSON5 from 'json5';
+import JSONstringifyCompact from 'json-stringify-pretty-compact';
 
 console.log();
 console.log(`Pre-compiling dependencies...`);
@@ -23,8 +25,8 @@ for (const dir of cleanups) {
   fs.rmdirSync(path.join(baseDir, dir), { recursive: true });
 }
 
-// Pre-compile certain node_modules defined in `compiled/config.json`
-const pkgs = JSON.parse(fs.readFileSync(path.join(baseDir, 'config.json')).toString('utf8'));
+// Pre-compile certain node_modules defined in `compiled/config.jsonc`
+const pkgs = JSON5.parse(fs.readFileSync(path.join(baseDir, 'config.jsonc')).toString('utf-8'));
 Promise.all<number>(
   pkgs.map(async (pkg) => {
     await precompileDependency(pkg);
@@ -37,6 +39,8 @@ Promise.all<number>(
     console.log();
     console.log(`Total footprint: ${bytes(result.reduce((acc, next) => acc + next, 0))}`);
     console.log();
+
+    updateTSConfigPaths();
   })
   .catch(handleError);
 
@@ -112,7 +116,7 @@ async function precompileDependency(input: string) {
    */
   const getPackageJson = () => {
     const pkgJsonPath = path.join(__dirname, '../node_modules', pkg.name, 'package.json');
-    return JSON.parse(fs.readFileSync(pkgJsonPath).toString('utf8'));
+    return JSON.parse(fs.readFileSync(pkgJsonPath).toString('utf-8'));
   };
 
   /**
@@ -136,6 +140,26 @@ async function precompileDependency(input: string) {
   return ncc(require.resolve(pkg.name), { cache: false, minify: true, quiet: true, target: 'es6', externals })
     .then(postBuild)
     .catch(handleError);
+}
+
+function updateTSConfigPaths() {
+  const pathToTSConfig = path.join(__dirname, '..', 'tsconfig.json');
+  // TSConfig depends on JSON5
+  const tsconfig = JSON5.parse(fs.readFileSync(pathToTSConfig).toString('utf-8'));
+
+  tsconfig.compilerOptions.paths = {
+    'core/*': ['core/*'],
+    'scaffolds/*': ['scaffolds/*'],
+    'compiled/*': ['compiled/*', 'node_modules/@types/*', 'node_modules/*'],
+  };
+
+  for (const pkg of pkgs) {
+    tsconfig.compilerOptions.paths[pkg] = [`compiled/${pkg}`, `node_modules/@types/${pkg}`, `node_modules/${pkg}`];
+  }
+
+  const data = JSONstringifyCompact(tsconfig, { maxLength: 120 });
+
+  fs.writeFileSync(pathToTSConfig, data, { encoding: 'utf-8' });
 }
 
 /**

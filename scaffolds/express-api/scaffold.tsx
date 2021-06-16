@@ -1,5 +1,5 @@
 import React from 'react';
-import { Template, Zombi } from 'compiled/zombi';
+import { Template, Zombi } from 'zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
 import { mergePrompts } from 'core/utils/merge-prompts';
 import { NpmClientPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';

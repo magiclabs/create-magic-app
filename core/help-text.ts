@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 
-import chalk from 'compiled/chalk';
-import decamelizeKeys from 'compiled/decamelize-keys';
-import wrapAnsi from 'compiled/wrap-ansi';
+import chalk from 'chalk';
+import decamelizeKeys from 'decamelize-keys';
+import wrapAnsi from 'wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
 import { getScaffoldDefinition } from './utils/scaffold-helpers';

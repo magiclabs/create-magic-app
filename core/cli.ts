@@ -1,7 +1,7 @@
 import fs from 'fs';
-import chalk from 'compiled/chalk';
-import CFonts from 'compiled/cfonts';
-import { ZombiError, ZombiErrorCode } from 'compiled/zombi';
+import chalk from 'chalk';
+import CFonts from 'cfonts';
+import { ZombiError, ZombiErrorCode } from 'zombi';
 import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';

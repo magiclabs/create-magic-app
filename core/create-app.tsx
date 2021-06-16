@@ -4,11 +4,11 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
-import { Zombi, Directory, scaffold } from 'compiled/zombi';
+import { Zombi, Directory, scaffold } from 'zombi';
 import fs from 'fs';
 import { URL } from 'url';
-import execa from 'compiled/execa';
-import chalk from 'compiled/chalk';
+import execa from 'execa';
+import chalk from 'chalk';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';

@@ -1,4 +1,4 @@
-import type { Questions } from 'compiled/zombi';
+import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 
 export namespace StripePublishableApiKeyPrompt {

@@ -1,4 +1,4 @@
-import chalk from 'compiled/chalk';
+import chalk from 'chalk';
 import { BINARY } from './config';
 import { CreateMagicAppData } from './create-app';
 import { Flags } from './flags';

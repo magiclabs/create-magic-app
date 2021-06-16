@@ -1,4 +1,4 @@
-import chalk from 'compiled/chalk';
+import chalk from 'chalk';
 
 /**
  * Enum of possible error codes associated
