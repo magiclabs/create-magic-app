@@ -17,7 +17,6 @@
       "core/*": ["core/*"],
       "scaffolds/*": ["scaffolds/*"],
       "compiled/*": ["compiled/*", "node_modules/@types/*", "node_modules/*"],
-      "cfonts": ["compiled/cfonts", "node_modules/@types/cfonts", "node_modules/cfonts"],
       "chalk": ["compiled/chalk", "node_modules/@types/chalk", "node_modules/chalk"],
       "decamelize": ["compiled/decamelize", "node_modules/@types/decamelize", "node_modules/decamelize"],
       "execa": ["compiled/execa", "node_modules/@types/execa", "node_modules/execa"],
