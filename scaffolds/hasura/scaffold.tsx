@@ -1,7 +1,7 @@
 import React from 'react';
-import { Template, Zombi } from 'compiled/zombi';
-import { createScaffold } from 'cli/utils/scaffold-helpers';
-import { mergePrompts } from 'cli/utils/merge-prompts';
+import { Template, Zombi } from 'zombi';
+import { createScaffold } from 'core/utils/scaffold-helpers';
+import { mergePrompts } from 'core/utils/merge-prompts';
 import { NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
 import crypto from 'crypto';
 
@@ -21,7 +21,6 @@ export default createScaffold<HasuraData>(
   (props) => (
     <Zombi
       {...props}
-      data={{ ...props.data, jwtSecret: props.data.jwtSecret ?? generateJwtSecret() }}
       prompts={mergePrompts(
         PublishableApiKeyPrompt.questions,
         SecretApiKeyPrompt.questions,
@@ -57,6 +56,7 @@ export default createScaffold<HasuraData>(
       jwtSecret: {
         type: String,
         description: 'The shared JWT secret between your app and Hasura.',
+        default: generateJwtSecret,
       },
     },
   },

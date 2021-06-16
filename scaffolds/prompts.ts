@@ -1,6 +1,6 @@
-import type { Questions } from 'compiled/zombi';
-import type { Flags } from 'cli/flags';
-import type { ValuesOf } from 'cli/types/utility-types';
+import type { Questions } from 'zombi';
+import type { Flags } from 'core/flags';
+import type { ValuesOf } from 'core/types/utility-types';
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {
@@ -17,7 +17,7 @@ export namespace PublishableApiKeyPrompt {
     message: 'Enter your Magic publishable API key:',
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     publishableApiKey: {
       type: String,
       validate,
@@ -41,7 +41,7 @@ export namespace SecretApiKeyPrompt {
     message: 'Enter your Magic secret API key:',
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     secretApiKey: {
       type: String,
       validate,
@@ -64,7 +64,7 @@ export namespace NpmClientPrompt {
     choices: clients,
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     npmClient: {
       type: String,
       validate: (value: string) => (clients.includes(value) ? true : `\`${value}\` is not a valid NPM client.`),
@@ -73,12 +73,12 @@ export namespace NpmClientPrompt {
   };
 
   export function getInstallCommand(data: Data) {
-    return data.npmClient === 'npm' ? 'npm install' : 'yarn install';
+    return data.npmClient === 'npm' ? ['npm', 'install'] : ['yarn', 'install'];
   }
 
   export function getStartCommand(packageJsonScript: string) {
     return (data: Data) => {
-      return data.npmClient === 'npm' ? `npm run ${packageJsonScript}` : `yarn ${packageJsonScript}`;
+      return data.npmClient === 'npm' ? ['npm', 'run', packageJsonScript] : ['yarn', packageJsonScript];
     };
   }
 }
@@ -114,7 +114,7 @@ export namespace SocialLoginsPrompt {
     },
   };
 
-  export const flags: Flags<Data> = {
+  export const flags: Flags<Partial<Data>> = {
     socialLogin: {
       type: [String],
       description: `The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: ${providers.join(

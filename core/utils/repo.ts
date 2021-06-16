@@ -8,8 +8,8 @@
  *   https://github.com/vercel/next.js/blob/master/packages/create-next-app/helpers/examples.ts
  */
 
-import got from 'compiled/got';
-import tar from 'compiled/tar';
+import got from 'got';
+import tar from 'tar';
 import { Stream } from 'stream';
 import { promisify } from 'util';
 import { URL } from 'url';
