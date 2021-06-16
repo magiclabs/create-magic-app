@@ -132,20 +132,10 @@ function getDefaultArgLabel(flag: Flag) {
 }
 
 /**
- * Wraps the source `str` at `maxWidth`, with leading whitespace for every line
- * after the first. Based on a very helpful StackOverflow answer by Ross Rogers.
- *
- * @see https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+ * Wraps the source `str` at `maxWidth`,
+ * with leading whitespace for every line after the first.
  */
 function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmount: number) {
   const foo = wrapAnsi(str, maxWidth - leadingWhitespaceAmount);
   return foo.split('\n').join(`\n${' '.repeat(leadingWhitespaceAmount)}`);
-}
-
-/**
- * @see https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
- */
-function testWhiteSpace(x: string) {
-  const white = new RegExp(/^\s$/);
-  return white.test(x.charAt(0));
 }
