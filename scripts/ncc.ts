@@ -24,7 +24,7 @@ for (const dir of cleanups) {
 }
 
 // Pre-compile certain node_modules defined in `compiled/config.json`
-const pkgs = JSON.parse(fs.readFileSync(path.join(baseDir, 'config.json')).toString());
+const pkgs = JSON.parse(fs.readFileSync(path.join(baseDir, 'config.json')).toString('utf8'));
 Promise.all<number>(
   pkgs.map(async (pkg) => {
     await precompileDependency(pkg);
@@ -112,7 +112,7 @@ async function precompileDependency(input: string) {
    */
   const getPackageJson = () => {
     const pkgJsonPath = path.join(__dirname, '../node_modules', pkg.name, 'package.json');
-    return JSON.parse(fs.readFileSync(pkgJsonPath).toString());
+    return JSON.parse(fs.readFileSync(pkgJsonPath).toString('utf8'));
   };
 
   /**

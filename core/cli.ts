@@ -18,14 +18,15 @@ function sayHello() {
     gradient: ['#6851ff', '#a796ff'],
     transitionGradient: true,
   });
+
+  console.log(chalk` {dim v${getMakeMagicVersion()}}\n\n`);
 }
 
 (async () => {
   const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
 
   if (version) {
-    const { version: pkgVersion } = JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8'));
-    console.log(pkgVersion);
+    console.log(getMakeMagicVersion());
     process.exit(0);
   }
 
@@ -54,3 +55,7 @@ function sayHello() {
   console.error(err);
   process.exit(1);
 });
+
+function getMakeMagicVersion() {
+  return JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8')).version;
+}
