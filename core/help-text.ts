@@ -26,7 +26,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
   helpSections.push(
     createHelpSection({
       heading: styled.Usage,
-      content: `  ${styled.sh} ${styled.bin} [...options]`,
+      content: `  ${styled.sh} ${styled.bin} [options]`,
     }),
   );
 
@@ -36,7 +36,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
       heading: styled.Options,
       content: createOptionsTable({
         ...globalOptions,
-        '[...]': `Additional CLI flags are given as data to the template. Any data required by the template that's provided as CLI flags will not be prompted for interactively.`,
+        '[...]': chalk`Additional CLI flags are given as data to the chosen template. Data provided as CLI flags will {italic not be prompted for interactively.}`,
       }),
     }),
   );
@@ -111,20 +111,18 @@ function createOptionsTable(flags: Record<string, string | Flag>) {
  */
 function getDefaultArgLabel(flag: Flag) {
   const type = Array.isArray(flag.default) ? typeof flag.default[0] : typeof flag.default;
-  const value = Array.isArray(flag.default) ? `<${flag.default.join(',')}>` : flag.default;
+  const value = Array.isArray(flag.default)
+    ? `[${(flag.default as any).map(JSON.stringify).join(', ')}]`
+    : JSON.stringify(flag.default);
 
   switch (type) {
     case 'string':
-      return chalk` {gray [default: {magenta "${value}"}]}`;
-
     case 'number':
-      return chalk` {gray [default: {cyan ${value}}]}`;
-
     case 'boolean':
-      return chalk` {gray [default: ${value ? chalk`{green ${value}}` : chalk`{red ${value}}`}]}`;
+      return chalk` {dim Default: {yellow ${value}}}`;
 
     case 'function':
-      return chalk` {gray [default: {blue auto-generated at runtime}]}`;
+      return chalk` {dim Default: {yellow.italic auto-generated at runtime}}`;
 
     default:
       return '';
