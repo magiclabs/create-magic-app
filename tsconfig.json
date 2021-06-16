@@ -20,11 +20,6 @@
       "cfonts": ["compiled/cfonts", "node_modules/@types/cfonts", "node_modules/cfonts"],
       "chalk": ["compiled/chalk", "node_modules/@types/chalk", "node_modules/chalk"],
       "decamelize": ["compiled/decamelize", "node_modules/@types/decamelize", "node_modules/decamelize"],
-      "decamelize-keys": [
-        "compiled/decamelize-keys",
-        "node_modules/@types/decamelize-keys",
-        "node_modules/decamelize-keys"
-      ],
       "execa": ["compiled/execa", "node_modules/@types/execa", "node_modules/execa"],
       "got": ["compiled/got", "node_modules/@types/got", "node_modules/got"],
       "react": ["compiled/react", "node_modules/@types/react", "node_modules/react"],

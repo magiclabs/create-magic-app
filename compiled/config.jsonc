@@ -6,7 +6,6 @@
   "cfonts",
   "chalk",
   "decamelize",
-  "decamelize-keys",
   "execa",
   "got",
   "react",

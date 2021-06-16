@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 
 import chalk from 'chalk';
-import decamelizeKeys from 'decamelize-keys';
+import decamelize from 'decamelize';
 import wrapAnsi from 'wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
@@ -83,18 +83,18 @@ function createHelpSection(config: { heading: string; content: string }) {
 function createOptionsTable(flags: Record<string, string | Flag>) {
   const normalizeArg = (arg: string, config?: Flag) => {
     if (arg.startsWith('-') || arg.startsWith('[')) return arg;
-    return config?.alias ? `--${arg}, -${config?.alias}` : `--${arg}`;
+    return config?.alias
+      ? `--${decamelize(arg, { separator: '-' })}, -${config?.alias}`
+      : `--${decamelize(arg, { separator: '-' })}`;
   };
 
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
-  const rows: Array<[string, string]> = Object.entries(decamelizeKeys(flags, '-') as Record<string, string | Flag>).map(
-    ([arg, config]) => {
-      const configStr = typeof config === 'string' ? config : config.description + getDefaultArgLabel(config);
+  const rows: Array<[string, string]> = Object.entries(flags).map(([arg, config]) => {
+    const configStr = typeof config === 'string' ? config : config.description + getDefaultArgLabel(config);
 
-      return [`  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`, configStr];
-    },
-  );
+    return [`  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`, configStr];
+  });
 
   const gap = 3; // Space between args column & description text
   const maxWidth = 80 - gap;
