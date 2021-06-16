@@ -134,6 +134,6 @@ function getDefaultArgLabel(flag: Flag) {
  * with leading whitespace for every line after the first.
  */
 function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmount: number) {
-  const foo = wrapAnsi(str, maxWidth - leadingWhitespaceAmount);
-  return foo.split('\n').join(`\n${' '.repeat(leadingWhitespaceAmount)}`);
+  const result = wrapAnsi(str, maxWidth - leadingWhitespaceAmount);
+  return result.split('\n').join(`\n${' '.repeat(leadingWhitespaceAmount)}`);
 }
