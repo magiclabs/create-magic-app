@@ -9,7 +9,7 @@ import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 
 function sayHello() {
-  console.log(chalk`
+  console.log(chalk`\n
  {rgb(92,101,246) █▀▀ █}{rgb(127,103,246) ▀█ █▀▀} {rgb(133,139,247) ▄▀█ ▀█▀} {rgb(168,140,248) █▀▀}
  {rgb(92,101,246) █▄▄ █}{rgb(127,103,246) ▀▄ ██▄} {rgb(133,139,247) █▀█  █ } {rgb(168,140,248) ██▄}
 
@@ -20,7 +20,7 @@ function sayHello() {
  {rgb(92,101,246) █▀█ █}{rgb(127,103,246) ▀▀ █▀▀}
 `);
 
-  console.log(chalk` {dim v${getMakeMagicVersion()}}\n\n`);
+  console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
 }
 
 (async () => {
