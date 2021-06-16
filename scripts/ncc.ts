@@ -159,7 +159,7 @@ function updateTSConfigPaths() {
 
   const data = JSONstringifyCompact(tsconfig, { maxLength: 120 });
 
-  fs.writeFileSync(pathToTSConfig, data, { encoding: 'utf-8' });
+  fs.writeFileSync(pathToTSConfig, `${data}\n`, { encoding: 'utf-8' });
 }
 
 /**
