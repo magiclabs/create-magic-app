@@ -4,8 +4,8 @@ import { CreateMagicAppData } from './create-app';
 import { Flags } from './flags';
 
 export interface GlobalOptions extends Partial<CreateMagicAppData> {
-  help: boolean;
-  version: boolean;
+  help?: boolean;
+  version?: boolean;
   [key: string]: any;
 }
 
@@ -26,7 +26,7 @@ export const globalOptions: Flags<GlobalOptions> = {
   branch: {
     type: String,
     alias: 'b',
-    description: `The remote Git branch of \`${BINARY}\` from which to source templates. [default: "master"]`,
+    description: `The remote Git branch of \`${BINARY}\` from which to source templates.`,
     default: 'master',
   },
 
@@ -34,13 +34,11 @@ export const globalOptions: Flags<GlobalOptions> = {
     type: Boolean,
     alias: 'h',
     description: chalk`Show help (you're lookin' at it). {bold If --template or -t is provided, template-specific documentation will be printed, too.}`,
-    default: false,
   },
 
   version: {
     type: Boolean,
     alias: 'v',
     description: `Show which version of \`${BINARY}\` is currently in use.`,
-    default: false,
   },
 };

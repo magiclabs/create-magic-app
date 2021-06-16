@@ -84,7 +84,8 @@ export type TypedFlags<F extends Flags> = F extends Flags<infer R> ? R : unknown
 /**
  * Parse and validate input given by the user via CLI flags.
  */
-export async function parseFlags<T extends Flags>(flags: T, input?: string | {}): Promise<TypedFlags<T>> {
+export async function parseFlags<T extends Flags>(flags: T, data?: {}): Promise<TypedFlags<T>> {
+  const isProgrammaticFlow = !!data;
   const aliases: Record<string, string[]> = {};
   const booleans: string[] = [];
 
@@ -99,22 +100,20 @@ export async function parseFlags<T extends Flags>(flags: T, input?: string | {})
   });
 
   const results: {} =
-    typeof input === 'string' || input == null
-      ? parseArgs(input || process.argv.slice(2), {
-          alias: aliases,
-          boolean: booleans,
-        })
-      : input;
+    data ??
+    parseArgs(process.argv.slice(2), {
+      alias: aliases,
+      boolean: booleans,
+    });
 
   const defaultResults = getFlagDefaults(flags);
   const validatedResults = await validateFlagInputs(flags, results);
   const finalResults = { ...defaultResults, ...validatedResults };
 
-  // If `input` is provided as an object of data, we validate that all required
-  // data fields are present in the final results. For cases where `input` is
-  // provided as a string, we can safely assume the CLI flow is being used, in
-  // which case we don't worry about missing fields.
-  if (input && typeof input !== 'string') {
+  // If `data` is provided (in other words, if the flow is programmatic rather
+  // than CLI-based), we validate that all required fields are present in the
+  // final result.
+  if (isProgrammaticFlow) {
     const requiredFields = Object.keys(flags).filter((flag) => flags[flag].default == null);
     const givenFields = Object.keys(results);
     const missingFields = requiredFields

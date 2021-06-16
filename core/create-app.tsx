@@ -48,7 +48,7 @@ export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
  * Generates and runs a project scaffold.
  */
 export async function createApp(config: CreateMagicAppConfig) {
-  const isStaticFlow = !!config.data;
+  const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs
@@ -135,11 +135,12 @@ export async function createApp(config: CreateMagicAppConfig) {
   };
 
   await executePostRenderAction(baseDataMixedWithTemplateData, 'installDependenciesCommand');
-  if (!isStaticFlow) {
+  if (!isProgrammaticFlow) {
     await executePostRenderAction(baseDataMixedWithTemplateData, 'startCommand');
   }
 
-  // Return to the working directory from before "post-render actions" executed.
+  // Return to the previous working directory
+  // before "post-render actions" executed.
   process.chdir(cwd);
 
   return scaffoldResult;

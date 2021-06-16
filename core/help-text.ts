@@ -88,20 +88,47 @@ function createOptionsTable(flags: Record<string, string | Flag>) {
 
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
-  const rows: Array<[string, string]> = Object.entries(
-    decamelizeKeys(flags, '-') as Record<string, string | Flag>,
-  ).map(([arg, config]) => [
-    `  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`,
-    typeof config === 'string' ? config : config.description,
-  ]);
+  const rows: Array<[string, string]> = Object.entries(decamelizeKeys(flags, '-') as Record<string, string | Flag>).map(
+    ([arg, config]) => {
+      const configStr = typeof config === 'string' ? config : config.description + getDefaultArgLabel(config);
 
-  const gap = 2; // Space between args column & description text
+      return [`  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`, configStr];
+    },
+  );
 
+  const gap = 3; // Space between args column & description text
+  const maxWidth = 80 - gap;
   const argColumnWidth = Math.max(...rows.map(([arg]) => arg.length));
-  const helpTextColumnWidth = 80 - argColumnWidth - gap;
-  const helpTexts = rows.map(([_, helpText]) => formatDescription(helpText, helpTextColumnWidth, argColumnWidth + gap));
+
+  const helpTexts = rows.map(([_, helpText]) => formatDescription(helpText, maxWidth, argColumnWidth + gap));
 
   return rows.map(([arg], i) => [arg, helpTexts[i]].join(' '.repeat(argColumnWidth - arg.length + gap))).join('\n\n');
+}
+
+/**
+ * Creates a default value label based on the
+ * value type associated to the given `flag`.
+ */
+function getDefaultArgLabel(flag: Flag) {
+  const type = Array.isArray(flag.default) ? typeof flag.default[0] : typeof flag.default;
+  const value = Array.isArray(flag.default) ? `<${flag.default.join(',')}>` : flag.default;
+
+  switch (type) {
+    case 'string':
+      return chalk` {gray [default: {magenta "${value}"}]}`;
+
+    case 'number':
+      return chalk` {gray [default: {cyan ${value}}]}`;
+
+    case 'boolean':
+      return chalk` {gray [default: ${value ? chalk`{green ${value}}` : chalk`{red ${value}}`}]}`;
+
+    case 'function':
+      return chalk` {gray [default: {blue auto-generated at runtime}]}`;
+
+    default:
+      return '';
+  }
 }
 
 /**
@@ -111,31 +138,8 @@ function createOptionsTable(flags: Record<string, string | Flag>) {
  * @see https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
  */
 function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmount: number) {
-  let res = '';
-  let foundWhitespace;
-
-  while (str.length > maxWidth) {
-    foundWhitespace = false;
-
-    // Insert a line break at first whitespace of the line
-    for (let i = maxWidth - 1; i >= 0; i--) {
-      if (testWhiteSpace(str.charAt(i))) {
-        res += [str.slice(0, i), '\n', ' '.repeat(leadingWhitespaceAmount)].join('');
-        str = str.slice(i + 1);
-        foundWhitespace = true;
-        break;
-      }
-    }
-
-    // Insert a line break at the `maxWidth` position
-    // (the word is too long to wrap)
-    if (!foundWhitespace) {
-      res += [wrapAnsi(str, maxWidth), '\n'].join('');
-      str = str.slice(maxWidth);
-    }
-  }
-
-  return `${res}${str}`.trimEnd();
+  const foo = wrapAnsi(str, maxWidth - leadingWhitespaceAmount);
+  return foo.split('\n').join(`\n${' '.repeat(leadingWhitespaceAmount)}`);
 }
 
 /**
