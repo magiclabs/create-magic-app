@@ -37,7 +37,6 @@
     "@vercel/ncc": "^0.27.0",
     "auto": "^10.5.0",
     "bytes": "^3.1.0",
-    "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
     "copyfiles": "^2.4.1",
     "decamelize": "^5.0.0",

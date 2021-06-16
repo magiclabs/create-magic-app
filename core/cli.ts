@@ -1,6 +1,5 @@
 import fs from 'fs';
 import chalk from 'chalk';
-import CFonts from 'cfonts';
 import { ZombiError, ZombiErrorCode } from 'zombi';
 import { createApp } from './create-app';
 import { printHelp } from './help-text';
@@ -10,16 +9,18 @@ import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 
 function sayHello() {
-  CFonts.say('Create|Magic|App', {
-    font: 'tiny',
-    align: 'left',
-    colors: ['system'],
-    space: true,
-    gradient: ['#6851ff', '#a796ff'],
-    transitionGradient: true,
-  });
+  console.log(chalk`\n
+ {rgb(92,101,246) █▀▀ █}{rgb(127,103,246) ▀█ █▀▀} {rgb(133,139,247) ▄▀█ ▀█▀} {rgb(168,140,248) █▀▀}
+ {rgb(92,101,246) █▄▄ █}{rgb(127,103,246) ▀▄ ██▄} {rgb(133,139,247) █▀█  █ } {rgb(168,140,248) ██▄}
 
-  console.log(chalk` {dim v${getMakeMagicVersion()}}\n\n`);
+ {rgb(92,101,246) █▀▄▀█} {rgb(127,103,246) ▄▀█ █▀}{rgb(133,139,247) ▀ █ █▀▀}
+ {rgb(92,101,246) █ ▀ █} {rgb(127,103,246) █▀█ █▄}{rgb(133,139,247) █ █ █▄▄}
+
+ {rgb(92,101,246) ▄▀█ █}{rgb(127,103,246) ▀█ █▀█}
+ {rgb(92,101,246) █▀█ █}{rgb(127,103,246) ▀▀ █▀▀}
+`);
+
+  console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
 }
 
 (async () => {

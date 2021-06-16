@@ -3,7 +3,6 @@
 // and vastly improves download performance via `npx`.
 
 [
-  "cfonts",
   "chalk",
   "decamelize",
   "execa",
