@@ -22,9 +22,7 @@ export default createScaffold<GatsbyData>(
       <Template source="./gatsby-config.js" />
       <Template source="./gatsby-node.js" />
       <Template source="./gatsby-ssr.js" />
-      <Template source="./LICENSE" />
       <Template source="./README.md" />
-      <Template source="./package-lock.json" />
       <Template source="./package.json" />
     </Zombi>
   ),
