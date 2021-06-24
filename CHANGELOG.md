@@ -1,3 +1,15 @@
+# v2.9.0 (Thu Jun 24 2021)
+
+#### 🚀 Enhancement
+
+- Add Gatsby Template [#56](https://github.com/magiclabs/create-magic-app/pull/56) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
 # v2.8.0 (Mon Jun 07 2021)
 
 #### 🚀 Enhancement
