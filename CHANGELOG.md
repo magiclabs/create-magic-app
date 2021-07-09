@@ -1,3 +1,15 @@
+# v2.10.0 (Fri Jul 09 2021)
+
+#### 🚀 Enhancement
+
+- Add Svelte Template [#57](https://github.com/magiclabs/create-magic-app/pull/57) ([@shahbaz17](https://github.com/shahbaz17))
+
+#### Authors: 1
+
+- Mohammad Shahbaz Alam ([@shahbaz17](https://github.com/shahbaz17))
+
+---
+
 # v2.9.0 (Thu Jun 24 2021)
 
 #### 🚀 Enhancement
