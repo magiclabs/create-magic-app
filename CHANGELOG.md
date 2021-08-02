@@ -1,3 +1,15 @@
+# v2.11.0 (Mon Aug 02 2021)
+
+#### 🚀 Enhancement
+
+- [Hold merge]Add Twitch OAuth to the "hello-world-social-login" template [#58](https://github.com/magiclabs/create-magic-app/pull/58) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v2.10.0 (Fri Jul 09 2021)
 
 #### 🚀 Enhancement
