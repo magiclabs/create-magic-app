@@ -95,6 +95,7 @@ export namespace SocialLoginsPrompt {
     'linkedin',
     'twitter',
     'twitch',
+    'microsoft',
   ];
 
   export type Data = {
