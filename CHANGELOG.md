@@ -1,3 +1,19 @@
+# v3.0.0 (Mon Aug 09 2021)
+
+#### 💥 Breaking Change
+
+- Add NodeJS-compatible interface [#54](https://github.com/magiclabs/create-magic-app/pull/54) ([@smithki](https://github.com/smithki))
+
+#### 🐛 Bug Fix
+
+- Chore: remove cfonts dependency [#55](https://github.com/magiclabs/create-magic-app/pull/55) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v2.11.0 (Mon Aug 02 2021)
 
 #### 🚀 Enhancement
