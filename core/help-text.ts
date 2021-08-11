@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 
-import chalk from 'compiled/chalk';
-import decamelizeKeys from 'compiled/decamelize-keys';
+import chalk from 'chalk';
+import decamelize from 'decamelize';
+import wrapAnsi from 'wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
 import { getScaffoldDefinition } from './utils/scaffold-helpers';
@@ -25,7 +26,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
   helpSections.push(
     createHelpSection({
       heading: styled.Usage,
-      content: `  ${styled.sh} ${styled.bin} [...options]`,
+      content: `  ${styled.sh} ${styled.bin} [options]`,
     }),
   );
 
@@ -35,7 +36,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
       heading: styled.Options,
       content: createOptionsTable({
         ...globalOptions,
-        '[...]': `Additional CLI flags are given as data to the template. Any data required by the template that's provided as CLI flags will not be prompted for interactively.`,
+        '[...]': chalk`Additional CLI flags are given as data to the chosen template. Data provided as CLI flags will {italic not be prompted for interactively.}`,
       }),
     }),
   );
@@ -82,65 +83,57 @@ function createHelpSection(config: { heading: string; content: string }) {
 function createOptionsTable(flags: Record<string, string | Flag>) {
   const normalizeArg = (arg: string, config?: Flag) => {
     if (arg.startsWith('-') || arg.startsWith('[')) return arg;
-    return config?.alias ? `--${arg}, -${config?.alias}` : `--${arg}`;
+    return config?.alias
+      ? `--${decamelize(arg, { separator: '-' })}, -${config?.alias}`
+      : `--${decamelize(arg, { separator: '-' })}`;
   };
 
   // Get a list of rows containing de-camelized args
   // as keys and formatted description texts as values
-  const rows: Array<[string, string]> = Object.entries(
-    decamelizeKeys(flags, '-') as Record<string, string | Flag>,
-  ).map(([arg, config]) => [
-    `  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`,
-    typeof config === 'string' ? config : config.description,
-  ]);
+  const rows: Array<[string, string]> = Object.entries(flags).map(([arg, config]) => {
+    const configStr = typeof config === 'string' ? config : config.description + getDefaultArgLabel(config);
 
-  const gap = 2; // Space between args column & description text
+    return [`  ${normalizeArg(arg, typeof config === 'string' ? undefined : config)}`, configStr];
+  });
 
+  const gap = 3; // Space between args column & description text
+  const maxWidth = 80 - gap;
   const argColumnWidth = Math.max(...rows.map(([arg]) => arg.length));
-  const helpTextColumnWidth = 80 - argColumnWidth - gap;
-  const helpTexts = rows.map(([_, helpText]) => formatDescription(helpText, helpTextColumnWidth, argColumnWidth + gap));
+
+  const helpTexts = rows.map(([_, helpText]) => formatDescription(helpText, maxWidth, argColumnWidth + gap));
 
   return rows.map(([arg], i) => [arg, helpTexts[i]].join(' '.repeat(argColumnWidth - arg.length + gap))).join('\n\n');
 }
 
 /**
- * Wraps the source `str` at `maxWidth`, with leading whitespace for every line
- * after the first. Based on a very helpful StackOverflow answer by Ross Rogers.
- *
- * @see https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+ * Creates a default value label based on the
+ * value type associated to the given `flag`.
  */
-function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmount: number) {
-  let res = '';
-  let foundWhitespace;
+function getDefaultArgLabel(flag: Flag) {
+  const type = Array.isArray(flag.default) ? typeof flag.default[0] : typeof flag.default;
+  const value = Array.isArray(flag.default)
+    ? `[${(flag.default as any).map(JSON.stringify).join(', ')}]`
+    : JSON.stringify(flag.default);
 
-  while (str.length > maxWidth) {
-    foundWhitespace = false;
+  switch (type) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+      return chalk` {dim Default: {yellow ${value}}}`;
 
-    // Insert a line break at first whitespace of the line
-    for (let i = maxWidth - 1; i >= 0; i--) {
-      if (testWhiteSpace(str.charAt(i))) {
-        res += [str.slice(0, i), '\n', ' '.repeat(leadingWhitespaceAmount)].join('');
-        str = str.slice(i + 1);
-        foundWhitespace = true;
-        break;
-      }
-    }
+    case 'function':
+      return chalk` {dim Default: {yellow.italic auto-generated at runtime}}`;
 
-    // Insert a line break at the `maxWidth` position
-    // (the word is too long to wrap)
-    if (!foundWhitespace) {
-      res += [str.slice(0, maxWidth), '\n'].join('');
-      str = str.slice(maxWidth);
-    }
+    default:
+      return '';
   }
-
-  return `${res}${str}`.trimEnd();
 }
 
 /**
- * @see https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+ * Wraps the source `str` at `maxWidth`,
+ * with leading whitespace for every line after the first.
  */
-function testWhiteSpace(x: string) {
-  const white = new RegExp(/^\s$/);
-  return white.test(x.charAt(0));
+function formatDescription(str: string, maxWidth: number, leadingWhitespaceAmount: number) {
+  const result = wrapAnsi(str, maxWidth - leadingWhitespaceAmount);
+  return result.split('\n').join(`\n${' '.repeat(leadingWhitespaceAmount)}`);
 }

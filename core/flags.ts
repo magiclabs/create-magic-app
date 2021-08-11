@@ -1,5 +1,5 @@
-import decamelize from 'compiled/decamelize';
-import parseArgs from 'compiled/yargs-parser';
+import decamelize from 'decamelize';
+import parseArgs from 'yargs-parser';
 import { createValidationError } from './utils/errors-warnings';
 import { filterNilValues } from './utils/filter-nil-values';
 
@@ -20,7 +20,7 @@ type FlagType<T extends ValueType = ValueType> = T extends string
 /**
  * Configuration to modify the behavior of flag-based template data inputs.
  */
-export type Flag<T extends ValueType = ValueType> = {
+type BaseFlag<T extends ValueType = ValueType> = {
   /**
    * A factory function to transform raw command-line input
    * into the requisite native type (string, boolean, or number).
@@ -46,29 +46,50 @@ export type Flag<T extends ValueType = ValueType> = {
    * to be raised indicating invalid command-line input.
    */
   readonly validate?: (value: T) => (string | boolean | Promise<string | boolean>) | undefined;
+
+  /**
+   * Provides a default value for the flag.
+   */
+  readonly default?: T | (() => T);
 };
+
+/**
+ * Configuration to modify the behavior of flag-based template data inputs.
+ */
+type BaseFlagWithRequiredDefault<T extends ValueType = ValueType> = BaseFlag<T> & {
+  /**
+   * Provides a default value for the flag.
+   */
+  readonly default: T | (() => T);
+};
+
+/**
+ * Configuration to modify the behavior of flag-based template data inputs.
+ */
+export type Flag<T extends ValueType = ValueType> = BaseFlag<T> | BaseFlagWithRequiredDefault<T>;
 
 /**
  * A record of `ScaffoldFlag` values with data types given by `T`.
  */
-export type Flags<T extends Record<string, ValueType> = Record<string, any>> = {
-  [P in keyof T]: Flag<T[P]>;
+export type Flags<T extends Record<string, ValueType | null | undefined> = Record<string, any>> = {
+  [P in keyof Required<T>]: undefined extends T[P]
+    ? BaseFlag<NonNullable<T[P]>>
+    : null extends T[P]
+    ? BaseFlag<NonNullable<T[P]>>
+    : BaseFlagWithRequiredDefault<NonNullable<T[P]>>;
 };
 
-type TypedFlag<F extends Flag> = F extends Flag<infer R> ? R : unknown;
-
-type TypedFlags<F extends Flags> = {
-  [P in keyof F]: TypedFlag<F[P]> | undefined;
-};
+export type TypedFlags<F extends Flags> = F extends Flags<infer R> ? R : unknown;
 
 /**
  * Parse and validate input given by the user via CLI flags.
  */
-export async function parseFlags<T extends Flags>(flags: T): Promise<TypedFlags<T>> {
+export async function parseFlags<T extends Flags>(flags: T, data?: {}): Promise<TypedFlags<T>> {
+  const isProgrammaticFlow = !!data;
   const aliases: Record<string, string[]> = {};
   const booleans: string[] = [];
 
-  (Object.entries(flags) as Array<[string, Flag]>).forEach(([flag, options]) => {
+  Object.entries(flags).forEach(([flag, options]) => {
     if (options.alias) {
       aliases[flag] = [options.alias];
     }
@@ -78,15 +99,56 @@ export async function parseFlags<T extends Flags>(flags: T): Promise<TypedFlags<
     }
   });
 
-  const results: any = parseArgs(process.argv.slice(2), {
-    alias: aliases,
-    boolean: booleans,
-  });
+  const results: {} =
+    data ??
+    parseArgs(process.argv.slice(2), {
+      alias: aliases,
+      boolean: booleans,
+    });
 
-  const finalResults = filterNilValues<TypedFlags<T>>(
+  const defaultResults = getFlagDefaults(flags);
+  const validatedResults = await validateFlagInputs(flags, results);
+  const finalResults = { ...defaultResults, ...validatedResults };
+
+  // If `data` is provided (in other words, if the flow is programmatic rather
+  // than CLI-based), we validate that all required fields are present in the
+  // final result.
+  if (isProgrammaticFlow) {
+    const requiredFields = Object.keys(flags).filter((flag) => flags[flag].default == null);
+    const givenFields = Object.keys(results);
+    const missingFields = requiredFields
+      .map((field) => {
+        if (!givenFields.includes(field)) return field;
+        return undefined;
+      })
+      .filter(Boolean);
+
+    if (missingFields.length) {
+      throw createValidationError(`Missing required template data (${missingFields.join(', ')})`);
+    }
+  }
+
+  return finalResults;
+}
+
+function getFlagDefaults<T extends Flags>(flags: T) {
+  return filterNilValues<TypedFlags<T>>(
+    Object.fromEntries(
+      Object.keys(flags)
+        .filter((flag) => flags[flag].default != null)
+        .map((key) => {
+          const flag = (flags[key] as unknown) as Flag;
+          return [key, typeof flag.default === 'function' ? flag.default() : flag.default];
+        }),
+    ) as TypedFlags<T>,
+  );
+}
+
+async function validateFlagInputs<T extends Flags>(flags: T, inputs: {} = {}) {
+  return filterNilValues<TypedFlags<T>>(
     Object.fromEntries(
       await Promise.all(
-        Object.entries(results).map(async ([key, value]) => {
+        Object.entries(inputs).map(async ([key, value]) => {
           const flag = (flags[key] as unknown) as Flag;
 
           if (flag) {
@@ -111,7 +173,7 @@ export async function parseFlags<T extends Flags>(flags: T): Promise<TypedFlags<
               throw createValidationError(`--${decamelize(key, { separator: '-' })} received invalid input.`);
             }
 
-            return [key, result];
+            return [key, result ?? (typeof flag.default === 'function' ? flag.default() : flag.default)];
           }
 
           // Return undefined if no flag is defined (we'll filter it out)
@@ -120,6 +182,4 @@ export async function parseFlags<T extends Flags>(flags: T): Promise<TypedFlags<
       ),
     ),
   );
-
-  return finalResults;
 }
