@@ -1,3 +1,15 @@
+# v3.0.2 (Wed Aug 11 2021)
+
+#### 🐛 Bug Fix
+
+- Replace existing Hasura scaffold with a new and updated one [#62](https://github.com/magiclabs/create-magic-app/pull/62) ([@seemcat](https://github.com/seemcat))
+
+#### Authors: 1
+
+- Maricris ([@seemcat](https://github.com/seemcat))
+
+---
+
 # v3.0.1 (Mon Aug 09 2021)
 
 #### 🐛 Bug Fix
