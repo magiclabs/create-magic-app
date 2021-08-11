@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import { magic } from "../lib/magic";
 import { useUser } from "../lib/hooks";
-import LoginForm from "../components/login-form";
+import SignupForm from "../components/signup-form";
 
-const Login = () => {
+const Signup = () => {
   let user = useUser();
 
   useEffect(() => {
@@ -13,9 +13,9 @@ const Login = () => {
 
   const [disabled, setDisabled] = useState(false);
 
-  async function handleLogin(email) {
+  async function handleSignup(email, username) {
     try {
-      setDisabled(true); // disable login button to prevent multiple emails from being triggered
+      setDisabled(true); // disable signup button to prevent multiple emails from being triggered
 
       // Trigger Magic link to be sent to user
       let didToken = await magic.auth.loginWithMagicLink({ email });
@@ -27,20 +27,21 @@ const Login = () => {
           "Content-Type": "application/json",
           Authorization: "Bearer " + didToken,
         },
+        body: JSON.stringify({ username }), // Send the username
       });
 
       res.status === 200 && Router.push("/");
     } catch (error) {
-      setDisabled(false); // re-enable login button - user may have requested to edit their email
+      setDisabled(false); // re-enable signup button - user may have requested to edit their email
       console.log(error);
     }
   }
 
   return (
-    <div className="login">
-      <LoginForm disabled={disabled} onEmailSubmit={handleLogin} />
+    <div className="signup">
+      <SignupForm disabled={disabled} onEmailSubmit={handleSignup} />
       <style jsx>{`
-        .login {
+        .signup {
           max-width: 20rem;
           margin: 40px auto 0;
           padding: 1rem;
@@ -55,4 +56,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

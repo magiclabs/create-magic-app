@@ -1,43 +1,44 @@
-import { Magic } from '@magic-sdk/admin';
-import jwt from 'jsonwebtoken';
-
-const magic = new Magic(process.env.MAGIC_SECRET_KEY);
+import { magic } from "../../lib/magicAdmin";
+import jwt from "jsonwebtoken";
+import { setTokenCookie } from "../../lib/cookies";
 
 export default async function login(req, res) {
   try {
-    // Grab auth token from Authorization header
     const didToken = req.headers.authorization.substr(7);
+    const username = req.body?.username;
 
-    // Validate auth token with Magic
+    // Validate Magic's DID token
     await magic.token.validate(didToken);
 
-    // Grab user data from auth token
-    const { email, issuer } = await magic.users.getMetadataByToken(didToken);
+    const metadata = await magic.users.getMetadataByToken(didToken);
 
-    // Create a JWT, including user data which we use when saving new user in Hasura
-    const token = jwt.sign(
+    // Create JWT
+    let token = jwt.sign(
       {
-        email,
-        issuer,
-        'https://hasura.io/jwt/claims': {
-          'x-hasura-allowed-roles': ['admin'],
-          'x-hasura-default-role': 'admin',
-          'x-hasura-user-id': `${issuer}`,
+        ...metadata,
+        "https://hasura.io/jwt/claims": {
+          "x-hasura-allowed-roles": ["user"],
+          "x-hasura-default-role": "user",
+          "x-hasura-user-id": `${metadata.issuer}`,
         },
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // one week
+        exp:
+          Math.floor(Date.now() / 1000) +
+          60 * 60 * 24 * process.env.SESSION_LENGTH_IN_DAYS,
       },
       process.env.JWT_SECRET
     );
 
     // Check if user trying to log in already exists
-    const newUser = await isNewUser(issuer, token);
+    let newUser = await isNewUser(metadata.issuer, token);
 
     // If not, create a new user in Hasura
-    newUser && (await createNewUser(issuer, email, token));
+    newUser && (await createNewUser(metadata, token, username));
 
-    res.status(200).json({ authenticated: true });
+    setTokenCookie(res, token);
+    res.status(200).send({ done: true });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error);
+    res.status(500).end();
   }
 }
 
@@ -57,11 +58,23 @@ async function isNewUser(issuer, token) {
   }
 }
 
-async function createNewUser(issuer, email, token) {
+async function createNewUser(
+  { issuer, publicAddress, email },
+  token,
+  username
+) {
   let query = {
     query: `mutation {
-      insert_users_one( object: { issuer: "${issuer}", email: "${email}" }) {
+      insert_users_one(object: 
+        { 
+          email: "${email}", 
+          issuer: "${issuer}", 
+          publicAddress: "${publicAddress}", 
+          username: "${username}" 
+        }) 
+        {
         email
+        username
       }
     }`,
   };
@@ -74,12 +87,12 @@ async function createNewUser(issuer, email, token) {
 
 async function queryHasura(query, token) {
   try {
-    let res = await fetch(process.env.HASURA_URL, {
-      method: 'POST',
+    let res = await fetch(process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify(query),
     });

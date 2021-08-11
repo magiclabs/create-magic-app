@@ -1,7 +1,7 @@
-export default function Loading() {
-  return (
-    <div className='container'>
-      <p>Loading...</p>
-    </div>
-  );
-}
+const Loading = () => (
+  <div style={{ textAlign: "center" }}>
+    <img src="./spinner.svg" height="50px" alt="Loading" />
+  </div>
+);
+
+export default Loading;

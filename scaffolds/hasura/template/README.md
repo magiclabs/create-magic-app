@@ -1,16 +1,26 @@
-**Note one**: This template assumes you have created a table in your Hasura console called `users` with two columns, `issuer` (primary key) and `email`.
+# Boxi
+A super simple, secure social media site where you can share photos of your kitties and see other people's kitty galleries! This website leverages [Magic](https://magic.link/) to enable passwordless auth, [Next.js](https://nextjs.org/) as the UI framework and it's [API Routes](https://nextjs.org/docs/api-routes/introduction) to create Node.js serverless functions, and [Hasura](https://hasura.io/) to generate a GraphQL API to help query and mutate data stored in the [Heroku](https://dashboard.heroku.com/login) database.
 
-**Note two**: the `JWT_SECRET` variable in `.env.local` should match the `key` value set in your `HASURA_GRAPHQL_JWT_SECRET` env variable. This is so Hasura can verify the JWT token sent inthe Authorization header when querying the database. You can set this in your Hasura project dashboard under "Env Vars". Hasura will throw an error if the `key` is less than 32 characters.
+# Demo
+https://boxi.vercel.app/
 
-#### For example
-
-HASURA_GRAPHQL_JWT_SECRET:
-
+# Quick start instructions
+```txt
+$ git clone https://github.com/seemcat/boxi.git
+$ cd boxi
+$ mv .env.local.example .env.local
+$ yarn install
+$ yarn dev
 ```
-{
-  "key": "abcdefghijklmnopqrstuvwxyz1234567890",
-  "type": "HS256"
-}
+
+# .env.local File
+```txt
+NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY=your-magic-publishable-key
+MAGIC_SECRET_KEY=your-magic-secret-key
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+JWT_SECRET=your-32+-character-secret
+NEXT_PUBLIC_HASURA_GRAPHQL_URL=your-graphql-api-server
 ```
 
-In `.env.local`: JWT_SECRET=abcdefghijklmnopqrstuvwxyz1234567890
+# Video Tutorial
+Coming soon!
