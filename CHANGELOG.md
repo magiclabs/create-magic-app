@@ -1,3 +1,15 @@
+# v3.1.0 (Sat Aug 14 2021)
+
+#### 🚀 Enhancement
+
+- * Add microsoft OAuth login [#59](https://github.com/magiclabs/create-magic-app/pull/59) ([@Ethella](https://github.com/Ethella))
+
+#### Authors: 1
+
+- Jerry Liu ([@Ethella](https://github.com/Ethella))
+
+---
+
 # v3.0.2 (Wed Aug 11 2021)
 
 #### 🐛 Bug Fix
