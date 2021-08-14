@@ -1,39 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Router from 'next/router';
-import { magic } from '../magic';
-import Loading from '../components/loading';
+import { useUser } from "../lib/hooks";
+import KittyDashboard from "../components/kitties/kitty-dashboard";
 
-export default function Index() {
-  const [userMetadata, setUserMetadata] = useState();
-
-  useEffect(() => {
-    // On mount, we check if a user is logged in.
-    // If so, we'll retrieve the authenticated user's profile.
-    magic.user.isLoggedIn().then((magicIsLoggedIn) => {
-      if (magicIsLoggedIn) {
-        magic.user.getMetadata().then(setUserMetadata);
-      } else {
-        // If no user is logged in, redirect to `/login`
-        Router.push('/login');
-      }
-    });
-  }, []);
-
-  /**
-   * Perform logout action via Magic.
-   */
-  const logout = useCallback(() => {
-    magic.user.logout().then(() => {
-      Router.push('/login');
-    });
-  }, [Router]);
-
-  return userMetadata ? (
-    <div className='container'>
-      <h1>Current user: {userMetadata.email}</h1>
-      <button onClick={logout}>Logout</button>
-    </div>
-  ) : (
-    <Loading />
+const Home = () => {
+  const user = useUser();
+  return (
+    <>
+      {!user ? (
+        <div>Welcome to Boxi! Please sign up or log in to continue.</div>
+      ) : (
+        <KittyDashboard />
+      )}
+    </>
   );
-}
+};
+
+export default Home;

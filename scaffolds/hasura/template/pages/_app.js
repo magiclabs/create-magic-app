@@ -1,14 +1,14 @@
-import '../style.css';
-import Head from 'next/head';
+import Layout from "../components/layout";
+import { ThemeProvider } from "@magiclabs/ui";
+import "@magiclabs/ui/dist/cjs/index.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <Head>
-        <title>Magic Hasura</title>
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <ThemeProvider root>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
   );
 }
 

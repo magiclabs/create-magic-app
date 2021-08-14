@@ -14,16 +14,21 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "cli/*": ["cli/*"],
+      "core/*": ["core/*"],
       "scaffolds/*": ["scaffolds/*"],
       "compiled/*": ["compiled/*", "node_modules/@types/*", "node_modules/*"],
-
-      // Special case for React because it's peer dependency of `zombi`
-      "react": ["compiled/react", "node_modules/@types/react"],
-      "react-is": ["compiled/react-is", "node_modules/@types/react-is"],
-    },
+      "chalk": ["compiled/chalk", "node_modules/@types/chalk", "node_modules/chalk"],
+      "decamelize": ["compiled/decamelize", "node_modules/@types/decamelize", "node_modules/decamelize"],
+      "execa": ["compiled/execa", "node_modules/@types/execa", "node_modules/execa"],
+      "got": ["compiled/got", "node_modules/@types/got", "node_modules/got"],
+      "react": ["compiled/react", "node_modules/@types/react", "node_modules/react"],
+      "react-is": ["compiled/react-is", "node_modules/@types/react-is", "node_modules/react-is"],
+      "tar": ["compiled/tar", "node_modules/@types/tar", "node_modules/tar"],
+      "wrap-ansi": ["compiled/wrap-ansi", "node_modules/@types/wrap-ansi", "node_modules/wrap-ansi"],
+      "yargs-parser": ["compiled/yargs-parser", "node_modules/@types/yargs-parser", "node_modules/yargs-parser"],
+      "zombi": ["compiled/zombi", "node_modules/@types/zombi", "node_modules/zombi"]
+    }
   },
-
-  "include": ["cli", "scaffolds", "compiled"],
-  "exclude": ["scaffolds/*/template"],
+  "include": ["core", "scaffolds", "compiled"],
+  "exclude": ["scaffolds/*/template"]
 }
