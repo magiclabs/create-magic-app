@@ -15,7 +15,7 @@ export default createScaffold<HelloWorldReactData>(
 
   {
     shortDescription: 'Hello World (React)',
-    order: 0,
+    featured: true,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
     flags: {

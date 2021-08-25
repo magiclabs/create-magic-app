@@ -15,7 +15,6 @@ export default createScaffold<ExpressApiData>(
 
   {
     shortDescription: 'Express APIs',
-    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
     flags: {

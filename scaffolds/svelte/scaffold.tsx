@@ -18,7 +18,6 @@ export default createScaffold<SvelteData>(
 
   {
     shortDescription: 'Svelte Kit',
-    order: 1,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {

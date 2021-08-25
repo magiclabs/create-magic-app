@@ -22,7 +22,6 @@ export default createScaffold<HelloWorldVueData>(
 
   {
     shortDescription: 'Hello World (Vue)',
-    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('serve'),
     flags: {

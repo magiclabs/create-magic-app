@@ -18,7 +18,6 @@ export default createScaffold<NextData>(
 
   {
     shortDescription: 'Next.js',
-    order: 1,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {

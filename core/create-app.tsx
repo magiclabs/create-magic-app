@@ -58,9 +58,11 @@ export async function createApp(config: CreateMagicAppConfig) {
       return {
         name,
         message: getScaffoldDefinition(name).shortDescription,
-        order: getScaffoldDefinition(name).order ?? 0,
+        featured: !!getScaffoldDefinition(name).featured,
       };
     });
+  const featuredScaffolds = availableScaffolds.filter((s) => s.featured);
+  const nonFeaturedScaffolds = availableScaffolds.filter((s) => !s.featured);
 
   const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
@@ -88,10 +90,10 @@ export async function createApp(config: CreateMagicAppConfig) {
         },
 
         !isChosenTemplateValid && {
-          type: 'select',
+          type: 'autocomplete',
           name: 'template',
           message: 'Choose a template:',
-          choices: availableScaffolds.sort((a, b) => a.order - b.order),
+          choices: [...featuredScaffolds, { role: 'separator' }, ...nonFeaturedScaffolds],
         },
       ]}
     >

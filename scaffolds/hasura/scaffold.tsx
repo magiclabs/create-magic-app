@@ -53,7 +53,6 @@ export default createScaffold<HasuraData>(
 
   {
     shortDescription: 'Hasura',
-    order: 14,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {

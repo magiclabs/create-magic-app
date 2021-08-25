@@ -46,7 +46,7 @@ export default createScaffold<HelloWorldSocialLoginData>(
 
   {
     shortDescription: 'Hello World with Social Logins',
-    order: 0,
+    featured: true,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
     flags: {
