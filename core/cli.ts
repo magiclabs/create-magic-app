@@ -7,6 +7,7 @@ import { resolveToRoot } from './utils/path-helpers';
 import { CreateMagicAppError } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
+import { useGracefulShutdown } from './utils/shutdown';
 
 function sayHello() {
   console.log(chalk`\n
@@ -24,6 +25,8 @@ function sayHello() {
 }
 
 (async () => {
+  useGracefulShutdown();
+
   const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
 
   if (version) {

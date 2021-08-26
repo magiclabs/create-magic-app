@@ -3592,6 +3592,13 @@ terminal-link@^2.1.1:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
+terminate@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/terminate/-/terminate-2.2.2.tgz#5d85f719f5007205b9a1ba70f239e5ef993e121d"
+  integrity sha512-MCkNju5C4s89btDQxW04sdHf19FxrZXFRGGrK+7GCSTY/h3EecEdoFmZwigw5u9L+WZiFOlRSkXG20AfHmYMkQ==
+  dependencies:
+    ps-tree "^1.2.0"
+
 terser@^5.6.0-beta:
   version "5.6.0-beta"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.6.0-beta.tgz#26b1fcfbb4cce1b85eb5afd435e5a35b6dd1ac8e"
@@ -3898,10 +3905,10 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-zombi@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.1.4.tgz#c3159ee711ebe0fe24768053d488c798558b58ed"
-  integrity sha512-S6gZozCsWA9Gl6hGtwgAfwQjF6rXz2WdVVfcqEhvt1QMrQ/3qbAvvbzffBziOt/4YKhrJTfOQTZClhve2NMYFQ==
+zombi@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/zombi/-/zombi-3.2.0.tgz#e152a8d305669f9d7ba627a6d1d61b9cea72fc0d"
+  integrity sha512-ZlYLD5xmJygQR2uw6zCV+VIdIFfvcCWQPXstPskEMsqoI3JfVSYv+z63iUElxE98dTqsP5pDpNjSWTHXC1IkbQ==
   dependencies:
     binaryextensions "^4.15.0"
     chalk "^2.4.1"

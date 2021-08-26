@@ -24,6 +24,7 @@
       "react": ["compiled/react", "node_modules/@types/react", "node_modules/react"],
       "react-is": ["compiled/react-is", "node_modules/@types/react-is", "node_modules/react-is"],
       "tar": ["compiled/tar", "node_modules/@types/tar", "node_modules/tar"],
+      "terminate": ["compiled/terminate", "node_modules/@types/terminate", "node_modules/terminate"],
       "wrap-ansi": ["compiled/wrap-ansi", "node_modules/@types/wrap-ansi", "node_modules/wrap-ansi"],
       "yargs-parser": ["compiled/yargs-parser", "node_modules/@types/yargs-parser", "node_modules/yargs-parser"],
       "zombi": ["compiled/zombi", "node_modules/@types/zombi", "node_modules/zombi"]
