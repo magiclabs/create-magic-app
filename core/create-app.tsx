@@ -9,7 +9,7 @@ import fs from 'fs';
 import { URL } from 'url';
 import execa from 'execa';
 import chalk from 'chalk';
-import path, { sep } from 'path';
+import path from 'path';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -155,7 +155,7 @@ export async function createApp(config: CreateMagicAppConfig) {
 
       const msg = [
         '✨\n',
-        chalk`{bold {{green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${chosenTemplate}}!}`,
+        chalk`{bold {green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${chosenTemplate}}!}`,
         chalk`Created {bold.rgb(0,255,255) ${chosenProjectName}} at {bold.rgb(0,255,255) ${path.join(
           destinationRoot,
           chosenProjectName,
