@@ -1,3 +1,15 @@
+# v3.1.1 (Fri Aug 27 2021)
+
+#### 🐛 Bug Fix
+
+- Graceful Shutdown [#63](https://github.com/magiclabs/create-magic-app/pull/63) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v3.1.0 (Sat Aug 14 2021)
 
 #### 🚀 Enhancement
