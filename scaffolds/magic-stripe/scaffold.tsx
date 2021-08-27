@@ -28,7 +28,6 @@ export default createScaffold<StripeMagicData>(
   ),
   {
     shortDescription: 'Magic + Stripe',
-    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
     flags: {

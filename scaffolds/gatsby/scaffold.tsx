@@ -29,7 +29,6 @@ export default createScaffold<GatsbyData>(
 
   {
     shortDescription: 'Gatsby',
-    order: 1,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('develop'),
     flags: {

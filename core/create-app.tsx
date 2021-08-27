@@ -9,6 +9,7 @@ import fs from 'fs';
 import { URL } from 'url';
 import execa from 'execa';
 import chalk from 'chalk';
+import path, { sep } from 'path';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -17,6 +18,7 @@ import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpe
 import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
+import { addShutdownTask } from './utils/shutdown';
 
 export interface CreateMagicAppData {
   /**
@@ -58,9 +60,18 @@ export async function createApp(config: CreateMagicAppConfig) {
       return {
         name,
         message: getScaffoldDefinition(name).shortDescription,
-        order: getScaffoldDefinition(name).order ?? 0,
+        featured: getScaffoldDefinition(name).featured,
       };
     });
+  const featuredScaffolds = availableScaffolds
+    .filter((s) => !!s.featured)
+    .sort((a, b) => {
+      const left = typeof a.featured === 'boolean' ? Infinity : a.featured!.order;
+      const right = typeof b.featured === 'boolean' ? Infinity : b.featured!.order;
+
+      return left - right;
+    });
+  const nonFeaturedScaffolds = availableScaffolds.filter((s) => !s.featured);
 
   const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
@@ -88,10 +99,10 @@ export async function createApp(config: CreateMagicAppConfig) {
         },
 
         !isChosenTemplateValid && {
-          type: 'select',
+          type: 'autocomplete',
           name: 'template',
           message: 'Choose a template:',
-          choices: availableScaffolds.sort((a, b) => a.order - b.order),
+          choices: [...featuredScaffolds, { role: 'separator' }, ...nonFeaturedScaffolds],
         },
       ]}
     >
@@ -129,14 +140,57 @@ export async function createApp(config: CreateMagicAppConfig) {
   process.chdir(chosenProjectName);
 
   // Do post-render actions...
-  const baseDataMixedWithTemplateData = {
+  const data = {
     ...scaffoldResult.data['create-magic-app'],
     ...scaffoldResult.data[chosenTemplate],
   };
 
-  await executePostRenderAction(baseDataMixedWithTemplateData, 'installDependenciesCommand');
-  if (!isProgrammaticFlow) {
-    await executePostRenderAction(baseDataMixedWithTemplateData, 'startCommand');
+  if (isProgrammaticFlow) {
+    await createPostRenderAction({ data, cmd: 'installDependenciesCommand' })?.wait();
+  } else {
+    addShutdownTask(() => {
+      console.log(); // Aesthetics!
+
+      const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
+
+      const msg = [
+        '✨\n',
+        chalk`{bold {{green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${chosenTemplate}}!}`,
+        chalk`Created {bold.rgb(0,255,255) ${chosenProjectName}} at {bold.rgb(0,255,255) ${path.join(
+          destinationRoot,
+          chosenProjectName,
+        )}}`,
+      ];
+
+      console.log(msg.join('\n'));
+    });
+
+    const installCmd = await createPostRenderAction({ data, cmd: 'installDependenciesCommand', log: true })?.wait();
+    const startCmd = createPostRenderAction({ data, cmd: 'startCommand', log: true });
+
+    addShutdownTask(() => {
+      console.log(); // Aesthetics!
+
+      const separator = '';
+
+      const msg = [
+        (installCmd || startCmd) && chalk`Inside your app directory, you can run several commands:\n`,
+
+        installCmd && chalk`  {rgb(0,255,255) ${installCmd}}`,
+        installCmd && chalk`    Install dependencies.\n`,
+
+        startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
+        startCmd && chalk`    Starts the app with a local development server.\n`,
+
+        startCmd && chalk`Type the following to restart your newly-created app:\n`,
+        startCmd && chalk`  {rgb(0,255,255) cd} ${chosenProjectName}`,
+        startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
+      ].filter(Boolean);
+
+      console.log(msg.join('\n'));
+    });
+
+    await startCmd?.wait();
   }
 
   // Return to the previous working directory
@@ -146,18 +200,44 @@ export async function createApp(config: CreateMagicAppConfig) {
   return scaffoldResult;
 }
 
+function printPostShutdownInstructions(data: CreateMagicAppData & { destinationRoot: string } & Record<string, any>) {
+  console.log(); // Aesthetics!
+
+  const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
+
+  const msg = [
+    chalk`{bold You've successfully bootstrapped a ${magic} app with {rgb(0,255,255) ${data.template}}!}`,
+    chalk`Created {bold.rgb(0,255,255) ${data.projectName}} at {bold.rgb(0,255,255) ${path.join(
+      data.destinationRoot,
+      data.projectName,
+    )}}`,
+  ];
+
+  console.log(msg.join('\n'));
+}
+
 /**
  * After the scaffold is rendered, we call this
  * function to invoke post-render shell commands.
  */
-async function executePostRenderAction(
-  data: CreateMagicAppData & Record<string, any>,
-  cmdType: 'installDependenciesCommand' | 'startCommand',
-) {
-  const getCmd = getScaffoldDefinition(data.template)[cmdType];
-  const [cmd, ...args] = typeof getCmd === 'function' ? getCmd(data) : getCmd ?? [];
+function createPostRenderAction(options: {
+  data: CreateMagicAppData & Record<string, any>;
+  cmd: 'installDependenciesCommand' | 'startCommand';
+  log?: boolean;
+}) {
+  const getCmd = getScaffoldDefinition(options.data.template)[options.cmd];
+  const cmdWithArgs = typeof getCmd === 'function' ? getCmd(options.data) : getCmd ?? [];
+  const [cmd, ...args] = cmdWithArgs;
 
   if (cmd) {
-    await execa(cmd, args, { stdio: 'inherit' });
+    const subprocess = execa(cmd, args, { stdio: 'inherit' });
+    const bin = cmdWithArgs.join(' ');
+
+    return Object.assign(bin, {
+      wait: async () => {
+        await subprocess;
+        return bin;
+      },
+    });
   }
 }

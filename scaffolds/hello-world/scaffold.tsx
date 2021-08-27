@@ -15,7 +15,7 @@ export default createScaffold<HelloWorldData>(
 
   {
     shortDescription: 'Hello World',
-    order: 0,
+    featured: true,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
     flags: {

@@ -29,7 +29,6 @@ export default createScaffold<NuxtData>(
 
   {
     shortDescription: 'Nuxt JS',
-    order: 0,
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {

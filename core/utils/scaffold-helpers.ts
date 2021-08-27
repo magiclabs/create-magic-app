@@ -28,10 +28,11 @@ type ScaffoldMetadata<T extends Record<string, ValueType> = Record<string, any>>
   shortDescription: string;
 
   /**
-   * Provide an integer to modify the order in which this scaffold
-   * is listed under the standard templates prompt.
+   * If true, shows this scaffold with greater prominence in the templates
+   * prompt. If provided with an object containing a numeric `order` field, that
+   * will be used to sort this scaffold amongst the other featured scaffolds.
    */
-  order?: number;
+  featured?: boolean | { order: number };
 
   /**
    * Provides an optional shell command to install dependencies
