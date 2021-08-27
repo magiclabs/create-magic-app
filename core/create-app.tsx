@@ -9,7 +9,6 @@ import fs from 'fs';
 import { URL } from 'url';
 import execa from 'execa';
 import chalk from 'chalk';
-import terminate from 'terminate';
 import path, { sep } from 'path';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
