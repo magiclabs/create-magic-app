@@ -1,7 +1,6 @@
 import React from 'react';
-import { Template, Zombi } from 'compiled/zombi';
+import { Template, Zombi, mergePrompts } from 'compiled/zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
-import { mergePrompts } from 'core/utils/merge-prompts';
 import { NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
 type GatsbyData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data;
