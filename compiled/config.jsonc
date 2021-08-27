@@ -10,7 +10,6 @@
   "react",
   "react-is",
   "tar",
-  "terminate",
   "wrap-ansi",
   "yargs-parser",
   "zombi"

@@ -3592,13 +3592,6 @@ terminal-link@^2.1.1:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terminate@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/terminate/-/terminate-2.2.2.tgz#5d85f719f5007205b9a1ba70f239e5ef993e121d"
-  integrity sha512-MCkNju5C4s89btDQxW04sdHf19FxrZXFRGGrK+7GCSTY/h3EecEdoFmZwigw5u9L+WZiFOlRSkXG20AfHmYMkQ==
-  dependencies:
-    ps-tree "^1.2.0"
-
 terser@^5.6.0-beta:
   version "5.6.0-beta"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.6.0-beta.tgz#26b1fcfbb4cce1b85eb5afd435e5a35b6dd1ac8e"

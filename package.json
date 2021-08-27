@@ -21,9 +21,6 @@
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
-  "dependencies": {
-    "terminate": "^2.2.2"
-  },
   "devDependencies": {
     "@ikscodes/eslint-config": "^7.0.2",
     "@ikscodes/prettier-config": "^2.0.1",
