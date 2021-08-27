@@ -1,3 +1,15 @@
+# v3.1.2 (Fri Aug 27 2021)
+
+#### ⚠️ Pushed to `master`
+
+- Fix typo in post-shutdown logs ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v3.1.1 (Fri Aug 27 2021)
 
 #### 🐛 Bug Fix
