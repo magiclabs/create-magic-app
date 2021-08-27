@@ -1,3 +1,15 @@
+# v3.1.3 (Fri Aug 27 2021)
+
+#### 🐛 Bug Fix
+
+- Update 'zombi' [#64](https://github.com/magiclabs/create-magic-app/pull/64) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v3.1.2 (Fri Aug 27 2021)
 
 #### ⚠️ Pushed to `master`
