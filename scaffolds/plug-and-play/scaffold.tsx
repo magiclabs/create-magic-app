@@ -13,7 +13,7 @@ export default createScaffold<HelloWorldData>(
   ),
 
   {
-    shortDescription: 'Plug & Play',
+    shortDescription: 'Plug & Play (Login Form)',
     featured: { order: 0 },
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('start'),
