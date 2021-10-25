@@ -13,7 +13,9 @@
   <!-- Use data from Magic! -->
 
   <script>
-    Magic.onReady = ({ idToken, userMetadata, oauth }) => {
+    window.addEventListener('@magic/ready', (e) => {
+      const { idToken, userMetadata, oauth } = e.detail;
+
       const idTokenEl = document.getElementById('idToken');
       const userMetadataEl = document.getElementById('userMetadata');
       const oauthEl = document.getElementById('oauth');
@@ -21,8 +23,9 @@
       idTokenEl.innerText = JSON.stringify(idToken, null, 2);
       userMetadataEl.innerText = JSON.stringify(userMetadata, null, 2);
       oauthEl.innerText = JSON.stringify(oauth, null, 2);
-    }
+    });
   </script>
+
 
   <link rel="stylesheet" href="/css/main.css">
 </head>
