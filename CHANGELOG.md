@@ -1,3 +1,17 @@
+# v3.2.0 (Tue Oct 26 2021)
+
+#### 🚀 Enhancement
+
+- New template: `plug-and-play` [#67](https://github.com/magiclabs/create-magic-app/pull/67) ([@smithki](https://github.com/smithki))
+- add magic sms template [#65](https://github.com/magiclabs/create-magic-app/pull/65) ([@dgerrellsMagic](https://github.com/dgerrellsMagic))
+
+#### Authors: 2
+
+- [@dgerrellsMagic](https://github.com/dgerrellsMagic)
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v3.1.3 (Fri Aug 27 2021)
 
 #### 🐛 Bug Fix
