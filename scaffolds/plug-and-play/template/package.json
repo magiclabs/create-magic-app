@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "magic-login-form-demo",
+  "version": "0.1.0",
+  "description": "A minimal implementation of Magic Login Form.",
+  "scripts": {
+    "start": "http-server --proxy http://localhost:8080? -a localhost -o /login"
+  },
+  "dependencies": {
+    "http-server": "13.0.2"
+  }
+}
