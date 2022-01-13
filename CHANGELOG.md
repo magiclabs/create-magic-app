@@ -1,3 +1,15 @@
+# v3.2.1 (Thu Jan 13 2022)
+
+#### 🐛 Bug Fix
+
+- Remove 'colors' as a transitive dep by updating 'tsc-alias' [#70](https://github.com/magiclabs/create-magic-app/pull/70) ([@smithki](https://github.com/smithki))
+
+#### Authors: 1
+
+- Ian K Smith ([@smithki](https://github.com/smithki))
+
+---
+
 # v3.2.0 (Tue Oct 26 2021)
 
 #### 🚀 Enhancement
