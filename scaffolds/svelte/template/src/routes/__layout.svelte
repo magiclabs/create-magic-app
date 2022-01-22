@@ -10,7 +10,7 @@
 		});
 		return {
 			status: 200,
-			context: {
+			stuff: {
 				user
 			}
 		};
