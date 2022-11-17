@@ -9,32 +9,16 @@
     <script src="https://auth.magic.link/sdk"></script>
     <script>
       /* 2️⃣ Initialize Magic Instance */
-      let magic = new Magic("<%= publishableApiKey %>");
+      let magic = new Magic('<%= publishableApiKey %>');
 
       /* 3️⃣ Implement Render Function */
       const render = async () => {
-        let html = "";
+        let html = '';
 
-        if (window.location.pathname === "/callback") {
-          try {
-            /* Complete the "authentication callback" */
-            await magic.auth.loginWithCredential();
+        const isLoggedIn = await magic.user.isLoggedIn();
 
-            /* Get user metadata including email */
-            const userMetadata = await magic.user.getMetadata();
-
-            html = `
-              <h1>Current user: ${userMetadata.email}</h1>
-              <button onclick="handleLogout()">Logout</button>
-            `;
-          } catch {
-            window.location.href = window.location.origin;
-          }
-        } else {
-          const isLoggedIn = await magic.user.isLoggedIn();
-
-          /* Show login form if user is not logged in */
-          html = `
+        /* Show login form if user is not logged in */
+        html = `
             <h1>Please sign up or login</h1>
             <form onsubmit="handleLogin(event)">
               <input type="email" name="email" required="required" placeholder="Enter your email" />
@@ -42,27 +26,25 @@
             </form>
           `;
 
-          if (isLoggedIn) {
-            /* Get user metadata including email */
-            const userMetadata = await magic.user.getMetadata();
-            html = `
+        if (isLoggedIn) {
+          /* Get user metadata including email */
+          const userMetadata = await magic.user.getMetadata();
+          html = `
               <h1>Current user: ${userMetadata.email}</h1>
               <button onclick="handleLogout()">Logout</button>
             `;
-          }
         }
 
-        document.getElementById("app").innerHTML = html;
+        document.getElementById('app').innerHTML = html;
       };
 
       /* 4️⃣ Implement Login Handler */
       const handleLogin = async (e) => {
         e.preventDefault();
-        const email = new FormData(e.target).get("email");
-        const redirectURI = `${window.location.origin}/callback`;
+        const email = new FormData(e.target).get('email');
         if (email) {
-          /* One-liner login 🤯 */
-          await magic.auth.loginWithMagicLink({ email, redirectURI });
+          /* One-liner login with email OTP 🤯 */
+          await magic.auth.loginWithEmailOTP({ email });
           render();
         }
       };
@@ -75,8 +57,6 @@
     </script>
   </head>
   <body onload="render()">
-    <div id="app">
-      Loading...
-    </div>
+    <div id="app">Loading...</div>
   </body>
 </html>
