@@ -1,0 +1,41 @@
+name: Publish
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+  GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+    name: Publish
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ADMIN_TOKEN }}
+
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn -v
+          yarn install --immutable
+
+      - name: Build
+        run: yarn run build
+
+      - name: Create Release
+        run: yarn auto shipit -v
