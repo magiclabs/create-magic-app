@@ -136,3 +136,30 @@ export namespace SocialLoginsPrompt {
     },
   };
 }
+
+export namespace BlockchainNetworkPrompt {
+  export type Data = {
+    networkUrl: string;
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'select',
+    name: 'networkUrl',
+    message: 'Select the blockchain network url you wish to connect',
+    choices: ['https://polygon-rpc.com/', 'https://rpc-mumbai.maticvigil.com'],
+  };
+
+  const validate = (value: string) =>
+    value.match(/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/)
+      ? true
+      : `${value} is not a valid URL`;
+
+  export const flags: Flags<Partial<Data>> = {
+    networkUrl: {
+      alias: 'n',
+      type: String,
+      validate,
+      description: 'The blockchain network url you wish to connect',
+    },
+  };
+}
