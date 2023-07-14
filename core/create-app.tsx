@@ -107,13 +107,6 @@ export async function createApp(config: CreateMagicAppConfig) {
             { name: 'Magic Auth With NextJS', message: 'Magic Auth Template' },
           ],
         },
-
-        // !isChosenTemplateValid && {
-        //   type: 'autocomplete',
-        //   name: 'template',
-        //   message: 'Choose a template:',
-        //   choices: [...featuredScaffolds, { role: 'separator' }, ...nonFeaturedScaffolds],
-        // },
       ]}
     >
       {async (data) => {
