@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useState } from 'react';
 import Card from '../card/Card';
 import CardHeader from '../card/CardHeader';
 import { useMagic } from '../provider/MagicProvider';
@@ -58,7 +58,7 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
   };
   return (
     <Card>
-      <CardHeader title="Email Login" />
+      <CardHeader title="Email OTP Login" />
       <div className="flex flex-col items-center justify-center">
         <input
           onChange={(e) => {
@@ -80,7 +80,7 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
           disabled={isLoginInProgress || (token.length > 0 ? false : email.length == 0)}
           onClick={() => (token.length > 0 ? handleLogout() : handleLogin())}
         >
-          {isLoginInProgress ? <Spinner /> : token.length > 0 ? 'Logout' : 'Login with OTP'}
+          {isLoginInProgress ? <Spinner /> : token.length > 0 ? 'Logout' : 'Login'}
         </button>
       </div>
     </Card>

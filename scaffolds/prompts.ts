@@ -166,7 +166,7 @@ export namespace BlockchainNetworkPrompt {
 }
 
 export namespace AuthTypePrompt {
-  const authMethods = ['Email OTP', 'Email Link', 'SMS OTP', 'Google Login'];
+  const authMethods = ['Email OTP', 'SMS OTP', 'Google Login', 'Github Login', 'Login Form'];
   export type Data = {
     selectedAuthTypes: string[];
   };
@@ -176,13 +176,13 @@ export namespace AuthTypePrompt {
     name: 'selectedAuthTypes',
     message: 'Choose auth methods:',
     choices: authMethods,
-    // validate: (value) => {
-    //   if (!value.length) {
-    //     return `Please select at least one social login provider.`;
-    //   }
+    validate: (value) => {
+      if (!value.length) {
+        return `Please select at least one social login provider.`;
+      }
 
-    //   return true;
-    // },
+      return true;
+    },
   };
 
   export const flags: Flags<Partial<Data>> = {

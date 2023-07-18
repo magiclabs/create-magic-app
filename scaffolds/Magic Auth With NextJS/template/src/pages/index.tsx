@@ -6,6 +6,7 @@ import React, { lazy, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { authMethods } from '@/utils/authMapper';
+import dynamic from 'next/dynamic';
 
 export default function Home() {
   const [token, setToken] = useState('');
@@ -31,7 +32,7 @@ export default function Home() {
         <div className="w-[100%] grid grid-cols-6 gap-2 p-4">
           {authMethods.map((method) =>
             React.createElement(
-              lazy(() => import('../components/auth/' + method.replaceAll(' ', ''))),
+              dynamic(() => import('../components/auth/' + method.replaceAll(' ', '')), { ssr: false }),
               {
                 token,
                 setToken,
