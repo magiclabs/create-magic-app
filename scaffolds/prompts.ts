@@ -123,6 +123,7 @@ export namespace SocialLoginsPrompt {
         ', ',
       )})`,
       validate: (value) => {
+        console.log('value');
         const invalid: string[] = [];
 
         value.forEach((i) => {
@@ -160,6 +161,47 @@ export namespace BlockchainNetworkPrompt {
       type: String,
       validate,
       description: 'The blockchain network url you wish to connect',
+    },
+  };
+}
+
+export namespace AuthTypePrompt {
+  const authMethods = ['Email OTP', 'Email Link', 'SMS OTP', 'Google Login'];
+  export type Data = {
+    selectedAuthTypes: string[];
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'multiselect',
+    name: 'selectedAuthTypes',
+    message: 'Choose auth methods:',
+    choices: authMethods,
+    // validate: (value) => {
+    //   if (!value.length) {
+    //     return `Please select at least one social login provider.`;
+    //   }
+
+    //   return true;
+    // },
+  };
+
+  export const flags: Flags<Partial<Data>> = {
+    selectedAuthTypes: {
+      type: [String],
+      description: `The auth method(s) of your choice. You can provide this flag multiple times to select multiple methods. (one of: ${authMethods.join(
+        ', ',
+      )})`,
+      validate: (value) => {
+        const invalid: string[] = [];
+
+        value.forEach((i) => {
+          if (!authMethods.includes(i)) invalid.push(i);
+        });
+
+        if (invalid.length) {
+          return `Received unknown auth method(s): (${invalid.join(', ')})`;
+        }
+      },
     },
   };
 }

@@ -31,11 +31,11 @@ const MagicProvider = ({ children, network: networkProp }: { children: ReactNode
       currentNetwork = { ...networkProp! };
     }
 
-    console.log('blockchain url from scaffold: ' + process.env.BLOCKCHAIN_NETWORK_URL);
-    const magic = new Magic(process.env.MAGIC_API_KEY!, {
+    console.log('blockchain url from scaffold: ' + process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL);
+    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_API_KEY!, {
       network: {
-        rpcUrl: process.env.BLOCKCHAIN_NETWORK_URL,
-        chainId: getChainIdFromUrl(process.env.BLOCKCHAIN_NETWORK_URL!),
+        rpcUrl: process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL,
+        chainId: getChainIdFromUrl(process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL!),
       },
       extensions: [new OAuthExtension()],
     });
