@@ -166,7 +166,7 @@ export namespace BlockchainNetworkPrompt {
 }
 
 export namespace AuthTypePrompt {
-  const authMethods = ['Email OTP', 'SMS OTP', 'Google Login', 'Github Login', 'Login Form'];
+  const authMethods = ['Email OTP', 'SMS OTP', 'Google', 'Github', 'Discord', 'Twitter', 'Twitch', 'Login Form'];
   export type Data = {
     selectedAuthTypes: string[];
   };

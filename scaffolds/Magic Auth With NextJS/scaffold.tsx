@@ -28,7 +28,9 @@ export default createScaffold<NextMagicAuthData>(
     >
       {(data) => (
         <>
-          <Template source="./public" />
+          <Template source="./public/background.svg" />
+          <Template source="./public/favicon.ico" />
+          <Template source="./public/magic_color_white.svg" />
           <Template source="./.env" />
           <Template source="./next-env.d.ts" />
           <Template source="./package.json" />
@@ -46,6 +48,7 @@ export default createScaffold<NextMagicAuthData>(
 
           {data.selectedAuthTypes.map((authType) => (
             <React.Fragment key={authType}>
+              <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />
               <Template source={`./src/components/auth/${authType.replaceAll(' ', '')}.tsx`} />
             </React.Fragment>
           ))}
