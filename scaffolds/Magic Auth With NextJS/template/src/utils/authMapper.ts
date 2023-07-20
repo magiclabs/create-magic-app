@@ -1,1 +1,0 @@
-export const authMethods: string[] = [<%- selectedAuthTypes.map(authType => `"${authType}"`) %>]

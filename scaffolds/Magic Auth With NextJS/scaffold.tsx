@@ -35,10 +35,11 @@ export default createScaffold<NextMagicAuthData>(
           <Template source="./postcss.config.js" />
           <Template source="./tailwind.config.js" />
           <Template source="./tsconfig.json" />
-          <Template source="./src/components/card" />
           <Template source="./src/components/provider" />
+          <Template source="./src/components/send-transaction" />
           <Template source="./src/components/ui" />
-          <Template source="./src/components/Header.tsx" />
+          <Template source="./src/components/wallet" />
+          <Template source="./src/components/wallet-methods" />
           <Template source="./src/pages" />
           <Template source="./src/styles" />
           <Template source="./src/utils" />

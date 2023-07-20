@@ -5,11 +5,11 @@ import {logout, saveToken} from '@/utils/common'
 import Spinner from '../ui/Spinner'
 import classNames from 'classnames'
 import Image from 'next/image'
-import github from 'public/github.svg'
+import facebook from 'public/facebook.svg'
 import Card from '../ui/card'
 import CardHeader from '../ui/card-header'
 
-const GithubLogin = ({token, setToken}: LoginProps) => {
+const FacebookLogin = ({token, setToken}: LoginProps) => {
 	const {magic} = useMagic()
 	const [isAuthLoading, setIsAuthLoading] = useState<string | null>(null)
 
@@ -38,7 +38,7 @@ const GithubLogin = ({token, setToken}: LoginProps) => {
 	const login = async () => {
 		setLoadingFlag('true')
 		await magic?.oauth.loginWithRedirect({
-			provider: 'github',
+			provider: 'facebook',
 			redirectURI: window.location.origin,
 		})
 	}
@@ -50,7 +50,7 @@ const GithubLogin = ({token, setToken}: LoginProps) => {
 
 	return (
 		<Card>
-			<CardHeader id='github'>Github Login</CardHeader>
+			<CardHeader id='facebook'>Facebook Login</CardHeader>
 			{isAuthLoading && isAuthLoading !== 'false' ? (
 				<Spinner />
 			) : (
@@ -78,16 +78,16 @@ const GithubLogin = ({token, setToken}: LoginProps) => {
 							if (token.length == 0) login()
 						}}>
 						<Image
-							src={github}
+							src={facebook}
 							alt='Google'
 							height={24}
 							width={24}
 						/>
-						<div className='text-xs font-semibold'>Github</div>
+						<div className='text-xs font-semibold'>Facebook</div>
 					</div>
 				</div>
 			)}
 		</Card>
 	)
 }
-export default GithubLogin
+export default FacebookLogin

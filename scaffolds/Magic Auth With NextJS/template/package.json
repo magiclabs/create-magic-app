@@ -1,5 +1,5 @@
 {
-  "name": "<%= projectName %>",
+  "name": "nextjs-magic-auth-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
