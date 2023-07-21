@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Divider from '../../ui/Divider';
+import Divider from '@/components/ui/Divider';
 import { useMagic } from '../MagicProvider';
-import FormButton from '../../ui/FormButton';
-import FormInput from '../../ui/FormInput';
-import ErrorText from '../../ui/ErrorText';
-import Card from '../../ui/Card';
-import CardHeader from '../../ui/CardHeader';
+import FormButton from '@/components/ui/FormButton';
+import FormInput from '@/components/ui/FormInput';
+import ErrorText from '@/components/ui/ErrorText';
+import Card from '@/components/ui/Card';
+import CardHeader from '@/components/ui/CardHeader';
 import { getFaucetUrl, getTokenSymbol } from '@/utils/network';
 
 const SendTransaction = () => {
