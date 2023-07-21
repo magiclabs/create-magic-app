@@ -103,17 +103,10 @@ export async function createApp(config: CreateMagicAppConfig) {
           name: 'template',
           message: 'Choose a Magic Product',
           choices: [
-            { name: 'magic-connect-with-nextjs', message: 'Magic Connect Template' },
-            { name: 'magic-auth-with-nextjs', message: 'Magic Auth Template' },
+            { name: 'nextjs-magic-connect', message: 'Magic Connect' },
+            { name: 'nextjs-magic-auth', message: 'Magic Auth' },
           ],
         },
-
-        // !isChosenTemplateValid && {
-        //   type: 'autocomplete',
-        //   name: 'template',
-        //   message: 'Choose a template:',
-        //   choices: [...featuredScaffolds, { role: 'separator' }, ...nonFeaturedScaffolds],
-        // },
       ]}
     >
       {async (data) => {
