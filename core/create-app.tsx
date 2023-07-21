@@ -103,8 +103,8 @@ export async function createApp(config: CreateMagicAppConfig) {
           name: 'template',
           message: 'Choose a Magic Product',
           choices: [
-            { name: 'Magic Connect With NextJS', message: 'Magic Connect Template' },
-            { name: 'Magic Auth With NextJS', message: 'Magic Auth Template' },
+            { name: 'magic-connect-with-nextjs', message: 'Magic Connect Template' },
+            { name: 'magic-auth-with-nextjs', message: 'Magic Auth Template' },
           ],
         },
 

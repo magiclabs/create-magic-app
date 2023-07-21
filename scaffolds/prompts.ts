@@ -147,7 +147,11 @@ export namespace BlockchainNetworkPrompt {
     type: 'select',
     name: 'networkUrl',
     message: 'Select the blockchain network url you wish to connect',
-    choices: ['https://polygon-rpc.com/', 'https://rpc-mumbai.maticvigil.com'],
+    choices: [
+      'https://polygon-rpc.com/',
+      'https://rpc-mumbai.maticvigil.com',
+      'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0',
+    ],
   };
 
   const validate = (value: string) =>
