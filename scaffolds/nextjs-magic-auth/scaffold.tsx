@@ -32,9 +32,9 @@ export default createScaffold<NextMagicAuthData>(
           <Template source="./public/favicon.ico" />
           <Template source="./public/magic_color_white.svg" />
           <Template source="./.env" />
+          <Template source="./.env.example" />
           <Template source="./.eslintrc.json" />
           <Template source="./.gitignore" />
-          <Template source="./next-env.d.ts" />
           <Template source="./package.json" />
           <Template source="./postcss.config.js" />
           <Template source="./tailwind.config.js" />
