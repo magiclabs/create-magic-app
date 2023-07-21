@@ -11,6 +11,10 @@
     "bin.js",
     "dist"
   ],
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <17.0.0"
+  },
   "scripts": {
     "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
@@ -60,7 +64,7 @@
     "rimraf": "^3.0.2",
     "tar": "^6.1.0",
     "terser": "^5.6.0-beta",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.9.1",
     "tsc-alias": "^1.5.0",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.1.2",

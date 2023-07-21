@@ -147,7 +147,11 @@ export namespace BlockchainNetworkPrompt {
     type: 'select',
     name: 'networkUrl',
     message: 'Select the blockchain network url you wish to connect',
-    choices: ['https://polygon-rpc.com/', 'https://rpc-mumbai.maticvigil.com'],
+    choices: [
+      'https://polygon-rpc.com/',
+      'https://rpc-mumbai.maticvigil.com',
+      'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0',
+    ],
   };
 
   const validate = (value: string) =>
@@ -166,7 +170,7 @@ export namespace BlockchainNetworkPrompt {
 }
 
 export namespace AuthTypePrompt {
-  const authMethods = ['Email OTP', 'Email Link', 'SMS OTP', 'Google Login'];
+  const authMethods = ['Email OTP', 'SMS OTP', 'Google', 'Github', 'Discord', 'Twitter', 'Twitch', 'Login Form'];
   export type Data = {
     selectedAuthTypes: string[];
   };
@@ -176,13 +180,13 @@ export namespace AuthTypePrompt {
     name: 'selectedAuthTypes',
     message: 'Choose auth methods:',
     choices: authMethods,
-    // validate: (value) => {
-    //   if (!value.length) {
-    //     return `Please select at least one social login provider.`;
-    //   }
+    validate: (value) => {
+      if (!value.length) {
+        return `Please select at least one social login provider.`;
+      }
 
-    //   return true;
-    // },
+      return true;
+    },
   };
 
   export const flags: Flags<Partial<Data>> = {
