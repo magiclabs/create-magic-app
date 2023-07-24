@@ -145,6 +145,10 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
   process.chdir(chosenProjectName);
 
+  if (fs.existsSync(`${cwd}/${chosenProjectName}/.env.example`)) {
+    fs.renameSync(`${cwd}/${chosenProjectName}/.env.example`, `${cwd}/${chosenProjectName}/.env`);
+  }
+
   // Do post-render actions...
   const data = {
     ...scaffoldResult.data['create-magic-app'],
