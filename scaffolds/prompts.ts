@@ -52,13 +52,6 @@ export namespace NpmClientPrompt {
     npmClient: ValuesOf<typeof clients>;
   };
 
-  export const questions: Questions<Data> = {
-    type: 'select',
-    name: 'npmClient',
-    message: 'Choose an NPM client:',
-    choices: clients,
-  };
-
   export const flags: Flags<Partial<Data>> = {
     npmClient: {
       type: String,
@@ -143,9 +136,9 @@ export namespace BlockchainNetworkPrompt {
     name: 'networkUrl',
     message: 'Select the blockchain network url you wish to connect',
     choices: [
-      'https://polygon-rpc.com/',
-      'https://rpc-mumbai.maticvigil.com',
-      'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0',
+      { value: 'https://polygon-rpc.com/', message: 'Polygon Mumbai' },
+      { value: 'https://goerli.optimism.io/', message: 'Optimism Goerli' },
+      { value: 'https://eth-goerli.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD/', message: 'Ethereum Goerli' },
     ],
   };
 
@@ -173,11 +166,11 @@ export namespace AuthTypePrompt {
   export const questions: Questions<Data> = {
     type: 'multiselect',
     name: 'selectedAuthTypes',
-    message: 'Choose auth methods:',
+    message: 'How do you want your users to log in to their wallet?:',
     choices: authMethods,
     validate: (value) => {
       if (!value.length) {
-        return `Please select at least one social login provider.`;
+        return `Please select at least one login option.`;
       }
 
       return true;

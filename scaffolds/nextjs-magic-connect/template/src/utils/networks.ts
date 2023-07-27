@@ -1,29 +1,46 @@
-import {EthNetworkConfiguration} from 'magic-sdk'
+const POLYGON = 'https://rpc-mumbai.maticvigil.com/';
+const OPTIMISM = 'https://goerli.optimism.io/';
+const ETHEREUM_GOERLI = 'https://eth-goerli.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD/';
 
-export enum Networks {
-	Ethereum = 'Ethereum (Goerli)',
-	Polygon = 'Polygon (Mumbai)',
-	Optimism = 'Optimism (Goerli)',
-}
+export const getChainIdFromUrl = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 420;
+    case POLYGON:
+      return 80001;
+    case ETHEREUM_GOERLI:
+      return 5;
+  }
+};
 
-export const formattedNetwork = (
-	selectedNetwork: Networks
-): EthNetworkConfiguration => {
-	switch (selectedNetwork) {
-		case Networks.Optimism:
-			return {
-				rpcUrl: process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL as string,
-				chainId: 420,
-			}
-		case Networks.Polygon:
-			return {
-				rpcUrl: process.env.NEXT_PUBLIC_POLYGON_RPC_URL as string,
-				chainId: 80001,
-			}
-		default:
-			return {
-				rpcUrl: process.env.NEXT_PUBLIC_ETHEREUM_RPC_URL as string,
-				chainId: 5,
-			}
-	}
-}
+export const getNetworkTokenFromUrl = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case POLYGON:
+      return 'MATIC';
+    case OPTIMISM:
+    case ETHEREUM_GOERLI:
+      return 'ETH';
+  }
+};
+
+export const getFaucetUrl = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 'https://community.optimism.io/docs/useful-tools/faucets/';
+    case POLYGON:
+      return 'https://faucet.polygon.technology/';
+    case ETHEREUM_GOERLI:
+      return 'https://goerlifaucet.com/';
+  }
+};
+
+export const getBlockExplorer = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case POLYGON:
+      return 'https://mumbai.polygonscan.com/';
+    case OPTIMISM:
+      return 'https://blockscout.com/optimism/goerli/';
+    case ETHEREUM_GOERLI:
+      return 'https://goerli.etherscan.io/';
+  }
+};

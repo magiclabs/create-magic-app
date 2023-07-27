@@ -112,13 +112,13 @@ export async function createApp(config: CreateMagicAppConfig) {
           type: 'input',
           name: 'projectName',
           message: 'What is your project named?',
-          initial: 'my-app',
+          initial: 'awesome-magic-app',
         },
         configAnswer != 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
           ? {
               type: 'autocomplete',
               name: 'template',
-              message: 'Choose a Magic Product',
+              message: 'Choose your wallet type',
               choices: [
                 { name: 'nextjs-magic-connect', message: 'Magic Connect' },
                 { name: 'nextjs-magic-auth', message: 'Magic Auth' },

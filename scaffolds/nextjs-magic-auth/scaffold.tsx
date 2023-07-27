@@ -21,7 +21,6 @@ export default createScaffold<NextMagicAuthData>(
       {...props}
       prompts={mergePrompts(
         PublishableApiKeyPrompt.questions,
-        NpmClientPrompt.questions,
         BlockchainNetworkPrompt.questions,
         AuthTypePrompt.questions,
       )}
