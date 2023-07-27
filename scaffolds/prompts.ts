@@ -7,20 +7,15 @@ export namespace PublishableApiKeyPrompt {
     publishableApiKey: 'npm' | 'yarn';
   };
 
-  const validate = (value: string) =>
-    value.startsWith('pk') ? true : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
-
   export const questions: Questions<Data> = {
     type: 'input',
     name: 'publishableApiKey',
-    validate,
-    message: 'Enter your Magic publishable API key:',
+    message: 'Enter your Magic publishable API key (press enter to skip):',
   };
 
   export const flags: Flags<Partial<Data>> = {
     publishableApiKey: {
       type: String,
-      validate,
       description: 'The Magic publishable API key for your app.',
     },
   };

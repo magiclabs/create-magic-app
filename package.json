@@ -76,5 +76,8 @@
     "plugins": [
       "npm"
     ]
+  },
+  "dependencies": {
+    "enquirer": "^2.4.0"
   }
 }

@@ -19,6 +19,7 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
+const { Select } = require('enquirer');
 
 export interface CreateMagicAppData {
   /**
@@ -80,6 +81,17 @@ export async function createApp(config: CreateMagicAppConfig) {
     console.warn(); // Aesthetics!
   }
 
+  const configPrompt = new Select({
+    name: 'configuration',
+    message: 'Select a configuration to start with:',
+    choices: [
+      'Quickstart (Nextjs, Magic Connect, Polygon Testnet)',
+      'Custom Configuration (Requires Additional Setup)',
+    ],
+  });
+
+  const configAnswer = await configPrompt.run();
+  console.log('config anser: ' + configAnswer);
   const template = (
     <Zombi<CreateMagicAppData>
       name="create-magic-app"
@@ -88,7 +100,12 @@ export async function createApp(config: CreateMagicAppConfig) {
       data={filterNilValues({
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
-        template: isChosenTemplateValid ? config?.template : undefined,
+        template:
+          configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
+            ? 'magic-connect-quickstart'
+            : isChosenTemplateValid
+            ? config.template
+            : undefined,
       })}
       prompts={[
         {
@@ -97,24 +114,36 @@ export async function createApp(config: CreateMagicAppConfig) {
           message: 'What is your project named?',
           initial: 'my-app',
         },
-
-        {
-          type: 'autocomplete',
-          name: 'template',
-          message: 'Choose a Magic Product',
-          choices: [
-            { name: 'nextjs-magic-connect', message: 'Magic Connect' },
-            { name: 'nextjs-magic-auth', message: 'Magic Auth' },
-          ],
-        },
+        configAnswer != 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
+          ? {
+              type: 'autocomplete',
+              name: 'template',
+              message: 'Choose a Magic Product',
+              choices: [
+                { name: 'nextjs-magic-connect', message: 'Magic Connect' },
+                { name: 'nextjs-magic-auth', message: 'Magic Auth' },
+              ],
+            }
+          : null,
       ]}
     >
       {async (data) => {
         const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${data.branch}`, GITHUB_BASE_URL);
-        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.template));
+        const repoInfo = await getRepoInfo(
+          repoUrl,
+          getRelativeTemplatePath(
+            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
+              ? 'magic-connect-quickstart'
+              : data.template,
+          ),
+        );
 
         if (repoInfo) {
-          const templatePath = getAbsoluteTemplatePath(data.template);
+          const templatePath = getAbsoluteTemplatePath(
+            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
+              ? 'magic-connect-quickstart'
+              : data.template,
+          );
 
           if (!fs.existsSync(templatePath)) {
             await makeDir(templatePath);
@@ -124,14 +153,20 @@ export async function createApp(config: CreateMagicAppConfig) {
           // TODO: Handle case where repo info is not found
         }
 
-        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
+        const templateData = await parseFlags(
+          getScaffoldDefinition(
+            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
+              ? 'magic-connect-quickstart'
+              : data.template,
+          ).flags,
+          config?.data,
+        );
         const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
 
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
   );
-
   const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
   const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
 
