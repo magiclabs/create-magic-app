@@ -140,9 +140,6 @@ export async function createApp(config: CreateMagicAppConfig) {
   // Save the current working directory and
   // change directories into the rendered scaffold.
   const cwd = process.cwd();
-  if (!fs.existsSync(`${cwd}/${chosenProjectName}`)) {
-    fs.mkdirSync(`${cwd}/${chosenProjectName}`);
-  }
   process.chdir(chosenProjectName);
 
   if (fs.existsSync(`${cwd}/${chosenProjectName}/.env.example`)) {
