@@ -1,26 +1,49 @@
-import React from 'react'
-import Disconnect from '../wallet-methods/Disconnect'
-import GetWalletInfo from '../wallet-methods/GetWalletInfo'
-import RequestUserInfo from '../wallet-methods/RequestUserInfo'
-import ShowWalletUI from '../wallet-methods/ShowWalletUI'
-import Divider from '@/components/ui/Divider'
-import { LoginProps } from '@/utils/types'
-import Card from '@/components/ui/Card'
-import CardHeader from '@/components/ui/CardHeader'
+import React, { useState } from 'react';
+import Disconnect from '../wallet-methods/Disconnect';
+import GetIdToken from '../wallet-methods/GetIdToken';
+import GetMetadata from '../wallet-methods/GetMetadata';
+import Divider from '@/components/ui/Divider';
+import { LoginProps } from '@/utils/types';
+import Card from '@/components/ui/Card';
+import CardHeader from '@/components/ui/CardHeader';
+import { LoginMethod } from '@/utils/common';
+<% {selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")%>
+<%-`import UpdateEmail from '../wallet-methods/UpdateEmail'`-%>
+<% }%>
+<% {selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")%>
+<%-`import UpdatePhone from '../wallet-methods/UpdatePhone'`-%>
+<% }%>
 
 const WalletMethods = ({ token, setToken }: LoginProps) => {
+  const [loginMethod, setLoginMethod] = useState<LoginMethod | null>(
+    localStorage.getItem('loginMethod') as LoginMethod,
+  );
   return (
     <Card>
-      <CardHeader id="methods">Wallet Methods</CardHeader>
-      <ShowWalletUI />
+      <CardHeader id="methods">User Methods</CardHeader>
+	  <% {selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")%>
+	  	<%-`{loginMethod && loginMethod == 'EMAIL' && (
+			<>
+				<UpdateEmail />
+				<Divider />
+			</>
+		)}`-%>
+	  <% }%>
+      <% {selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")%>
+	  	<%-`{loginMethod && loginMethod == 'SMS' && (
+			<>
+				<UpdatePhone />
+				<Divider />
+			</>
+		)}`-%>
+	  <% }%>
+      <GetIdToken />
       <Divider />
-      <GetWalletInfo />
-      <Divider />
-      <RequestUserInfo />
+      <GetMetadata />
       <Divider />
       <Disconnect token={token} setToken={setToken} />
     </Card>
-  )
-}
+  );
+};
 
-export default WalletMethods
+export default WalletMethods;

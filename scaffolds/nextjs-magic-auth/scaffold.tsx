@@ -41,7 +41,9 @@ export default createScaffold<NextMagicAuthData>(
           <Template source="./README.md" />
           <Template source="./src/components/ui" />
           <Template source="./src/components/magic/cards" />
-          <Template source="./src/components/magic/wallet-methods" />
+          <Template source="./src/components/magic/wallet-methods/Disconnect.tsx" />
+          <Template source="./src/components/magic/wallet-methods/GetIdToken.tsx" />
+          <Template source="./src/components/magic/wallet-methods/GetMetadata.tsx" />
           <Template source="./src/components/magic/Dashboard.tsx" />
           <Template source="./src/components/magic/DevLinks.tsx" />
           <Template source="./src/components/magic/Header.tsx" />
@@ -60,6 +62,12 @@ export default createScaffold<NextMagicAuthData>(
                 authType == 'Google' ||
                 authType == 'Twitch' ||
                 authType == 'Twitter') && <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />}
+              {authType.replaceAll(' ', '') == 'EmailOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
+              )}
+              {authType.replaceAll(' ', '') == 'SMSOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
+              )}
             </React.Fragment>
           ))}
         </>
