@@ -6,7 +6,7 @@ import FormInput from '@/components/ui/FormInput';
 import ErrorText from '@/components/ui/ErrorText';
 import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
-import { getFaucetUrl, getTokenSymbol } from '@/utils/network';
+import { getFaucetUrl, getNetworkTokenFromUrl } from '@/utils/network';
 
 const SendTransaction = () => {
   const { web3 } = useMagic();
@@ -60,7 +60,7 @@ const SendTransaction = () => {
       <CardHeader id="send-transaction">Send Transaction</CardHeader>
       <a href={getFaucetUrl()} target="_blank" rel="noreferrer">
         <FormButton onClick={() => null} disabled={false}>
-          Get Test {getTokenSymbol()}
+          Get Test {getNetworkTokenFromUrl()}
         </FormButton>
       </a>
       <Divider />
@@ -73,7 +73,7 @@ const SendTransaction = () => {
       <FormInput
         value={amount}
         onChange={(e: any) => setAmount(e.target.value)}
-        placeholder={`Amount (${getTokenSymbol()})`}
+        placeholder={`Amount (${getNetworkTokenFromUrl()})`}
       />
       {amountError ? <ErrorText className="error">Invalid amount</ErrorText> : null}
       <FormButton onClick={sendTransaction} disabled={!toAddress || !amount || disabled}>

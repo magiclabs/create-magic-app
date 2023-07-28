@@ -44,3 +44,14 @@ export const getBlockExplorer = () => {
       return 'https://goerli.etherscan.io/';
   }
 };
+
+export const getNetworkName = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 'Optimism (Goerli)';
+    case POLYGON:
+      return 'Polygon (Mumbai)';
+    case ETHEREUM_GOERLI:
+      return 'Ethereum (Goerli)';
+  }
+};

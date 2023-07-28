@@ -61,7 +61,7 @@ export namespace NpmClientPrompt {
   };
 
   export function getInstallCommand(data: Data) {
-    return data.npmClient === 'npm' ? ['npm', 'install'] : ['yarn', 'install'];
+    return data.npmClient === 'yarn' ? ['yarn', 'install'] : ['npm', 'install'];
   }
 
   export function getStartCommand(packageJsonScript: string) {

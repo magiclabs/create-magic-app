@@ -1,40 +1,46 @@
-export const getChainIdFromUrl = (url: string) => {
-  switch (url) {
-    case 'https://polygon-rpc.com/':
-      return 137;
-    case 'https://rpc-mumbai.maticvigil.com':
+const POLYGON = 'https://rpc-mumbai.maticvigil.com/';
+const OPTIMISM = 'https://goerli.optimism.io/';
+const ETHEREUM_GOERLI = 'https://eth-goerli.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD/';
+
+export const getChainIdFromUrl = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 420;
+    case POLYGON:
       return 80001;
-    case 'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0':
+    case ETHEREUM_GOERLI:
       return 5;
   }
 };
 
-export const getTokenSymbol = () => {
-  if (
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL == 'https://polygon-rpc.com/' ||
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL == 'https://rpc-mumbai.maticvigil.com'
-  ) {
-    return 'Matic';
-  } else if (
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL ==
-    'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0'
-  ) {
-    return 'Eth';
+export const getNetworkTokenFromUrl = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case POLYGON:
+      return 'MATIC';
+    case OPTIMISM:
+    case ETHEREUM_GOERLI:
+      return 'ETH';
   }
-  return '';
 };
 
 export const getFaucetUrl = () => {
-  if (
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL == 'https://polygon-rpc.com/' ||
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL == 'https://rpc-mumbai.maticvigil.com'
-  ) {
-    return 'https://faucet.polygon.technology/';
-  } else if (
-    process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL ==
-    'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0'
-  ) {
-    return 'https://goerlifaucet.com/';
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 'https://community.optimism.io/docs/useful-tools/faucets/';
+    case POLYGON:
+      return 'https://faucet.polygon.technology/';
+    case ETHEREUM_GOERLI:
+      return 'https://goerlifaucet.com/';
   }
-  return '';
+};
+
+export const getNetworkName = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL) {
+    case OPTIMISM:
+      return 'Optimism (Goerli)';
+    case POLYGON:
+      return 'Polygon (Mumbai)';
+    case ETHEREUM_GOERLI:
+      return 'Ethereum (Goerli)';
+  }
 };

@@ -6,7 +6,7 @@ import CardLabel from '../../ui/CardLabel';
 import Card from '../../ui/Card';
 import CardHeader from '../../ui/CardHeader';
 import { useMagicContext } from '@/components/magic/MagicProvider';
-import { getNetworkTokenFromUrl } from '@/utils/networks';
+import { getNetworkName, getNetworkTokenFromUrl } from '@/utils/networks';
 
 interface Props {
   setAccount: React.Dispatch<React.SetStateAction<string | null>>;
@@ -73,7 +73,7 @@ const UserInfo = ({ setAccount }: Props) => {
       <CardLabel leftHeader="Status" rightAction={<div onClick={disconnect}>Disconnect</div>} isDisconnect />
       <div className="flex-row">
         <div className="green-dot" />
-        <div className="connected">Connected</div>
+        <div className="connected">Connected to {getNetworkName()}</div>
       </div>
       <Divider />
       <CardLabel leftHeader="Address" rightAction={<div onClick={copy}>{copied}</div>} />
