@@ -26,6 +26,9 @@ const MagicProvider = ({ children }: { children: React.ReactNode }) => {
         chainId: getChainId(),
       },
     });
+
+    setMagicInstance(magic);
+    setWeb3Instance(new Web3((magic as any).rpcProvider));
   }, []);
 
   return (
