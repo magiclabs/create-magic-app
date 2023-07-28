@@ -7,7 +7,7 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import CardLabel from '@/components/ui/CardLabel';
 import Spinner from '@/components/ui/Spinner';
-import { getNetworkName, getNetworkTokenFromUrl } from '@/utils/network';
+import { getNetworkName, getNetworkToken } from '@/utils/network';
 
 const UserInfo = ({ token, setToken }: LoginProps) => {
   const { magic, web3 } = useMagic();
@@ -108,7 +108,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
         }
       />
       <div className="code">
-        {balance.substring(0, 7)} {getNetworkTokenFromUrl()}
+        {balance.substring(0, 7)} {getNetworkToken()}
       </div>
     </Card>
   );

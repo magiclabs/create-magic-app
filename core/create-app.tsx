@@ -19,7 +19,7 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
-const { Select } = require('enquirer');
+const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {
   /**
@@ -64,34 +64,42 @@ export async function createApp(config: CreateMagicAppConfig) {
         featured: getScaffoldDefinition(name).featured,
       };
     });
-  const featuredScaffolds = availableScaffolds
-    .filter((s) => !!s.featured)
-    .sort((a, b) => {
-      const left = typeof a.featured === 'boolean' ? Infinity : a.featured!.order;
-      const right = typeof b.featured === 'boolean' ? Infinity : b.featured!.order;
 
-      return left - right;
-    });
-  const nonFeaturedScaffolds = availableScaffolds.filter((s) => !s.featured);
-
-  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  let isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
-  const configPrompt = new Select({
-    name: 'configuration',
-    message: 'Select a configuration to start with:',
-    choices: [
-      'Quickstart (Nextjs, Magic Connect, Polygon Testnet)',
-      'Custom Configuration (Requires Additional Setup)',
-    ],
-  });
+  if (!config.projectName) {
+    const projectName = await new Input({
+      name: 'projectName',
+      message: 'What is your project named?',
+      initial: 'awesome-magic-app',
+    }).run();
 
-  const configAnswer = await configPrompt.run();
-  console.log('config anser: ' + configAnswer);
+    config.projectName = projectName;
+  }
+
+  let quickstart = false;
+  if (!config.template) {
+    const configuration = await new Select({
+      name: 'configuration',
+      message: 'Select a configuration to start with:',
+      choices: [
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)' },
+        { name: 'custom', message: 'Custom Configuration (Requires Additional Setup)' },
+      ],
+    }).run();
+
+    if (configuration === 'quickstart') {
+      config.template = 'nextjs-magic-connect';
+      isChosenTemplateValid = true;
+      quickstart = true;
+    }
+  }
+
   const template = (
     <Zombi<CreateMagicAppData>
       name="create-magic-app"
@@ -100,12 +108,8 @@ export async function createApp(config: CreateMagicAppConfig) {
       data={filterNilValues({
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
-        template:
-          configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
-            ? 'magic-connect-quickstart'
-            : isChosenTemplateValid
-            ? config.template
-            : undefined,
+        template: isChosenTemplateValid ? config.template : undefined,
+        network: quickstart ? 'polygon-mumbai' : undefined,
       })}
       prompts={[
         {
@@ -114,36 +118,23 @@ export async function createApp(config: CreateMagicAppConfig) {
           message: 'What is your project named?',
           initial: 'awesome-magic-app',
         },
-        configAnswer != 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
-          ? {
-              type: 'autocomplete',
-              name: 'template',
-              message: 'Choose your wallet type',
-              choices: [
-                { name: 'nextjs-magic-connect', message: 'Magic Connect' },
-                { name: 'nextjs-magic-auth', message: 'Magic Auth' },
-              ],
-            }
-          : null,
+        {
+          type: 'autocomplete',
+          name: 'template',
+          message: 'Choose your wallet type',
+          choices: [
+            { name: 'nextjs-magic-connect', message: 'Magic Connect' },
+            { name: 'nextjs-magic-auth', message: 'Magic Auth' },
+          ],
+        },
       ]}
     >
       {async (data) => {
         const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${data.branch}`, GITHUB_BASE_URL);
-        const repoInfo = await getRepoInfo(
-          repoUrl,
-          getRelativeTemplatePath(
-            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
-              ? 'magic-connect-quickstart'
-              : data.template,
-          ),
-        );
+        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.template));
 
         if (repoInfo) {
-          const templatePath = getAbsoluteTemplatePath(
-            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
-              ? 'magic-connect-quickstart'
-              : data.template,
-          );
+          const templatePath = getAbsoluteTemplatePath(data.template);
 
           if (!fs.existsSync(templatePath)) {
             await makeDir(templatePath);
@@ -153,14 +144,7 @@ export async function createApp(config: CreateMagicAppConfig) {
           // TODO: Handle case where repo info is not found
         }
 
-        const templateData = await parseFlags(
-          getScaffoldDefinition(
-            configAnswer == 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)'
-              ? 'magic-connect-quickstart'
-              : data.template,
-          ).flags,
-          config?.data,
-        );
+        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
         const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
 
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;

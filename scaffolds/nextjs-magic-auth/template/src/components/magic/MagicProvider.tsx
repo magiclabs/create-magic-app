@@ -1,4 +1,4 @@
-import { getChainIdFromUrl } from '@/utils/network';
+import { getChainId, getNetworkUrl } from '@/utils/network';
 import { OAuthExtension } from '@magic-ext/oauth';
 import { AuthExtension } from '@magic-ext/auth';
 import { Magic as MagicBase } from 'magic-sdk';
@@ -26,8 +26,8 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const magic = new MagicBase(process.env.NEXT_PUBLIC_MAGIC_API_KEY!, {
       network: {
-        rpcUrl: process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL!,
-        chainId: getChainIdFromUrl(),
+        rpcUrl: getNetworkUrl(),
+        chainId: getChainId(),
       },
       extensions: [new AuthExtension(), new OAuthExtension()],
     });

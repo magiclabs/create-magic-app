@@ -11,7 +11,6 @@ import {
 
 type NextMagicAuthData = NpmClientPrompt.Data &
   PublishableApiKeyPrompt.Data &
-  SecretApiKeyPrompt.Data &
   BlockchainNetworkPrompt.Data &
   AuthTypePrompt.Data;
 
@@ -20,9 +19,9 @@ export default createScaffold<NextMagicAuthData>(
     <Zombi
       {...props}
       prompts={mergePrompts(
-        PublishableApiKeyPrompt.questions,
-        BlockchainNetworkPrompt.questions,
         AuthTypePrompt.questions,
+        BlockchainNetworkPrompt.questions,
+        PublishableApiKeyPrompt.questions,
       )}
     >
       {(data) => (

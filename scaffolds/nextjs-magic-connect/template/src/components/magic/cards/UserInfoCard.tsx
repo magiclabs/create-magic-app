@@ -6,7 +6,7 @@ import CardLabel from '../../ui/CardLabel';
 import Card from '../../ui/Card';
 import CardHeader from '../../ui/CardHeader';
 import { useMagicContext } from '@/components/magic/MagicProvider';
-import { getNetworkName, getNetworkTokenFromUrl } from '@/utils/networks';
+import { getNetworkName, getNetworkToken } from '@/utils/networks';
 
 interface Props {
   setAccount: React.Dispatch<React.SetStateAction<string | null>>;
@@ -21,7 +21,7 @@ const UserInfo = ({ setAccount }: Props) => {
 
   const publicAddress = localStorage.getItem('user');
   const network = localStorage.getItem('network');
-  const tokenSymbol = getNetworkTokenFromUrl();
+  const tokenSymbol = getNetworkToken();
 
   const getBalance = useCallback(async () => {
     if (publicAddress && web3) {

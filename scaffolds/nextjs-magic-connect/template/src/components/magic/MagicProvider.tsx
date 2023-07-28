@@ -1,6 +1,6 @@
 import { createContext, useContext, useCallback, useEffect, useState } from 'react';
 import { Magic } from 'magic-sdk';
-import { getChainIdFromUrl } from '../../utils/networks';
+import { getChainId, getNetworkUrl } from '../../utils/networks';
 import Web3 from 'web3';
 
 export type MagicContextType = {
@@ -22,8 +22,8 @@ const MagicProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_API_KEY as string, {
       network: {
-        rpcUrl: process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK_URL!,
-        chainId: getChainIdFromUrl(),
+        rpcUrl: getNetworkUrl(),
+        chainId: getChainId(),
       },
     });
   }, []);
