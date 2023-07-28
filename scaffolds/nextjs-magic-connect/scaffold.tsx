@@ -1,13 +1,13 @@
 import React from 'react';
 import { Template, Zombi, mergePrompts } from 'zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
-import { NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
+import { BlockchainNetworkPrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
-type NextMagicConnectData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & SecretApiKeyPrompt.Data;
+type NextMagicConnectData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & BlockchainNetworkPrompt.Data;
 
 export default createScaffold<NextMagicConnectData>(
   (props) => (
-    <Zombi {...props} prompts={mergePrompts(PublishableApiKeyPrompt.questions, NpmClientPrompt.questions)}>
+    <Zombi {...props} prompts={mergePrompts(BlockchainNetworkPrompt.questions, PublishableApiKeyPrompt.questions)}>
       <Template source="./" />
     </Zombi>
   ),
@@ -19,7 +19,7 @@ export default createScaffold<NextMagicConnectData>(
     flags: {
       ...NpmClientPrompt.flags,
       ...PublishableApiKeyPrompt.flags,
-      ...SecretApiKeyPrompt.flags,
+      ...BlockchainNetworkPrompt.flags,
     },
   },
 );

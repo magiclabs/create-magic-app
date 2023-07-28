@@ -19,6 +19,7 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
+const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {
   /**
@@ -63,21 +64,40 @@ export async function createApp(config: CreateMagicAppConfig) {
         featured: getScaffoldDefinition(name).featured,
       };
     });
-  const featuredScaffolds = availableScaffolds
-    .filter((s) => !!s.featured)
-    .sort((a, b) => {
-      const left = typeof a.featured === 'boolean' ? Infinity : a.featured!.order;
-      const right = typeof b.featured === 'boolean' ? Infinity : b.featured!.order;
 
-      return left - right;
-    });
-  const nonFeaturedScaffolds = availableScaffolds.filter((s) => !s.featured);
-
-  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  let isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
+  }
+
+  if (!config.projectName) {
+    const projectName = await new Input({
+      name: 'projectName',
+      message: 'What is your project named?',
+      initial: 'awesome-magic-app',
+    }).run();
+
+    config.projectName = projectName;
+  }
+
+  let quickstart = false;
+  if (!config.template) {
+    const configuration = await new Select({
+      name: 'configuration',
+      message: 'Select a configuration to start with:',
+      choices: [
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)' },
+        { name: 'custom', message: 'Custom Configuration (Requires Additional Setup)' },
+      ],
+    }).run();
+
+    if (configuration === 'quickstart') {
+      config.template = 'nextjs-magic-connect';
+      isChosenTemplateValid = true;
+      quickstart = true;
+    }
   }
 
   const template = (
@@ -88,20 +108,20 @@ export async function createApp(config: CreateMagicAppConfig) {
       data={filterNilValues({
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
-        template: isChosenTemplateValid ? config?.template : undefined,
+        template: isChosenTemplateValid ? config.template : undefined,
+        network: quickstart ? 'polygon-mumbai' : undefined,
       })}
       prompts={[
         {
           type: 'input',
           name: 'projectName',
           message: 'What is your project named?',
-          initial: 'my-app',
+          initial: 'awesome-magic-app',
         },
-
         {
           type: 'autocomplete',
           name: 'template',
-          message: 'Choose a Magic Product',
+          message: 'Choose your wallet type',
           choices: [
             { name: 'nextjs-magic-connect', message: 'Magic Connect' },
             { name: 'nextjs-magic-auth', message: 'Magic Auth' },
@@ -131,7 +151,6 @@ export async function createApp(config: CreateMagicAppConfig) {
       }}
     </Zombi>
   );
-
   const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
   const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
 
