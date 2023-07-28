@@ -7,7 +7,7 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import CardLabel from '@/components/ui/CardLabel';
 import Spinner from '@/components/ui/Spinner';
-import { getTokenSymbol } from '@/utils/network';
+import { getNetworkName, getNetworkTokenFromUrl } from '@/utils/network';
 
 const UserInfo = ({ token, setToken }: LoginProps) => {
   const { magic, web3 } = useMagic();
@@ -88,7 +88,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
       <CardLabel leftHeader="Status" rightAction={<div onClick={disconnect}>Disconnect</div>} isDisconnect />
       <div className="flex-row">
         <div className="green-dot" />
-        <div className="connected">Connected</div>
+        <div className="connected">Connected to {getNetworkName()}</div>
       </div>
       <Divider />
       <CardLabel leftHeader="Address" rightAction={!publicAddress ? <Spinner /> : <div onClick={copy}>{copied}</div>} />
@@ -108,7 +108,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
         }
       />
       <div className="code">
-        {balance.substring(0, 7)} {getTokenSymbol()}
+        {balance.substring(0, 7)} {getNetworkTokenFromUrl()}
       </div>
     </Card>
   );
