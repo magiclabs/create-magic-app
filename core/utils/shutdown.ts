@@ -1,3 +1,5 @@
+import { SharedAnalytics } from 'core/analytics';
+
 export const ShutdownSignals = [
   'SIGHUP',
   'SIGINT',
@@ -12,7 +14,7 @@ export const ShutdownSignals = [
   'SIGUSR2',
   'SIGTERM',
 ] as const;
-export type ShutdownSignal = typeof ShutdownSignals[number];
+export type ShutdownSignal = (typeof ShutdownSignals)[number];
 
 type ShutdownTask = (signal: ShutdownSignal) => void | Promise<void>;
 
@@ -53,6 +55,10 @@ export function useGracefulShutdown() {
     const onShutdown = async () => {
       if (state.isShuttingDown) return;
       state.isShuttingDown = true;
+
+      SharedAnalytics.logEvent('shutdown', { reason: signal });
+
+      await SharedAnalytics.prepareForShutdown();
 
       const shutdownPromises = [...state.tasks.values()].map((task) => Promise.resolve(task(signal)));
       await Promise.all(shutdownPromises);

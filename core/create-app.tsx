@@ -19,6 +19,7 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
+import { Analytics, SharedAnalytics } from './analytics';
 const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {
@@ -51,6 +52,8 @@ export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
  * Generates and runs a project scaffold.
  */
 export async function createApp(config: CreateMagicAppConfig) {
+  SharedAnalytics.logEvent('cli-tool-started', { input: config });
+
   const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
 
@@ -146,13 +149,14 @@ export async function createApp(config: CreateMagicAppConfig) {
 
         const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
         const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
-
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
   );
   const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
   const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
+
+  SharedAnalytics.logEvent('scaffold-cloned', { data: scaffoldResult });
 
   console.log(); // Aesthetics!
 
@@ -215,6 +219,8 @@ export async function createApp(config: CreateMagicAppConfig) {
 
       console.log(msg.join('\n'));
     });
+
+    SharedAnalytics.logEvent('cli-tool-completed', {});
 
     await startCmd?.wait();
   }

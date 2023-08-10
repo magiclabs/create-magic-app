@@ -8,6 +8,10 @@ import { CreateMagicAppError } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { useGracefulShutdown } from './utils/shutdown';
+import { SharedAnalytics } from './analytics';
+import { promptForUsageDataIfNeeded } from './utils/usagePermissions';
+import { loadConfig } from './config';
+import suppressWarnings from './utils/suppress-experimental-warnings';
 
 function sayHello() {
   console.log(chalk`\n
@@ -25,6 +29,9 @@ function sayHello() {
 }
 
 (async () => {
+  // Ensures that ExperimentalWarning caused by fetch is suppressed
+  suppressWarnings.fetch();
+
   useGracefulShutdown();
 
   const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
@@ -42,9 +49,16 @@ function sayHello() {
 
   sayHello();
 
+  const collectUsageData = await promptForUsageDataIfNeeded();
+  const config = loadConfig();
+  if (collectUsageData && config?.id) {
+    SharedAnalytics.identifyUser(config.id);
+  }
+
   // Run the scaffold...
   await createApp({ projectName, template, branch });
 })().catch((err) => {
+  SharedAnalytics.logEvent('cli-tool-error', { message: err.message, stack: err.stack });
   if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {
     // Skip logging errors about users canceling input, just exit!
     process.exit(1);
