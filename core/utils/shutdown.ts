@@ -1,5 +1,3 @@
-import { SharedAnalytics } from 'core/analytics';
-
 export const ShutdownSignals = [
   'SIGHUP',
   'SIGINT',
@@ -16,7 +14,7 @@ export const ShutdownSignals = [
 ] as const;
 export type ShutdownSignal = (typeof ShutdownSignals)[number];
 
-type ShutdownTask = (signal: ShutdownSignal) => void | Promise<void>;
+type ShutdownTask = (reason: { signal: ShutdownSignal } | { code: number }) => void | Promise<void>;
 
 interface ShutdownState {
   tasks: Set<ShutdownTask>;
@@ -56,16 +54,25 @@ export function useGracefulShutdown() {
       if (state.isShuttingDown) return;
       state.isShuttingDown = true;
 
-      SharedAnalytics.logEvent('shutdown', { reason: signal });
-
-      await SharedAnalytics.prepareForShutdown();
-
-      const shutdownPromises = [...state.tasks.values()].map((task) => Promise.resolve(task(signal)));
-      await Promise.all(shutdownPromises);
+      await handleShutdownTasks({ signal });
 
       process.exit();
     };
 
     process.on(signal, onShutdown as any);
   });
+}
+
+async function handleShutdownTasks(reason: { signal: ShutdownSignal } | { code: number }) {
+  const shutdownPromises = [...state.tasks.values()].map((task) => Promise.resolve(task(reason)));
+  await Promise.all(shutdownPromises);
+}
+
+/**
+ * Shutdown process in a way that allows for cleanup
+ * @param code exit status
+ */
+export function shutdown(code: number) {
+  handleShutdownTasks({ code });
+  process.exit(code);
 }

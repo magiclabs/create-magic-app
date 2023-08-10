@@ -1,6 +1,7 @@
 import { Analytics as Segment } from '@segment/analytics-node';
 import os from 'os';
 import { loadConfig } from './config';
+import { addShutdownTask } from './utils/shutdown';
 
 export interface Analytics {
   logEvent(event: string, data: any): void;
@@ -13,6 +14,10 @@ export class SegmentAnalytics implements Analytics {
 
   constructor() {
     this.segment = new Segment({ writeKey: '9hj4nUBAc6g8y9pUC0CTyVlFbwBcrQfK' });
+    addShutdownTask(async (reason) => {
+      this.logEvent('cli-tool-shutdown', reason);
+      await this.prepareForShutdown();
+    });
   }
 
   logEvent(event: string, data: any): void {

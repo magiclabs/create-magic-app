@@ -24,7 +24,7 @@ body {
   margin-top: 0px;
 }
 
-nav > ul > li {
+nav>ul>li {
   margin-bottom: 15px;
   text-align: left;
   list-style-type: none;
@@ -79,6 +79,7 @@ ul {
   .table-of-contents {
     display: none;
   }
+
   .cards-container {
     margin-top: -89px;
   }
@@ -167,9 +168,21 @@ ul {
 }
 
 .login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   background-size: "100% auto";
   background-image: url("/login.svg");
+}
+
+.paragraph {
+  max-width: 500px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0px;
+  font-size: 20px;
+  font-weight: 400;
 }
 
 .connect-button {
@@ -227,7 +240,7 @@ ul {
   }
 }
 
-.link > a {
+.link>a {
   cursor: pointer;
 }
 
@@ -359,6 +372,7 @@ ul {
   0% {
     transform: rotate(0);
   }
+
   100% {
     transform: rotate(360deg);
   }

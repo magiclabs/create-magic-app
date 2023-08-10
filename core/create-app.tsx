@@ -19,7 +19,7 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
-import { Analytics, SharedAnalytics } from './analytics';
+import { SharedAnalytics } from './analytics';
 const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {
@@ -92,7 +92,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       message: 'Select a configuration to start with:',
       choices: [
         { name: 'quickstart', message: 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)' },
-        { name: 'custom', message: 'Custom Configuration (Requires Additional Setup)' },
+        { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
       ],
     }).run();
 
@@ -113,6 +113,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         projectName: config?.projectName,
         template: isChosenTemplateValid ? config.template : undefined,
         network: quickstart ? 'polygon-mumbai' : undefined,
+        npmClient: 'npm',
       })}
       prompts={[
         {
@@ -156,7 +157,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
   const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
 
-  SharedAnalytics.logEvent('scaffold-cloned', { data: scaffoldResult });
+  SharedAnalytics.logEvent('cli-tool-scaffold-cloned', { data: scaffoldResult.data });
 
   console.log(); // Aesthetics!
 
@@ -221,8 +222,6 @@ export async function createApp(config: CreateMagicAppConfig) {
     });
 
     SharedAnalytics.logEvent('cli-tool-completed', {});
-
-    await startCmd?.wait();
   }
 
   // Return to the previous working directory

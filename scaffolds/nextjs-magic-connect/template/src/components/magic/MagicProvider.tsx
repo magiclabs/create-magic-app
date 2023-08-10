@@ -20,15 +20,17 @@ const MagicProvider = ({ children }: { children: React.ReactNode }) => {
   const [web3Instance, setWeb3Instance] = useState<Web3 | null>(null);
 
   useEffect(() => {
-    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_API_KEY as string, {
-      network: {
-        rpcUrl: getNetworkUrl(),
-        chainId: getChainId(),
-      },
-    });
+    if (process.env.NEXT_PUBLIC_MAGIC_API_KEY) {
+      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_API_KEY as string, {
+        network: {
+          rpcUrl: getNetworkUrl(),
+          chainId: getChainId(),
+        },
+      });
 
-    setMagicInstance(magic);
-    setWeb3Instance(new Web3((magic as any).rpcProvider));
+      setMagicInstance(magic);
+      setWeb3Instance(new Web3((magic as any).rpcProvider));
+    }
   }, []);
 
   return (

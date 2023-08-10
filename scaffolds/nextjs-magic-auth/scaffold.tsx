@@ -47,6 +47,7 @@ export default createScaffold<NextMagicAuthData>(
           <Template source="./src/components/magic/Header.tsx" />
           <Template source="./src/components/magic/Login.tsx" />
           <Template source="./src/components/magic/MagicProvider.tsx" />
+          <Template source="./src/components/magic/MagicDashboardRedirect.tsx" />
           <Template source="./src/pages" />
           <Template source="./src/styles" />
           <Template source="./src/utils" />

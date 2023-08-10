@@ -24,16 +24,17 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
   const [web3, setWeb3] = useState<Web3 | null>(null);
 
   useEffect(() => {
-    const magic = new MagicBase(process.env.NEXT_PUBLIC_MAGIC_API_KEY!, {
-      network: {
-        rpcUrl: getNetworkUrl(),
-        chainId: getChainId(),
-      },
-      extensions: [new AuthExtension(), new OAuthExtension()],
-    });
-    const web3 = new Web3(magic.rpcProvider);
-    setMagic(magic);
-    setWeb3(web3);
+    if (process.env.NEXT_PUBLIC_MAGIC_API_KEY) {
+      const magic = new MagicBase(process.env.NEXT_PUBLIC_MAGIC_API_KEY as string, {
+        network: {
+          rpcUrl: getNetworkUrl(),
+          chainId: getChainId(),
+        },
+      });
+
+      setMagic(magic);
+      setWeb3(new Web3((magic as any).rpcProvider));
+    }
   }, []);
 
   const value = useMemo(() => {
