@@ -7,7 +7,7 @@ import { resolveToRoot } from './utils/path-helpers';
 import { CreateMagicAppError } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
-import { useGracefulShutdown } from './utils/shutdown';
+import { shutdown, useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
 import { promptForUsageDataIfNeeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
@@ -38,13 +38,13 @@ function sayHello() {
 
   if (version) {
     console.log(getMakeMagicVersion());
-    process.exit(0);
+    shutdown(0);
   }
 
   if (help) {
     sayHello();
     printHelp(globalOptions, template);
-    process.exit(0);
+    shutdown(0);
   }
 
   sayHello();
@@ -58,20 +58,20 @@ function sayHello() {
   // Run the scaffold...
   await createApp({ projectName, template, branch });
 })().catch((err) => {
-  SharedAnalytics.logEvent('cli-tool-error', { message: err.message, stack: err.stack });
+  SharedAnalytics.logEvent('cli-tool-error', { error: err });
   if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {
     // Skip logging errors about users canceling input, just exit!
-    process.exit(1);
+    shutdown(1);
   }
 
   if (err instanceof CreateMagicAppError) {
     console.error(`\n${err.message}`);
     console.error(chalk`\nSee {bold --help} for information about proper options usage.`);
-    process.exit(1);
+    shutdown(1);
   }
 
   console.error(err);
-  process.exit(1);
+  shutdown(1);
 });
 
 function getMakeMagicVersion() {
