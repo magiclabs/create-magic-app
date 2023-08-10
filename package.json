@@ -11,12 +11,9 @@
     "bin.js",
     "dist"
   ],
-  "engines": {
-    "npm": ">=8.0.0 <9.0.0",
-    "node": ">=16.0.0 <17.0.0"
-  },
   "scripts": {
-    "dev": "yarn clean && tsc-watch --onSuccess \"tsc-alias\"",
+    "dev": "yarn clean && tsc-watch --onSuccess \"yarn build-dev\"",
+    "build-dev": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .ts,.tsx .",
