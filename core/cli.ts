@@ -11,6 +11,7 @@ import { useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
 import { promptForUsageDataIfNeeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
+import suppressWarnings from './utils/suppress-experimental-warnings';
 
 function sayHello() {
   console.log(chalk`\n
@@ -28,6 +29,9 @@ function sayHello() {
 }
 
 (async () => {
+  // Ensures that ExperimentalWarning caused by fetch is suppressed
+  suppressWarnings.fetch();
+
   useGracefulShutdown();
 
   const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
