@@ -173,7 +173,7 @@ export namespace BlockchainNetworkPrompt {
 export namespace AuthTypePrompt {
   const authMethods = [
     { name: 'Email OTP' },
-    { name: 'SMS OTP' },
+    { name: 'SMS OTP', hint: '(Must toggle on at https://dashboard.magic.link)' },
     {
       name: 'Social Logins',
       hint: '(Must configure at https://dashboard.magic.link)',
@@ -194,7 +194,7 @@ export namespace AuthTypePrompt {
     choices: authMethods,
     validate: (value) => {
       if (!value.length) {
-        return `Please select at least one login option.`;
+        return `Please use spacebar to select at least one login option.`;
       }
 
       return true;
