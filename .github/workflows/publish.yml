@@ -2,12 +2,12 @@ name: Publish
 on:
   push:
     branches:
-      - "master"
-      - "main"
+      - 'master'
+      - 'main'
 
 env:
-  GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-  GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ADMIN_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Prepare repository
         run: git fetch --unshallow --tags
