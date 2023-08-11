@@ -3,10 +3,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/prefer-regexp-exec */
 
-import Terser from 'terser';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
+import Terser from 'terser';
 
 const readFilePromise = promisify(fs.readFile);
 const writeFilePromise = promisify(fs.writeFile);

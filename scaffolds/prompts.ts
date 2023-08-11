@@ -1,26 +1,35 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {
-    publishableApiKey: 'npm' | 'yarn';
+    publishableApiKey: string;
   };
 
   const validate = (value: string) =>
-    value.startsWith('pk') ? true : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
+    value === '' || value.startsWith('pk')
+      ? true
+      : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
 
-  export const questions: Questions<Data> = {
-    type: 'input',
-    name: 'publishableApiKey',
-    validate,
-    message: 'Enter your Magic publishable API key:',
-  };
+  export const questions: Questions<Data> = (() => {
+    const question: Questions<Data> = {
+      type: 'input',
+      name: 'publishableApiKey',
+      message: 'Enter Magic publishable API key from https://dashboard.magic.link:',
+      // @ts-ignore
+      hint: '(leave blank to skip for now)',
+      validate,
+    };
+
+    return question;
+  })();
 
   export const flags: Flags<Partial<Data>> = {
     publishableApiKey: {
       type: String,
-      validate,
       description: 'The Magic publishable API key for your app.',
     },
   };
@@ -57,13 +66,6 @@ export namespace NpmClientPrompt {
     npmClient: ValuesOf<typeof clients>;
   };
 
-  export const questions: Questions<Data> = {
-    type: 'select',
-    name: 'npmClient',
-    message: 'Choose an NPM client:',
-    choices: clients,
-  };
-
   export const flags: Flags<Partial<Data>> = {
     npmClient: {
       type: String,
@@ -73,7 +75,7 @@ export namespace NpmClientPrompt {
   };
 
   export function getInstallCommand(data: Data) {
-    return data.npmClient === 'npm' ? ['npm', 'install'] : ['yarn', 'install'];
+    return data.npmClient === 'yarn' ? ['yarn', 'install'] : ['npm', 'install'];
   }
 
   export function getStartCommand(packageJsonScript: string) {
@@ -123,6 +125,7 @@ export namespace SocialLoginsPrompt {
         ', ',
       )})`,
       validate: (value) => {
+        console.log('value');
         const invalid: string[] = [];
 
         value.forEach((i) => {
@@ -131,6 +134,89 @@ export namespace SocialLoginsPrompt {
 
         if (invalid.length) {
           return `Received incompatible social login provider(s): (${invalid.join(', ')})`;
+        }
+      },
+    },
+  };
+}
+
+export namespace BlockchainNetworkPrompt {
+  export type Data = {
+    network: string;
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'select',
+    name: 'network',
+    message: 'Select a blockchain network:',
+    // @ts-ignore
+    hint: 'We recommend starting with a testnet.',
+    choices: [
+      { value: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+      { value: 'polygon', message: 'Polygon (Mainnet)' },
+      {
+        value: 'ethereum-goerli',
+        message: 'Ethereum (Goerli Testnet)',
+      },
+      { value: 'ethereum', message: 'Ethereum (Mainnet)' },
+    ],
+  };
+
+  export const flags: Flags<Partial<Data>> = {
+    network: {
+      alias: 'n',
+      type: String,
+      description: 'The blockchain network to use',
+    },
+  };
+}
+
+export namespace AuthTypePrompt {
+  const authMethods = [
+    { name: 'Email OTP' },
+    { name: 'SMS OTP', hint: '(Must toggle on at https://dashboard.magic.link)' },
+    {
+      name: 'Social Logins',
+      hint: '(Must configure at https://dashboard.magic.link)',
+      choices: ['Google', 'Github', 'Discord', 'Twitter', 'Twitch'],
+    },
+  ];
+
+  export type Data = {
+    selectedAuthTypes: string[];
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'multiselect',
+    name: 'selectedAuthTypes',
+    message:
+      'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
+    hint: '(<space> to select, <return> to submit)',
+    choices: authMethods,
+    validate: (value) => {
+      if (!value.length) {
+        return `Please use spacebar to select at least one login option.`;
+      }
+
+      return true;
+    },
+  };
+
+  export const flags: Flags<Partial<Data>> = {
+    selectedAuthTypes: {
+      type: [String],
+      description: `The auth method(s) of your choice. You can provide this flag multiple times to select multiple methods. (one of: ${authMethods.join(
+        ', ',
+      )})`,
+      validate: (value) => {
+        const invalid: string[] = [];
+
+        // value.forEach((i) => {
+        //   if (!authMethods.includes(i)) invalid.push(i);
+        // });
+
+        if (invalid.length) {
+          return `Received unknown auth method(s): (${invalid.join(', ')})`;
         }
       },
     },

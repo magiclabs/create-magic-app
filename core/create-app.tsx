@@ -3,13 +3,13 @@
 /* eslint-disable global-require */
 /* eslint-disable no-param-reassign */
 
-import React from 'react';
-import { Zombi, Directory, scaffold } from 'zombi';
 import fs from 'fs';
 import { URL } from 'url';
+import path from 'path';
+import React from 'react';
+import { Zombi, Directory, scaffold } from 'zombi';
 import execa from 'execa';
 import chalk from 'chalk';
-import path from 'path';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -19,6 +19,9 @@ import { filterNilValues } from './utils/filter-nil-values';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
+import { SharedAnalytics } from './analytics';
+
+const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {
   /**
@@ -50,6 +53,8 @@ export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
  * Generates and runs a project scaffold.
  */
 export async function createApp(config: CreateMagicAppConfig) {
+  SharedAnalytics.logEvent('cli-tool-started', { input: config });
+
   const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
 
@@ -63,21 +68,40 @@ export async function createApp(config: CreateMagicAppConfig) {
         featured: getScaffoldDefinition(name).featured,
       };
     });
-  const featuredScaffolds = availableScaffolds
-    .filter((s) => !!s.featured)
-    .sort((a, b) => {
-      const left = typeof a.featured === 'boolean' ? Infinity : a.featured!.order;
-      const right = typeof b.featured === 'boolean' ? Infinity : b.featured!.order;
 
-      return left - right;
-    });
-  const nonFeaturedScaffolds = availableScaffolds.filter((s) => !s.featured);
-
-  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  let isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
+  }
+
+  if (!config.projectName) {
+    const projectName = await new Input({
+      name: 'projectName',
+      message: 'What is your project named?',
+      initial: 'awesome-magic-app',
+    }).run();
+
+    config.projectName = projectName;
+  }
+
+  let quickstart = false;
+  if (!config.template) {
+    const configuration = await new Select({
+      name: 'configuration',
+      message: 'Select a configuration to start with:',
+      choices: [
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)' },
+        { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
+      ],
+    }).run();
+
+    if (configuration === 'quickstart') {
+      config.template = 'nextjs-magic-connect';
+      isChosenTemplateValid = true;
+      quickstart = true;
+    }
   }
 
   const template = (
@@ -88,21 +112,25 @@ export async function createApp(config: CreateMagicAppConfig) {
       data={filterNilValues({
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
-        template: isChosenTemplateValid ? config?.template : undefined,
+        template: isChosenTemplateValid ? config.template : undefined,
+        network: quickstart ? 'polygon-mumbai' : undefined,
+        npmClient: 'npm',
       })}
       prompts={[
         {
           type: 'input',
           name: 'projectName',
           message: 'What is your project named?',
-          initial: 'my-app',
+          initial: 'awesome-magic-app',
         },
-
-        !isChosenTemplateValid && {
+        {
           type: 'autocomplete',
           name: 'template',
-          message: 'Choose a template:',
-          choices: [...featuredScaffolds, { role: 'separator' }, ...nonFeaturedScaffolds],
+          message: 'Choose your wallet type',
+          choices: [
+            { name: 'nextjs-magic-connect', message: 'Magic Connect' },
+            { name: 'nextjs-magic-auth', message: 'Magic Auth' },
+          ],
         },
       ]}
     >
@@ -123,14 +151,14 @@ export async function createApp(config: CreateMagicAppConfig) {
 
         const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
         const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
-
         return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
       }}
     </Zombi>
   );
-
   const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
   const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
+
+  SharedAnalytics.logEvent('cli-tool-scaffold-cloned', { data: scaffoldResult.data });
 
   console.log(); // Aesthetics!
 
@@ -138,6 +166,10 @@ export async function createApp(config: CreateMagicAppConfig) {
   // change directories into the rendered scaffold.
   const cwd = process.cwd();
   process.chdir(chosenProjectName);
+
+  if (fs.existsSync(`${cwd}/${chosenProjectName}/.env.example`)) {
+    fs.renameSync(`${cwd}/${chosenProjectName}/.env.example`, `${cwd}/${chosenProjectName}/.env`);
+  }
 
   // Do post-render actions...
   const data = {
@@ -190,7 +222,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       console.log(msg.join('\n'));
     });
 
-    await startCmd?.wait();
+    SharedAnalytics.logEvent('cli-tool-completed', {});
   }
 
   // Return to the previous working directory

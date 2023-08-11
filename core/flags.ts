@@ -1,5 +1,5 @@
-import decamelize from 'decamelize';
 import parseArgs from 'yargs-parser';
+import decamelize from 'decamelize';
 import { createValidationError } from './utils/errors-warnings';
 import { filterNilValues } from './utils/filter-nil-values';
 
@@ -137,7 +137,7 @@ function getFlagDefaults<T extends Flags>(flags: T) {
       Object.keys(flags)
         .filter((flag) => flags[flag].default != null)
         .map((key) => {
-          const flag = (flags[key] as unknown) as Flag;
+          const flag = flags[key] as unknown as Flag;
           return [key, typeof flag.default === 'function' ? flag.default() : flag.default];
         }),
     ) as TypedFlags<T>,
@@ -149,7 +149,7 @@ async function validateFlagInputs<T extends Flags>(flags: T, inputs: {} = {}) {
     Object.fromEntries(
       await Promise.all(
         Object.entries(inputs).map(async ([key, value]) => {
-          const flag = (flags[key] as unknown) as Flag;
+          const flag = flags[key] as unknown as Flag;
 
           if (flag) {
             // Coerce result type

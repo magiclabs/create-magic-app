@@ -8,12 +8,12 @@
  *   https://github.com/vercel/next.js/blob/master/packages/create-next-app/helpers/examples.ts
  */
 
-import got from 'got';
-import tar from 'tar';
 import { Stream } from 'stream';
 import { promisify } from 'util';
 import { URL } from 'url';
 import path from 'path';
+import tar from 'tar';
+import got from 'got';
 
 const pipeline = promisify(Stream.pipeline);
 
