@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Magic } from 'magic-sdk';
 import { getChainId, getNetworkUrl } from '../../utils/networks';
 import Web3 from 'web3';
