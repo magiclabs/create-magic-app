@@ -3,13 +3,13 @@
 /* eslint-disable global-require */
 /* eslint-disable no-param-reassign */
 
-import React from 'react';
-import { Zombi, Directory, scaffold } from 'zombi';
 import fs from 'fs';
 import { URL } from 'url';
+import path from 'path';
+import React from 'react';
+import { Zombi, Directory, scaffold } from 'zombi';
 import execa from 'execa';
 import chalk from 'chalk';
-import path from 'path';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -20,6 +20,7 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
+
 const { Select, Input } = require('enquirer');
 
 export interface CreateMagicAppData {

@@ -14,11 +14,11 @@ export interface CliConfig {
   id: string;
 }
 
-let _config: Partial<CliConfig> | undefined = undefined;
+let configCache: Partial<CliConfig> | undefined;
 
 export const saveConfig = (config: Partial<CliConfig>) => {
   try {
-    _config = config;
+    configCache = config;
     const homedir = os.homedir();
     const configDir = path.resolve(homedir, '.make-magic');
     if (!fs.existsSync(configDir)) {
@@ -32,13 +32,13 @@ export const saveConfig = (config: Partial<CliConfig>) => {
 
 export const loadConfig = (): Partial<CliConfig> | undefined => {
   try {
-    if (_config) return _config;
+    if (configCache) return configCache;
 
     const homedir = os.homedir();
     const configUrl = path.resolve(homedir, '.make-magic/config');
     const configString = fs.readFileSync(configUrl, 'utf8');
     const config = JSON.parse(configString);
-    _config = config;
+    configCache = config;
     return config;
   } catch (err) {
     return undefined;

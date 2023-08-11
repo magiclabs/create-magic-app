@@ -1,5 +1,5 @@
-import { Analytics as Segment } from '@segment/analytics-node';
 import os from 'os';
+import { Analytics as Segment } from '@segment/analytics-node';
 import { loadConfig } from './config';
 import { addShutdownTask } from './utils/shutdown';
 

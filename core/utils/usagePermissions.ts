@@ -1,5 +1,8 @@
-import { loadConfig, saveConfig } from '../config';
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import crypto from 'crypto';
+import { loadConfig, saveConfig } from '../config';
+
 const { Select } = require('enquirer');
 
 export const promptForUsageDataIfNeeded = async (): Promise<boolean> => {
@@ -26,5 +29,5 @@ const promptForUsageData = async (): Promise<boolean> => {
     choices: [{ name: 'Yes' }, { name: 'No' }],
   }).run();
 
-  return answer === 'Yes' ? true : false;
+  return answer === 'Yes';
 };

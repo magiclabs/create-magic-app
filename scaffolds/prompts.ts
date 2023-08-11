@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
-import { Input, Select } from 'zombi/dist/types/enquirer';
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {
