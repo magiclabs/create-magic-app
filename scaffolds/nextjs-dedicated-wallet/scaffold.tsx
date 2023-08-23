@@ -9,12 +9,12 @@ import {
   SecretApiKeyPrompt,
 } from 'scaffolds/prompts';
 
-type NextMagicAuthData = NpmClientPrompt.Data &
+type NextDedicatedWalletData = NpmClientPrompt.Data &
   PublishableApiKeyPrompt.Data &
   BlockchainNetworkPrompt.Data &
   AuthTypePrompt.Data;
 
-export default createScaffold<NextMagicAuthData>(
+export default createScaffold<NextDedicatedWalletData>(
   (props) => (
     <Zombi
       {...props}
@@ -75,7 +75,7 @@ export default createScaffold<NextMagicAuthData>(
   ),
 
   {
-    shortDescription: 'Magic Auth',
+    shortDescription: 'Dedicated Wallet',
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {

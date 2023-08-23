@@ -92,13 +92,13 @@ export async function createApp(config: CreateMagicAppConfig) {
       name: 'configuration',
       message: 'Select a configuration to start with:',
       choices: [
-        { name: 'quickstart', message: 'Quickstart (Nextjs, Magic Connect, Polygon Testnet)' },
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Universal Wallet, Polygon Testnet)' },
         { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
       ],
     }).run();
 
     if (configuration === 'quickstart') {
-      config.template = 'nextjs-magic-connect';
+      config.template = 'nextjs-universal-wallet';
       isChosenTemplateValid = true;
       quickstart = true;
     }
@@ -128,8 +128,8 @@ export async function createApp(config: CreateMagicAppConfig) {
           name: 'template',
           message: 'Choose your wallet type',
           choices: [
-            { name: 'nextjs-magic-connect', message: 'Magic Connect' },
-            { name: 'nextjs-magic-auth', message: 'Magic Auth' },
+            { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
+            { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet' },
           ],
         },
       ]}

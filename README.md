@@ -1,6 +1,6 @@
 # 🪄 `make-magic`
 
-> A tool for quickly scaffolding an app with Magic authentication baked-in!
+> A tool for quickly scaffolding an app with Magic baked-in!
 
 <p align="center">
   <a href="https://github.com/magiclabs/create-magic-app/blob/master/LICENSE">License</a> ·
