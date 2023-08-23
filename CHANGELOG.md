@@ -1,3 +1,16 @@
+# v4.0.0 (Fri Aug 11 2023)
+
+#### 💥 Breaking Change
+
+- Major CLI tool overhaul [#89](https://github.com/magiclabs/create-magic-app/pull/89) ([@jamesrp13](https://github.com/jamesrp13))
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
 # v3.2.1 (Thu Jan 13 2022)
 
 #### 🐛 Bug Fix
