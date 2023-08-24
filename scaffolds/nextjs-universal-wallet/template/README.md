@@ -1,4 +1,4 @@
-This scaffold is meant to help you bootstrap your own projects with [Magic Connect](https://magic.link/docs/connect/overview). Magic is a developer SDK that integrates with your application to enable passwordless Web3 onboarding.
+This scaffold is meant to help you bootstrap your own projects with Magic's [Universal Wallet](https://magic.link/docs/connect/overview). Magic is a developer SDK that integrates with your application to enable passwordless Web3 onboarding.
 
 The folder structure of this scaffold is designed to encapsulate all things Magic into one place so you can easily add or remove components and functionality. For example, all Magic-specific components are in the `src/components/magic` directory while generic UI components are in the `src/components/ui` directory.
 

@@ -3,9 +3,9 @@ import { Template, Zombi, mergePrompts } from 'zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
 import { BlockchainNetworkPrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
-type NextMagicConnectData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & BlockchainNetworkPrompt.Data;
+type NextUniversalWalletData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & BlockchainNetworkPrompt.Data;
 
-export default createScaffold<NextMagicConnectData>(
+export default createScaffold<NextUniversalWalletData>(
   (props) => (
     <Zombi {...props} prompts={mergePrompts(BlockchainNetworkPrompt.questions, PublishableApiKeyPrompt.questions)}>
       <Template source="./" />
@@ -13,7 +13,7 @@ export default createScaffold<NextMagicConnectData>(
   ),
 
   {
-    shortDescription: 'Magic Connect',
+    shortDescription: 'Universal Wallet',
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {
