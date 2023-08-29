@@ -200,6 +200,17 @@ export namespace AuthTypePrompt {
 
       return true;
     },
+    // @ts-ignore
+    result(names: string[]) {
+      return names.filter((x: string) => !x.includes('Social Logins'));
+    },
+    format(value) {
+      if (value) {
+        return value.filter((x) => !x.includes('Social Logins')).join(', ');
+      }
+
+      return '';
+    },
   };
 
   export const flags: Flags<Partial<Data>> = {
