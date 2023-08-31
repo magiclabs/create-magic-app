@@ -1,4 +1,3 @@
-import Header from '../components/magic/Header';
 import MagicProvider from '../components/magic/MagicProvider';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -17,7 +16,6 @@ export default function Home() {
   return (
     <MagicProvider>
       <ToastContainer />
-      <Header />
       {process.env.NEXT_PUBLIC_MAGIC_API_KEY ? (
         token.length > 0 ? (
           <Dashboard token={token} setToken={setToken} />

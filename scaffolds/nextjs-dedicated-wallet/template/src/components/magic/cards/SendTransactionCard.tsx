@@ -7,6 +7,7 @@ import ErrorText from '@/components/ui/ErrorText';
 import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import { getFaucetUrl, getNetworkToken } from '@/utils/network';
+import showToast from '@/utils/showToast';
 
 const SendTransaction = () => {
   const { web3 } = useMagic();
@@ -45,6 +46,10 @@ const SendTransaction = () => {
         console.log('Transaction hash:', txHash);
       })
       .then((receipt) => {
+        showToast({
+          message: 'Transaction Successful',
+          type: 'success',
+        });
         setToAddress('');
         setAmount('');
         console.log('Transaction receipt:', receipt);

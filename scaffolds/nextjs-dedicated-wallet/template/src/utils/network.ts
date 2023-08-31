@@ -12,9 +12,9 @@ export const getNetworkUrl = () => {
     case Network.POLYGON_MUMBAI:
       return 'https://rpc-mumbai.maticvigil.com/';
     case Network.ETHEREUM_GOERLI:
-      return 'https://eth-goerli.g.alchemy.com/v2/demo';
+      return 'https://eth-goerli.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0';
     case Network.ETHEREUM:
-      return 'https://eth-mainnet.g.alchemy.com/v2/demo';
+      return 'https://eth-mainnet.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0';
     default:
       throw new Error('Network not supported');
   }

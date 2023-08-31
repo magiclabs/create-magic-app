@@ -30,6 +30,7 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
           rpcUrl: getNetworkUrl(),
           chainId: getChainId(),
         },
+        extensions: [new AuthExtension(), new OAuthExtension()],
       });
 
       setMagic(magic);
