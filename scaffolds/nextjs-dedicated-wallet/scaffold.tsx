@@ -52,28 +52,23 @@ export default createScaffold<NextDedicatedWalletData>(
           <Template source="./src/styles" />
           <Template source="./src/utils" />
 
-          {data.selectedAuthTypes.map(
-            (authType) =>
-              authType !== 'Social Logins' && (
-                <React.Fragment key={authType}>
-                  <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
-                  {(authType === 'Discord' ||
-                    authType === 'Facebook' ||
-                    authType === 'Github' ||
-                    authType === 'Google' ||
-                    authType === 'Twitch' ||
-                    authType === 'Twitter') && (
-                    <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />
-                  )}
-                  {authType.replaceAll(' ', '') === 'EmailOTP' && (
-                    <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
-                  )}
-                  {authType.replaceAll(' ', '') === 'SMSOTP' && (
-                    <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
-                  )}
-                </React.Fragment>
-              ),
-          )}
+          {data.selectedAuthTypes.map((authType) => (
+            <React.Fragment key={authType}>
+              <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
+              {(authType === 'Discord' ||
+                authType === 'Facebook' ||
+                authType === 'Github' ||
+                authType === 'Google' ||
+                authType === 'Twitch' ||
+                authType === 'Twitter') && <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />}
+              {authType.replaceAll(' ', '') === 'EmailOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
+              )}
+              {authType.replaceAll(' ', '') === 'SMSOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
+              )}
+            </React.Fragment>
+          ))}
         </>
       )}
     </Zombi>
