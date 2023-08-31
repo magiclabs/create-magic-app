@@ -129,7 +129,8 @@ export async function createApp(config: CreateMagicAppConfig) {
           message: 'Choose your wallet type',
           choices: [
             { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
-            { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet' },
+            { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet (EVM)' },
+            { name: 'nextjs-solana-dedicated-wallet', message: 'Dedicated Wallet (Solana)' },
           ],
         },
       ]}

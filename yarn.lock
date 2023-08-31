@@ -941,6 +941,11 @@
   "resolved" "https://registry.npmjs.org/astral-regex/-/astral-regex-2.0.0.tgz"
   "version" "2.0.0"
 
+"async@^3.2.3":
+  "integrity" "sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ=="
+  "resolved" "https://registry.npmjs.org/async/-/async-3.2.4.tgz"
+  "version" "3.2.4"
+
 "author-regex@^1.0.0":
   "integrity" "sha512-KbWgR8wOYRAPekEmMXrYYdc7BRyhn2Ftk7KWfMUnQ43hFdojWEFRxhhRUm3/OFEdPa1r0KAvTTg9YQK57xTe0g=="
   "resolved" "https://registry.npmjs.org/author-regex/-/author-regex-1.0.0.tgz"
@@ -1032,6 +1037,13 @@
   dependencies:
     "balanced-match" "^1.0.0"
     "concat-map" "0.0.1"
+
+"brace-expansion@^2.0.1":
+  "integrity" "sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA=="
+  "resolved" "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "balanced-match" "^1.0.0"
 
 "braces@^3.0.2", "braces@~3.0.2":
   "integrity" "sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A=="
@@ -1133,7 +1145,7 @@
     "escape-string-regexp" "^1.0.5"
     "supports-color" "^5.3.0"
 
-"chalk@^4.0.0", "chalk@^4.1.0":
+"chalk@^4.0.0", "chalk@^4.0.2", "chalk@^4.1.0":
   "integrity" "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="
   "resolved" "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
   "version" "4.1.2"
@@ -1472,10 +1484,12 @@
   "resolved" "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz"
   "version" "0.1.2"
 
-"ejs@^2.5.7":
-  "integrity" "sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA=="
-  "resolved" "https://registry.npmjs.org/ejs/-/ejs-2.7.4.tgz"
-  "version" "2.7.4"
+"ejs@~3.1.8":
+  "integrity" "sha512-rC+QVNMJWv+MtPgkt0y+0rVEIdbtxVADApW9JXrUVlzHetgcyczP/E7DJmWJ4fJCZF2cPcBk0laWO9ZHMG3DmQ=="
+  "resolved" "https://registry.npmjs.org/ejs/-/ejs-3.1.9.tgz"
+  "version" "3.1.9"
+  dependencies:
+    "jake" "^10.8.5"
 
 "emoji-regex@^8.0.0":
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
@@ -1990,6 +2004,13 @@
   "version" "6.0.1"
   dependencies:
     "flat-cache" "^3.0.4"
+
+"filelist@^1.0.4":
+  "integrity" "sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q=="
+  "resolved" "https://registry.npmjs.org/filelist/-/filelist-1.0.4.tgz"
+  "version" "1.0.4"
+  dependencies:
+    "minimatch" "^5.0.1"
 
 "fill-range@^7.0.1":
   "integrity" "sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ=="
@@ -2595,6 +2616,16 @@
   "resolved" "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   "version" "2.0.0"
 
+"jake@^10.8.5":
+  "integrity" "sha512-ZDi3aP+fG/LchyBzUM804VjddnwfSfsdeYkwt8NcbKRvo4rFkjhs456iLFn3k2ZUWvNe4i48WACDbza8fhq2+w=="
+  "resolved" "https://registry.npmjs.org/jake/-/jake-10.8.7.tgz"
+  "version" "10.8.7"
+  dependencies:
+    "async" "^3.2.3"
+    "chalk" "^4.0.2"
+    "filelist" "^1.0.4"
+    "minimatch" "^3.1.2"
+
 "java-properties@^1.0.0":
   "integrity" "sha512-qjdpeo2yKlYTH7nFdK0vbZWuTCesk4o63v5iVOlhMQPfuIZQfW/HI35SjfhA+4qpg36rnFSvUK5b1m+ckIblQQ=="
   "resolved" "https://registry.npmjs.org/java-properties/-/java-properties-1.0.2.tgz"
@@ -2883,6 +2914,13 @@
   "version" "3.1.2"
   dependencies:
     "brace-expansion" "^1.1.7"
+
+"minimatch@^5.0.1":
+  "integrity" "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="
+  "resolved" "https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz"
+  "version" "5.1.6"
+  dependencies:
+    "brace-expansion" "^2.0.1"
 
 "minimist@^1.2.0", "minimist@^1.2.6":
   "integrity" "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA=="
@@ -3363,7 +3401,7 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react-is@^17.0.1":
+"react-is@^17.0.1", "react-is@>=17":
   "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
@@ -3373,7 +3411,7 @@
   "resolved" "https://registry.npmjs.org/react-ssr-prepass/-/react-ssr-prepass-1.5.0.tgz"
   "version" "1.5.0"
 
-"react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.1":
+"react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.1", "react@>=17":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -4308,14 +4346,14 @@
   "resolved" "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   "version" "3.1.1"
 
-"zombi@^3.3.0":
-  "integrity" "sha512-L7v/kIqDnouwYAa6/VM9IuoEPVyE6k1cBZDAmWOzJ0vUZMUWcrMsapEga+QOosVIr5VDwQU3/10nvr3JID3a9w=="
-  "resolved" "https://registry.npmjs.org/zombi/-/zombi-3.3.0.tgz"
-  "version" "3.3.0"
+"zombi@^6.0.2":
+  "integrity" "sha512-9WTfakzGJBH9H/kWoVHzL3wA4w5L+lzBrnYrvBW3B1NVc4lG14vsOWGA8DXNGpxh9p/LH0S4HMSUQlkbZmlRXg=="
+  "resolved" "https://registry.npmjs.org/zombi/-/zombi-6.0.2.tgz"
+  "version" "6.0.2"
   dependencies:
     "binaryextensions" "^4.15.0"
     "chalk" "^2.4.1"
-    "ejs" "^2.5.7"
+    "ejs" "~3.1.8"
     "enquirer" "^2.3.6"
     "execa" "^4.0.3"
     "fs-extra" "^5.0.0"
