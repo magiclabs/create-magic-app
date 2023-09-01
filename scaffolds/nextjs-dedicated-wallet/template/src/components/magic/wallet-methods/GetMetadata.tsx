@@ -11,7 +11,7 @@ const GetMetadata = () => {
     if (!magic) return;
     try {
       setDisabled(true);
-      const userInfo = await magic.user.getMetadata();
+      const userInfo = await magic.user.getInfo();
       setDisabled(false);
       showToast({
         message: `Public Address: ${userInfo.publicAddress}`,
@@ -31,7 +31,7 @@ const GetMetadata = () => {
             <Spinner />
           </div>
         ) : (
-          'getMetadata()'
+          'getInfo()'
         )}
       </button>
       <div className="wallet-method-desc">Retrieves information for the authenticated user.</div>
