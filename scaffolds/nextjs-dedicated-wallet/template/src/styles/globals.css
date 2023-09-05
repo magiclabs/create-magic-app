@@ -101,7 +101,7 @@ ul {
   @apply opacity-50;
 }
 .magic-logo {
-  @apply mt-10 mb-[15px] mx-0 text-center;
+  @apply mb-[15px] mx-0 text-center;
 }
 .demo-sub-header {
   @apply text-[rgba(255,255,255,0.5)] text-xl font-normal m-0;
@@ -291,7 +291,7 @@ a {
 }
 
 .app-header-container {
-  @apply block w-full drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] min-h-[30vh] flex flex-col items-center bg-magic block;
+  @apply block pt-4 w-full drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] min-h-[30vh] flex flex-col items-center bg-magic block;
   text-align: -webkit-center;
 }
 
