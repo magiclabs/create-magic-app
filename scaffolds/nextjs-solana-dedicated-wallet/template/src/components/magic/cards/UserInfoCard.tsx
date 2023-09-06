@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Divider from '@/components/ui/Divider';
 import { LoginProps } from '@/utils/types';
 import { logout } from '@/utils/common';
@@ -7,10 +7,11 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import CardLabel from '@/components/ui/CardLabel';
 import Spinner from '@/components/ui/Spinner';
-import { getNetworkName, getNetworkToken } from '@/utils/network';
+import { getNetworkName } from '@/utils/network';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 const UserInfo = ({ token, setToken }: LoginProps) => {
-  const { magic, web3 } = useMagic();
+  const { magic, connection } = useMagic();
 
   const [balance, setBalance] = useState('...');
   const [copied, setCopied] = useState('Copy');
@@ -37,16 +38,16 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
   }, []);
 
   const getBalance = useCallback(async () => {
-    if (publicAddress && web3) {
-      const balance = await web3.eth.getBalance(publicAddress);
-      if (balance == BigInt(0)) {
+    if (publicAddress && connection) {
+      const balance = await connection.getBalance(new PublicKey(publicAddress));
+      if (balance == 0) {
         setBalance('0');
       } else {
-        setBalance(web3.utils.fromWei(balance, 'ether'));
+        setBalance((balance / LAMPORTS_PER_SOL).toString());
       }
       console.log('BALANCE: ', balance);
     }
-  }, [web3, publicAddress]);
+  }, [connection, publicAddress]);
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -57,10 +58,10 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
   }, [getBalance]);
 
   useEffect(() => {
-    if (web3) {
+    if (connection) {
       refresh();
     }
-  }, [web3, refresh]);
+  }, [connection, refresh]);
 
   useEffect(() => {
     setBalance('...');
@@ -95,7 +96,6 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
       <div className="code">{publicAddress?.length == 0 ? 'Fetching address..' : publicAddress}</div>
       <Divider />
       <CardLabel
-        style={{ height: '20px' }}
         leftHeader="Balance"
         rightAction={
           isRefreshing ? (
@@ -107,9 +107,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
           )
         }
       />
-      <div className="code">
-        {balance.substring(0, 7)} {getNetworkToken()}
-      </div>
+      <div className="code">{balance} SOL</div>
     </Card>
   );
 };

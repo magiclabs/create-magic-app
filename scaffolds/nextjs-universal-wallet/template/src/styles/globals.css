@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 html,
 body {
@@ -6,7 +6,7 @@ body {
   padding: 0;
   margin: 0;
   scroll-padding-top: 3rem;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -24,7 +24,7 @@ body {
   margin-top: 0px;
 }
 
-nav>ul>li {
+nav > ul > li {
   margin-bottom: 15px;
   text-align: left;
   list-style-type: none;
@@ -44,7 +44,7 @@ ul {
 }
 
 .active::before {
-  content: "\2022";
+  content: '\2022';
   color: #6851ff;
   font-weight: bold;
   display: inline-block;
@@ -59,7 +59,7 @@ ul {
 .nft-name {
   color: #000;
   font-weight: 600;
-  font-family: "Inter";
+  font-family: 'Inter';
 }
 
 .nft-list {
@@ -164,7 +164,7 @@ ul {
   position: relative;
   background-size: 100vw 320px;
   background-repeat: no-repeat;
-  background-image: url("/main.svg");
+  background-image: url('/main.svg');
 }
 
 .login-page {
@@ -172,8 +172,8 @@ ul {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-size: "100% auto";
-  background-image: url("/login.svg");
+  background-size: '100% auto';
+  background-image: url('/login.svg');
 }
 
 .paragraph {
@@ -203,8 +203,7 @@ ul {
 }
 
 .connect-button:hover:enabled {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    rgba(255, 255, 255, 0.1);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), rgba(255, 255, 255, 0.1);
   cursor: pointer;
 }
 
@@ -240,7 +239,7 @@ ul {
   }
 }
 
-.link>a {
+.link > a {
   cursor: pointer;
 }
 
@@ -278,15 +277,13 @@ ul {
 }
 
 .wallet-method:hover:enabled {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    #edebff;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #edebff;
   background-blend-mode: color-burn, normal;
 }
 
 .wallet-method:active:enabled {
   transform: scale(0.99);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    #edebff;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #edebff;
   opacity: 0.5;
 }
 
@@ -330,7 +327,7 @@ ul {
   border-radius: 300px;
   border: none;
   color: #522fd4;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -342,15 +339,13 @@ ul {
 }
 
 .form-button:hover:enabled {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    #edebff;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #edebff;
   cursor: pointer;
 }
 
 .form-button:active:enabled {
   transform: scale(0.99);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    #edebff;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #edebff;
   opacity: 0.5;
 }
 
