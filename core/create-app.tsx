@@ -20,6 +20,7 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
+import { SolanaNetworkPrompt } from 'scaffolds/prompts';
 
 const { Select, Input } = require('enquirer');
 
@@ -57,6 +58,7 @@ export async function createApp(config: CreateMagicAppConfig) {
 
   const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
+  let network = '';
 
   const availableScaffolds = fs
     .readdirSync(resolveToDist('scaffolds'))
@@ -101,6 +103,73 @@ export async function createApp(config: CreateMagicAppConfig) {
       config.template = 'nextjs-universal-wallet';
       isChosenTemplateValid = true;
       quickstart = true;
+    } else {
+      const chain = await new Select({
+        name: 'chain',
+        message: 'Which blockchain do you want to use?',
+        choices: [
+          { name: 'evm', message: 'EVM chains such as Ethereum, Polygon, etc' },
+          { name: 'solana', message: 'Solana' },
+          { name: 'flow', message: 'Flow' },
+        ],
+      }).run();
+
+      if (chain === 'solana') {
+        network = await new Select({
+          name: 'network',
+          message: 'Which cluster would like to deploy on?',
+          choices: [
+            { name: 'solana-mainnet', message: 'Mainnet' },
+            { name: 'solana-devnet', message: 'Devnet' },
+          ],
+        }).run();
+
+        config.template = 'nextjs-solana-dedicated-wallet';
+        isChosenTemplateValid = true;
+      } else {
+        if (chain === 'flow') {
+          network = await new Select({
+            name: 'network',
+            message: 'Which cluster would like to deploy on?',
+            choices: [
+              { name: 'flow-mainnet', message: 'Mainnet' },
+              { name: 'flow-testnet', message: 'Testnet' },
+            ],
+          }).run();
+
+          config.template = 'nextjs-flow-universal-wallet';
+        }
+
+        if (chain == 'evm') {
+          network = await new Select({
+            name: 'network',
+            message: 'Which network would like to deploy on?',
+            choices: [
+              { name: 'ethereum', message: 'Ethereum (Mainnet)' },
+              { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
+              { name: 'polygon', message: 'Polygon (Mainnet)' },
+              { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+            ],
+          }).run();
+
+          const product = await new Select({
+            name: 'product',
+            message: 'Choose your wallet type',
+            choices: [
+              { name: 'universal', message: 'Universal' },
+              { name: 'dedicated', message: 'Dedicated' },
+            ],
+          }).run();
+
+          if (product === 'universal') {
+            config.template = 'nextjs-universal-wallet';
+          } else {
+            config.template = 'nextjs-dedicated-wallet';
+          }
+        }
+
+        isChosenTemplateValid = true;
+      }
     }
   }
 
@@ -113,7 +182,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
         template: isChosenTemplateValid ? config.template : undefined,
-        network: quickstart ? 'polygon-mumbai' : undefined,
+        network: quickstart ? 'polygon-mumbai' : network.length > 0 ? network : undefined,
         npmClient: 'npm',
       })}
       prompts={[
@@ -123,17 +192,17 @@ export async function createApp(config: CreateMagicAppConfig) {
           message: 'What is your project named?',
           initial: 'awesome-magic-app',
         },
-        {
-          type: 'autocomplete',
-          name: 'template',
-          message: 'Choose your wallet type',
-          choices: [
-            { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
-            { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet (EVM)' },
-            { name: 'nextjs-solana-dedicated-wallet', message: 'Dedicated Wallet (Solana)' },
-            { name: 'nextjs-flow-universal-wallet', message: 'Universal Wallet (Flow)' },
-          ],
-        },
+        // {
+        //   type: 'autocomplete',
+        //   name: 'template',
+        //   message: 'Choose your wallet type',
+        //   choices: [
+        //     { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
+        //     { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet (EVM)' },
+        //     { name: 'nextjs-solana-dedicated-wallet', message: 'Dedicated Wallet (Solana)' },
+        //     { name: 'nextjs-flow-universal-wallet', message: 'Universal Wallet (Flow)' },
+        //   ],
+        // },
       ]}
     >
       {async (data) => {

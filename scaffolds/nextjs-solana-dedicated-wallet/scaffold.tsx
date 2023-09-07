@@ -1,25 +1,13 @@
 import React from 'react';
 import { Template, Zombi, mergePrompts } from 'zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
-import {
-  AuthTypePrompt,
-  SolanaNetworkPrompt,
-  NpmClientPrompt,
-  PublishableApiKeyPrompt,
-  SecretApiKeyPrompt,
-} from 'scaffolds/prompts';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
 
-type NextDedicatedWalletData = NpmClientPrompt.Data &
-  PublishableApiKeyPrompt.Data &
-  SolanaNetworkPrompt.Data &
-  AuthTypePrompt.Data;
+type NextDedicatedWalletData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
 export default createScaffold<NextDedicatedWalletData>(
   (props) => (
-    <Zombi
-      {...props}
-      prompts={mergePrompts(AuthTypePrompt.questions, SolanaNetworkPrompt.questions, PublishableApiKeyPrompt.questions)}
-    >
+    <Zombi {...props} prompts={mergePrompts(AuthTypePrompt.questions, PublishableApiKeyPrompt.questions)}>
       {(data) => (
         <>
           <Template source="./public/background.svg" />
@@ -83,7 +71,6 @@ export default createScaffold<NextDedicatedWalletData>(
       ...NpmClientPrompt.flags,
       ...PublishableApiKeyPrompt.flags,
       ...SecretApiKeyPrompt.flags,
-      ...SolanaNetworkPrompt.flags,
       ...AuthTypePrompt.flags,
     },
   },
