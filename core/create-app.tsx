@@ -136,8 +136,6 @@ export async function createApp(config: CreateMagicAppConfig) {
               { name: 'flow-testnet', message: 'Testnet' },
             ],
           }).run();
-
-          config.template = 'nextjs-flow-universal-wallet';
         }
 
         if (chain == 'evm') {
@@ -151,23 +149,30 @@ export async function createApp(config: CreateMagicAppConfig) {
               { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
             ],
           }).run();
+        }
 
-          const product = await new Select({
-            name: 'product',
-            message: 'Choose your wallet type',
-            choices: [
-              { name: 'universal', message: 'Universal' },
-              { name: 'dedicated', message: 'Dedicated' },
-            ],
-          }).run();
+        const product = await new Select({
+          name: 'product',
+          message: 'Choose your wallet type',
+          choices: [
+            { name: 'universal', message: 'Universal' },
+            { name: 'dedicated', message: 'Dedicated' },
+          ],
+        }).run();
 
-          if (product === 'universal') {
+        if (product === 'universal') {
+          if (chain === 'flow') {
+            config.template = 'nextjs-flow-universal-wallet';
+          } else {
             config.template = 'nextjs-universal-wallet';
+          }
+        } else {
+          if (chain === 'flow') {
+            config.template = 'nextjs-flow-dedicated-wallet';
           } else {
             config.template = 'nextjs-dedicated-wallet';
           }
         }
-
         isChosenTemplateValid = true;
       }
     }
@@ -192,17 +197,6 @@ export async function createApp(config: CreateMagicAppConfig) {
           message: 'What is your project named?',
           initial: 'awesome-magic-app',
         },
-        // {
-        //   type: 'autocomplete',
-        //   name: 'template',
-        //   message: 'Choose your wallet type',
-        //   choices: [
-        //     { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
-        //     { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet (EVM)' },
-        //     { name: 'nextjs-solana-dedicated-wallet', message: 'Dedicated Wallet (Solana)' },
-        //     { name: 'nextjs-flow-universal-wallet', message: 'Universal Wallet (Flow)' },
-        //   ],
-        // },
       ]}
     >
       {async (data) => {
