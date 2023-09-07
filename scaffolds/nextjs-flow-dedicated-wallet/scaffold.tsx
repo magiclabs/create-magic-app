@@ -1,7 +1,7 @@
 import React from 'react';
 import { Template, Zombi, mergePrompts } from 'zombi';
 import { createScaffold } from 'core/utils/scaffold-helpers';
-import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt, SecretApiKeyPrompt } from 'scaffolds/prompts';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
 type NextDedicatedWalletData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
@@ -11,6 +11,7 @@ export default createScaffold<NextDedicatedWalletData>(
       {(data) => (
         <>
           <Template source="./public/background.svg" />
+          <Template source="./public/link.svg" />
           <Template source="./public/favicon.ico" />
           <Template source="./public/magic_color_white.svg" />
           <Template source="./.env.example" />
@@ -36,41 +37,35 @@ export default createScaffold<NextDedicatedWalletData>(
           <Template source="./src/styles" />
           <Template source="./src/utils" />
 
-          {data.selectedAuthTypes.map(
-            (authType) =>
-              authType !== 'Social Logins' && (
-                <React.Fragment key={authType}>
-                  <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
-                  {(authType === 'Discord' ||
-                    authType === 'Facebook' ||
-                    authType === 'Github' ||
-                    authType === 'Google' ||
-                    authType === 'Twitch' ||
-                    authType === 'Twitter') && (
-                    <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />
-                  )}
-                  {authType.replaceAll(' ', '') === 'EmailOTP' && (
-                    <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
-                  )}
-                  {authType.replaceAll(' ', '') === 'SMSOTP' && (
-                    <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
-                  )}
-                </React.Fragment>
-              ),
-          )}
+          {data.selectedAuthTypes.map((authType) => (
+            <React.Fragment key={authType}>
+              <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
+              {(authType === 'Discord' ||
+                authType === 'Facebook' ||
+                authType === 'Github' ||
+                authType === 'Google' ||
+                authType === 'Twitch' ||
+                authType === 'Twitter') && <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />}
+              {authType.replaceAll(' ', '') === 'EmailOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
+              )}
+              {authType.replaceAll(' ', '') === 'SMSOTP' && (
+                <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
+              )}
+            </React.Fragment>
+          ))}
         </>
       )}
     </Zombi>
   ),
 
   {
-    shortDescription: 'Dedicated Wallet',
+    shortDescription: 'Flow Universal Wallet',
     installDependenciesCommand: NpmClientPrompt.getInstallCommand,
     startCommand: NpmClientPrompt.getStartCommand('dev'),
     flags: {
       ...NpmClientPrompt.flags,
       ...PublishableApiKeyPrompt.flags,
-      ...SecretApiKeyPrompt.flags,
       ...AuthTypePrompt.flags,
     },
   },
