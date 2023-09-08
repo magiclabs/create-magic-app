@@ -34,7 +34,9 @@ function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch, product, publishableApiKey, network } = await parseFlags(
+    globalOptions,
+  );
 
   if (version) {
     console.log(getMakeMagicVersion());
@@ -56,7 +58,7 @@ function sayHello() {
   }
 
   // Run the scaffold...
-  await createApp({ projectName, template, branch });
+  await createApp({ projectName, template, branch, product, publishableApiKey, network });
 })().catch((err) => {
   SharedAnalytics.logEvent('cli-tool-error', { error: err });
   if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {

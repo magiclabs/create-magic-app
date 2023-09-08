@@ -259,3 +259,53 @@ export namespace AuthTypePrompt {
     },
   };
 }
+
+export namespace ProductPrompt {
+  export type Data = {
+    product: string;
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'select',
+    name: 'product',
+    message: 'Choose your wallet type',
+    choices: [
+      { name: 'universal', message: 'Universal' },
+      { name: 'dedicated', message: 'Dedicated' },
+    ],
+  };
+
+  export const flags: Flags<Partial<Data>> = {
+    product: {
+      type: String,
+      description:
+        'Magic wallet type of your choice (Universal: Plug and Play, Dedicated: customizable white-labeled wallet)',
+      alias: 'product',
+    },
+  };
+}
+
+export namespace ConfigurationPrompt {
+  export type Data = {
+    configuration: string;
+  };
+
+  export const questions: Questions<Data> = {
+    type: 'select',
+    name: 'configuration',
+    message: 'Select a configuration to start with:',
+    choices: [
+      { name: 'quickstart', message: 'Quickstart (Nextjs, Universal Wallet, Polygon Testnet)' },
+      { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
+    ],
+  };
+
+  export const flags: Flags<Partial<Data>> = {
+    configuration: {
+      type: String,
+      description:
+        'Choose a configuration Quickstart (Universal wallet connection to Polygon Mumbai) or Custom(Choose product, network, etc.)',
+      alias: 'config',
+    },
+  };
+}

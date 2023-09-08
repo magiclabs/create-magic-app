@@ -1,10 +1,10 @@
 {
-  "name": "make-magic",
-  "version": "5.0.1",
+  "name": "@unboxed-software/make-magic-staging",
+  "version": "3.6.2",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
-  "repository": "magiclabs/create-magic-app",
+  "repository": "unboxed-software/create-magic-app",
   "license": "MIT",
-  "author": "Magic Labs <team@magic.link>",
+  "author": "Unboxed Software <devs@beunboxed.com>",
   "main": "./dist/core/lib.js",
   "bin": "./bin.js",
   "files": [
