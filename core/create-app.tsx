@@ -20,7 +20,6 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import { SolanaNetworkPrompt } from 'scaffolds/prompts';
 
 const { Select, Input } = require('enquirer');
 
@@ -108,7 +107,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         name: 'chain',
         message: 'Which blockchain do you want to use?',
         choices: [
-          { name: 'evm', message: 'EVM chains such as Ethereum, Polygon, etc' },
+          { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
           { name: 'solana', message: 'Solana' },
           { name: 'flow', message: 'Flow' },
         ],
@@ -117,7 +116,8 @@ export async function createApp(config: CreateMagicAppConfig) {
       if (chain === 'solana') {
         network = await new Select({
           name: 'network',
-          message: 'Which cluster would like to deploy on?',
+          message: 'Which network would you like to use?',
+          hint: 'We recommend starting with a test network',
           choices: [
             { name: 'solana-mainnet', message: 'Mainnet' },
             { name: 'solana-devnet', message: 'Devnet' },
@@ -130,7 +130,8 @@ export async function createApp(config: CreateMagicAppConfig) {
         if (chain === 'flow') {
           network = await new Select({
             name: 'network',
-            message: 'Which cluster would like to deploy on?',
+            message: 'Which network would you like to use?',
+            hint: 'We recommend starting with a test network',
             choices: [
               { name: 'flow-mainnet', message: 'Mainnet' },
               { name: 'flow-testnet', message: 'Testnet' },
@@ -141,7 +142,8 @@ export async function createApp(config: CreateMagicAppConfig) {
         if (chain == 'evm') {
           network = await new Select({
             name: 'network',
-            message: 'Which network would like to deploy on?',
+            message: 'Which network would like to use?',
+            hint: 'We recommend starting with a test network',
             choices: [
               { name: 'ethereum', message: 'Ethereum (Mainnet)' },
               { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },

@@ -171,32 +171,6 @@ export namespace BlockchainNetworkPrompt {
   };
 }
 
-export namespace SolanaNetworkPrompt {
-  export type Data = {
-    network: string;
-  };
-
-  export const questions: Questions<Data> = {
-    type: 'select',
-    name: 'network',
-    message: 'Select a solana network:',
-    // @ts-ignore
-    hint: 'We recommend starting with devnet.',
-    choices: [
-      { value: 'solana-devnet', message: 'Solana (Devnet)' },
-      { value: 'solana-mainnet', message: 'Solana (Mainnet)' },
-    ],
-  };
-
-  export const flags: Flags<Partial<Data>> = {
-    network: {
-      alias: 'sn',
-      type: String,
-      description: 'The solana network to use',
-    },
-  };
-}
-
 export namespace AuthTypePrompt {
   const authMethods = [
     { name: 'Email OTP' },
