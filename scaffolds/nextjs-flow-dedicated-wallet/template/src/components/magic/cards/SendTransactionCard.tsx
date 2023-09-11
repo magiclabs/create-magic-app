@@ -12,6 +12,8 @@ import { getFaucetUrl, getNetwork } from '@/utils/network';
 import Image from 'next/image';
 import Link from 'public/link.svg';
 import * as fcl from '@onflow/fcl';
+import Spacer from '@/components/ui/Spacer';
+import TransactionHistory from '@/components/ui/TransactionHistory';
 
 const SendTransaction = () => {
   const { magic } = useMagic();

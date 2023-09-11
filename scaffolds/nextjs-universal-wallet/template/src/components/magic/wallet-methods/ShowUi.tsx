@@ -31,7 +31,7 @@ const ShowUI = () => {
     <div className="wallet-method-container">
       <button className="wallet-method" onClick={showUI} disabled={disabled}>
         {disabled ? (
-          <div className="loadingContainer min-w-[76px]">
+          <div className="loading-container min-w-[76px]">
             <Image className="loading" alt="loading" src={Loading} />
           </div>
         ) : (

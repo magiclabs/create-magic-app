@@ -58,7 +58,7 @@ const UpdateEmail = () => {
         Initiates the update email flow that allows a user to change their email address.
       </div>
       {emailError ? (
-        <div style={{ marginBottom: '-10px' }}>
+        <div className="mb-[-10px]">
           <Spacer size={20} />
           <ErrorText>Enter a valid email!</ErrorText>
         </div>

@@ -95,7 +95,6 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
       <div className="code">{publicAddress?.length == 0 ? 'Fetching address..' : publicAddress}</div>
       <Divider />
       <CardLabel
-        style={{ height: '20px' }}
         leftHeader="Balance"
         rightAction={
           isRefreshing ? (

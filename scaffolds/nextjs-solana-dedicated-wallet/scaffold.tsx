@@ -8,11 +8,12 @@ type NextDedicatedWalletData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Da
 export default createScaffold<NextDedicatedWalletData>(
   (props) => (
     <Zombi {...props} prompts={mergePrompts(AuthTypePrompt.questions, PublishableApiKeyPrompt.questions)}>
-      {(data) => (
+      {(data) => {
         <>
           <Template source="./public/background.svg" />
           <Template source="./public/favicon.ico" />
           <Template source="./public/magic_color_white.svg" />
+          <Template source="./public/link.svg" />
           <Template source="./.env.example" />
           <Template source="./.eslintrc.json" />
           <Template source="./.gitignore" />
@@ -58,8 +59,8 @@ export default createScaffold<NextDedicatedWalletData>(
                 </React.Fragment>
               ),
           )}
-        </>
-      )}
+        </>;
+      }}
     </Zombi>
   ),
 

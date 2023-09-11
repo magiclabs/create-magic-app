@@ -31,7 +31,7 @@ const RequestUserInfo = () => {
     <div className="wallet-method-container">
       <button className="wallet-method" onClick={requestUserInfo} disabled={disabled}>
         {disabled ? (
-          <div className="loadingContainer min-w-[220px]">
+          <div className="loading-container min-w-[220px]">
             <Image className="loading" alt="loading" src={Loading} />
           </div>
         ) : (
