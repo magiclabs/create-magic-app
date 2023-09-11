@@ -97,7 +97,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
 
   let chain = '';
-  if (!config.configuration && !config.product) {
+  if (!config.configuration && !config.product && !config.network?.includes('solana')) {
     config.configuration = await new Select({
       name: 'configuration',
       message: 'Select a configuration to start with:',
@@ -162,9 +162,11 @@ export async function createApp(config: CreateMagicAppConfig) {
         }).run();
       }
     }
+  } else {
+    chain = config.network.split('-')[0];
   }
 
-  if (!config.product) {
+  if (!config.product && chain !== 'solana') {
     config.product = await new Select({
       name: 'product',
       message: 'Choose your wallet type',
@@ -176,6 +178,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
   if (chain == 'solana') {
     config.template = 'nextjs-solana-dedicated-wallet';
+    isChosenTemplateValid = true;
   } else {
     if (config.product === 'universal') {
       if (chain === 'flow') {
@@ -192,7 +195,7 @@ export async function createApp(config: CreateMagicAppConfig) {
     }
     isChosenTemplateValid = true;
   }
-  console.log('config: ' + JSON.stringify(config));
+
   const template = (
     <Zombi<CreateMagicAppData>
       name="create-magic-app"

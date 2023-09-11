@@ -8,6 +8,8 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import { getFaucetUrl, getNetworkToken } from '@/utils/network';
 import showToast from '@/utils/showToast';
+import Image from 'next/image';
+import Link from 'public/link.svg';
 
 const SendTransaction = () => {
   const { web3 } = useMagic();
@@ -68,6 +70,7 @@ const SendTransaction = () => {
           <a href={getFaucetUrl()} target="_blank" rel="noreferrer">
             <FormButton onClick={() => null} disabled={false}>
               Get Test {getNetworkToken()}
+              <Image src={Link} alt="link-icon" className="ml-[3px]" />
             </FormButton>
           </a>
           <Divider />

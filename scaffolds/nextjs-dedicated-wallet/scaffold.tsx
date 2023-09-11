@@ -29,6 +29,7 @@ export default createScaffold<NextDedicatedWalletData>(
           <Template source="./public/background.svg" />
           <Template source="./public/favicon.ico" />
           <Template source="./public/magic_color_white.svg" />
+          <Template source="./public/link.svg" />
           <Template source="./.env.example" />
           <Template source="./.eslintrc.json" />
           <Template source="./.gitignore" />
