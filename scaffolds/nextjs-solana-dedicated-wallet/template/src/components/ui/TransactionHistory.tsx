@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'public/link.svg';
-import { getBlockExplorer } from '@/utils/networks';
+import { getBlockExplorer } from '@/utils/network';
 
 const TransactionHistory = () => {
   const publicAddress = localStorage.getItem('user');

@@ -12,9 +12,9 @@ export const getNetworkUrl = () => {
     case Network.POLYGON_MUMBAI:
       return 'https://rpc-mumbai.maticvigil.com/';
     case Network.ETHEREUM_GOERLI:
-      return 'https://eth-goerli.g.alchemy.com/v2/demo';
+      return 'https://eth-goerli.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
     case Network.ETHEREUM:
-      return 'https://eth-mainnet.g.alchemy.com/v2/demo';
+      return 'https://eth-mainnet.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
     default:
       throw new Error('Network not supported');
   }
@@ -63,5 +63,18 @@ export const getNetworkName = () => {
       return 'Ethereum (Goerli)';
     case Network.ETHEREUM:
       return 'Ethereum (Mainnet)';
+  }
+};
+
+export const getBlockExplorer = (address: string) => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
+    case Network.POLYGON:
+      return `https://polygonscan.com/address/${address}`;
+    case Network.POLYGON_MUMBAI:
+      return `https://mumbai.polygonscan.com/address/${address}`;
+    case Network.ETHEREUM:
+      return `https://etherscan.io/address/${address}`;
+    case Network.ETHEREUM_GOERLI:
+      return `https://goerli.etherscan.io/address/${address}`;
   }
 };

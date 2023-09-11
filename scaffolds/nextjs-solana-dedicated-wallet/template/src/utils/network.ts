@@ -23,11 +23,11 @@ export const getNetworkName = () => {
   }
 };
 
-export const getBlockExplorer = () => {
+export const getBlockExplorer = (address: string) => {
   switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
     case Network.SOLANA_DENVET:
-      return 'https://explorer.solana.com/?cluster=devnet';
+      return `https://explorer.solana.com/address/${address}?cluster=devnet`;
     case Network.SOLANA_MAINNET_BETA:
-      return 'https://explorer.solana.com/';
+      return `https://explorer.solana.com/address/${address}`;
   }
 };

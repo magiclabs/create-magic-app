@@ -8,6 +8,8 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import { getFaucetUrl, getNetworkToken } from '@/utils/network';
 import showToast from '@/utils/showToast';
+import Spacer from '@/components/ui/Spacer';
+import TransactionHistory from '@/components/ui/TransactionHistory';
 
 const SendTransaction = () => {
   const { web3 } = useMagic();
@@ -89,6 +91,13 @@ const SendTransaction = () => {
       <FormButton onClick={sendTransaction} disabled={!toAddress || !amount || disabled}>
         Send Transaction
       </FormButton>
+
+      {hash ? (
+        <>
+          <Spacer size={20} />
+          <TransactionHistory />
+        </>
+      ) : null}
     </Card>
   );
 };

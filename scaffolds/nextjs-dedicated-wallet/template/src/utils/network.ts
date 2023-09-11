@@ -65,3 +65,16 @@ export const getNetworkName = () => {
       return 'Ethereum (Mainnet)';
   }
 };
+
+export const getBlockExplorer = (address: string) => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
+    case Network.POLYGON:
+      return `https://polygonscan.com/address/${address}`;
+    case Network.POLYGON_MUMBAI:
+      return `https://mumbai.polygonscan.com/address/${address}`;
+    case Network.ETHEREUM:
+      return `https://etherscan.io/address/${address}`;
+    case Network.ETHEREUM_GOERLI:
+      return `https://goerli.etherscan.io/address/${address}`;
+  }
+};
