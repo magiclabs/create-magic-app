@@ -64,16 +64,12 @@ const SendTransaction = () => {
   return (
     <Card>
       <CardHeader id="send-transaction">Send Transaction</CardHeader>
-      {getFaucetUrl() && (
-        <div>
-          <a href={getFaucetUrl()} target="_blank" rel="noreferrer">
-            <FormButton onClick={() => null} disabled={false}>
-              Get Test {getNetworkToken()}
-            </FormButton>
-          </a>
-          <Divider />
-        </div>
-      )}
+      <a href={getFaucetUrl()} target="_blank" rel="noreferrer">
+        <FormButton onClick={() => null} disabled={false}>
+          Get Test {tokenSymbol} <Image src={Link} alt="link-icon" className="ml-[3px]" />
+        </FormButton>
+      </a>
+      <Divider />
       <FormInput
         value={toAddress}
         onChange={(e: any) => setToAddress(e.target.value)}

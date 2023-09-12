@@ -23,7 +23,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
       const isLoggedIn = await magic?.user.isLoggedIn();
       if (isLoggedIn) {
         try {
-          const metadata = await magic?.user.getMetadata();
+          const metadata = await magic?.user.getInfo();
           if (metadata) {
             localStorage.setItem('user', metadata?.publicAddress!);
             setPublicAddress(metadata?.publicAddress!);
@@ -95,7 +95,6 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
       <div className="code">{publicAddress?.length == 0 ? 'Fetching address..' : publicAddress}</div>
       <Divider />
       <CardLabel
-        style={{ height: '20px' }}
         leftHeader="Balance"
         rightAction={
           isRefreshing ? (

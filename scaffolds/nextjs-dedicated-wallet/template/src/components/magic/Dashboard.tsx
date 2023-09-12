@@ -5,10 +5,12 @@ import Spacer from '@/components/ui/Spacer';
 import { LoginProps } from '@/utils/types';
 import UserInfo from './cards/UserInfoCard';
 import DevLinks from './DevLinks';
+import Header from './Header';
 
 export default function Dashboard({ token, setToken }: LoginProps) {
   return (
     <div className="home-page">
+      <Header />
       <Spacer size={32} />
       <Spacer size={120} />
       <div className="cards-container">

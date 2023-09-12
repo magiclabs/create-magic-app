@@ -1,32 +1,29 @@
 import React, { useCallback } from 'react';
-import Card from '../ui/Card';
-import CardHeader from '../ui/CardHeader';
-import FormButton from '../ui/FormButton';
 import Spacer from '../ui/Spacer';
+import DevLinks from './DevLinks';
 
 const MagicDashboardRedirect = () => {
   const onClick = useCallback(() => {
-    window.open('https://dashboard.magic.link', '_blank');
+    window.open('https://dashboard.magic.link/signup', '_blank');
   }, []);
 
   return (
-    <div>
-      <Card>
-        <CardHeader id="missing-api-key">Missing API Key</CardHeader>
-        <h3>
+    <div className="redirect-container">
+      <Spacer size={32} />
+      <Spacer size={20} />
+      <div className="text-center">
+        <h3 className="max-w-[500px] text-center text-[#ffffffcc] text-xl font-normal m-0">
           Please set your <code>NEXT_PUBLIC_MAGIC_API_KEY</code> environment variable in <code>.env</code>. You can get
           your Magic API key from the Magic Dashboard.
         </h3>
-        <Spacer size={30} />
-        <FormButton onClick={onClick} disabled={false}>
-          Go to Magic Dashboard
-        </FormButton>
-      </Card>
-      <div style={{ textAlign: 'center' }}>
-        <button className="connect-button" onClick={onClick}>
+      </div>
+      <Spacer size={32} />
+      <div className="text-center">
+        <button className="login-button min-w-[296px]" onClick={onClick}>
           Go to Dashboard
         </button>
       </div>
+      <DevLinks />
     </div>
   );
 };

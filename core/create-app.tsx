@@ -57,6 +57,7 @@ export async function createApp(config: CreateMagicAppConfig) {
 
   const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
+  let network = '';
 
   const availableScaffolds = fs
     .readdirSync(resolveToDist('scaffolds'))
@@ -101,7 +102,84 @@ export async function createApp(config: CreateMagicAppConfig) {
       config.template = 'nextjs-universal-wallet';
       isChosenTemplateValid = true;
       quickstart = true;
+    } else {
+      const chain = await new Select({
+        name: 'chain',
+        message: 'Which blockchain do you want to use?',
+        choices: [
+          { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
+          { name: 'solana', message: 'Solana' },
+          { name: 'flow', message: 'Flow' },
+        ],
+      }).run();
+
+      if (chain === 'solana') {
+        network = await new Select({
+          name: 'network',
+          message: 'Which network would you like to use?',
+          hint: 'We recommend starting with a test network',
+          choices: [
+            { name: 'solana-mainnet', message: 'Mainnet' },
+            { name: 'solana-devnet', message: 'Devnet' },
+          ],
+        }).run();
+
+        config.template = 'nextjs-solana-dedicated-wallet';
+        isChosenTemplateValid = true;
+      } else {
+        if (chain === 'flow') {
+          network = await new Select({
+            name: 'network',
+            message: 'Which network would you like to use?',
+            hint: 'We recommend starting with a test network',
+            choices: [
+              { name: 'flow-mainnet', message: 'Mainnet' },
+              { name: 'flow-testnet', message: 'Testnet' },
+            ],
+          }).run();
+        }
+
+        if (chain === 'evm') {
+          network = await new Select({
+            name: 'network',
+            message: 'Which network would like to use?',
+            hint: 'We recommend starting with a test network',
+            choices: [
+              { name: 'ethereum', message: 'Ethereum (Mainnet)' },
+              { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
+              { name: 'polygon', message: 'Polygon (Mainnet)' },
+              { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+            ],
+          }).run();
+        }
+
+        const product = await new Select({
+          name: 'product',
+          message: 'Choose your wallet type',
+          choices: [
+            { name: 'universal', message: 'Universal' },
+            { name: 'dedicated', message: 'Dedicated' },
+          ],
+        }).run();
+
+        if (product === 'universal') {
+          if (chain === 'flow') {
+            config.template = 'nextjs-flow-universal-wallet';
+          } else {
+            config.template = 'nextjs-universal-wallet';
+          }
+        } else if (chain === 'flow') {
+          config.template = 'nextjs-flow-dedicated-wallet';
+        } else {
+          config.template = 'nextjs-dedicated-wallet';
+        }
+        isChosenTemplateValid = true;
+      }
     }
+  }
+
+  if (quickstart) {
+    network = 'polygon-mumbai';
   }
 
   const template = (
@@ -113,7 +191,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
         template: isChosenTemplateValid ? config.template : undefined,
-        network: quickstart ? 'polygon-mumbai' : undefined,
+        network: network.length > 0 ? network : undefined,
         npmClient: 'npm',
       })}
       prompts={[
@@ -122,15 +200,6 @@ export async function createApp(config: CreateMagicAppConfig) {
           name: 'projectName',
           message: 'What is your project named?',
           initial: 'awesome-magic-app',
-        },
-        {
-          type: 'autocomplete',
-          name: 'template',
-          message: 'Choose your wallet type',
-          choices: [
-            { name: 'nextjs-universal-wallet', message: 'Universal Wallet' },
-            { name: 'nextjs-dedicated-wallet', message: 'Dedicated Wallet' },
-          ],
         },
       ]}
     >

@@ -1,3 +1,17 @@
+# v4.2.0 (Mon Sep 11 2023)
+
+#### 🚀 Enhancement
+
+- Adds support for Solana and Flow
+- Minor updates to UI in templates
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
 # v4.0.0 (Fri Aug 11 2023)
 
 #### 💥 Breaking Change

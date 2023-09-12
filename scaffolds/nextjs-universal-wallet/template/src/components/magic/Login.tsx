@@ -30,12 +30,7 @@ const Login = ({ setAccount }: Props) => {
   }, [magic, setAccount]);
 
   return (
-    <div
-      className="login-page"
-      style={{
-        backgroundImage: `url(${LoginPageBackground})`,
-      }}
-    >
+    <div className="login-page">
       <AppHeader />
       <Spacer size={32} />
       <Spacer size={20} />

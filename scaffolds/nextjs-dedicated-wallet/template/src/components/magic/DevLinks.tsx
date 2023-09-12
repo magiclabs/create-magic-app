@@ -1,35 +1,26 @@
-import classNames from 'classnames'
-import Link from 'next/link'
+import classNames from 'classnames';
+import Link from 'next/link';
 
-const DevLinks = ({primary = false}: {primary?: boolean}) => (
-  <div className='flex flex-row mb-4'>
-    <Link
-      href='https://magic.link/docs'
-      className={classNames(
-        'font-medium underline mx-4 cursor-pointer',
-        primary ? 'text-blue-700' : 'text-white'
-      )}>
-			Docs
-    </Link>
-    <div className={primary ? 'text-blue-700' : 'text-white'}>|</div>
-    <Link
-      href='https://dashboard.magic.link/signup'
-      className={classNames(
-        'font-medium underline mx-4 cursor-pointer',
-        primary ? 'text-blue-700' : 'text-white'
-      )}>
-			Dashboard
-    </Link>
-    <div className={primary ? 'text-blue-700' : 'text-white'}>|</div>
-    <Link
-      href='https://discord.com/invite/magiclabs'
-      className={classNames(
-        'font-medium underline mx-4 cursor-pointer',
-        primary ? 'text-blue-700' : 'text-white'
-      )}>
-			Discord
-    </Link>
+const DevLinks = ({ primary = false, footer = false }: { primary?: boolean; footer?: boolean }) => (
+  <div className={`links ${footer ? 'footer-links' : ''}`}>
+    <div className={`link ${primary ? 'text-[#6851ff]' : 'text-[#fff]'}`}>
+      <a href="https://magic.link/docs/home/welcome" target="_blank" rel="noreferrer">
+        Dev Docs
+      </a>
+    </div>
+    <div className={`link-divider ${primary ? 'bg-[#DDDBE0]' : 'bg-[#a270d3]'}`} />
+    <div className={`link ${primary ? 'text-[#6851ff]' : 'text-[#fff]'}`}>
+      <a href="https://dashboard.magic.link/signup" target="_blank" rel="noreferrer">
+        Dashboard
+      </a>
+    </div>
+    <div className={`link-divider ${primary ? 'bg-[#DDDBE0]' : 'bg-[#a270d3]'}`} />
+    <div className={`link ${primary ? 'text-[#6851ff]' : 'text-[#fff]'}`}>
+      <a href="https://discord.gg/magiclabs" target="_blank" rel="noreferrer">
+        Discord
+      </a>
+    </div>
   </div>
-)
+);
 
-export default DevLinks
+export default DevLinks;

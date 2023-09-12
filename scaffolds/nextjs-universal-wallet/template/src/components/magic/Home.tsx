@@ -13,12 +13,7 @@ interface Props {
 
 export default function Home({ setAccount }: Props) {
   return (
-    <div
-      className="home-page"
-      style={{
-        backgroundImage: `url(${HomePageBackground})`,
-      }}
-    >
+    <div className="home-page">
       <AppHeader />
       <Spacer size={32} />
       <Links />

@@ -1,0 +1,7 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "quotes": [1, "single"],
+    "indent": [1, 2]
+  }
+}

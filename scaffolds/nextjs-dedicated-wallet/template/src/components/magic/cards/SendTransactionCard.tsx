@@ -7,6 +7,11 @@ import ErrorText from '@/components/ui/ErrorText';
 import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import { getFaucetUrl, getNetworkToken } from '@/utils/network';
+import showToast from '@/utils/showToast';
+import Spacer from '@/components/ui/Spacer';
+import TransactionHistory from '@/components/ui/TransactionHistory';
+import Image from 'next/image';
+import Link from 'public/link.svg';
 
 const SendTransaction = () => {
   const { web3 } = useMagic();
@@ -45,6 +50,10 @@ const SendTransaction = () => {
         console.log('Transaction hash:', txHash);
       })
       .then((receipt) => {
+        showToast({
+          message: 'Transaction Successful',
+          type: 'success',
+        });
         setToAddress('');
         setAmount('');
         console.log('Transaction receipt:', receipt);
@@ -63,6 +72,7 @@ const SendTransaction = () => {
           <a href={getFaucetUrl()} target="_blank" rel="noreferrer">
             <FormButton onClick={() => null} disabled={false}>
               Get Test {getNetworkToken()}
+              <Image src={Link} alt="link-icon" className="ml-[3px]" />
             </FormButton>
           </a>
           <Divider />
@@ -84,6 +94,13 @@ const SendTransaction = () => {
       <FormButton onClick={sendTransaction} disabled={!toAddress || !amount || disabled}>
         Send Transaction
       </FormButton>
+
+      {hash ? (
+        <>
+          <Spacer size={20} />
+          <TransactionHistory />
+        </>
+      ) : null}
     </Card>
   );
 };

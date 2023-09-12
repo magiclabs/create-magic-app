@@ -80,7 +80,6 @@ const UserInfo = ({ setAccount }: Props) => {
       <div className="code">{publicAddress}</div>
       <Divider />
       <CardLabel
-        style={{ height: '20px' }}
         leftHeader="Balance"
         rightAction={
           isRefreshing ? (
