@@ -37,7 +37,7 @@ export default createScaffold<NextDedicatedWalletData>(
           <Template source="./src/styles" />
           <Template source="./src/utils" />
 
-          {data.selectedAuthTypes.map(
+          {data.loginMethods.map(
             (authType) =>
               authType !== 'Social Logins' && (
                 <React.Fragment key={authType}>

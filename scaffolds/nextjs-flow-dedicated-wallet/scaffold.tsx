@@ -37,7 +37,7 @@ export default createScaffold<NextDedicatedWalletData>(
           <Template source="./src/styles" />
           <Template source="./src/utils" />
 
-          {data.selectedAuthTypes.map((authType) => (
+          {data.loginMethods.map((authType) => (
             <React.Fragment key={authType}>
               <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
               {(authType === 'Discord' ||
