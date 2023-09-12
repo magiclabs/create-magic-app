@@ -37,7 +37,7 @@ ul {
 }
 
 .nft-name {
-  @apply text-black font-semibold;
+  @apply font-semibold text-black;
   font-family: 'Inter';
 }
 
@@ -63,7 +63,7 @@ ul {
 }
 
 .network-dropdown {
-  @apply w-fit m-auto rounded-xl;
+  @apply m-auto w-fit rounded-xl;
 }
 
 .active-network {
@@ -123,7 +123,7 @@ ul {
 }
 
 .links {
-  @apply flex justify-center text-white font-semibold mt-5 mb-3 mx-auto;
+  @apply flex justify-center mx-auto mt-5 mb-3 font-semibold text-white;
 }
 .link {
   @apply transition-[0.1s] px-[30px] py-0;
@@ -144,7 +144,7 @@ ul {
   @apply cursor-pointer;
 }
 .link-divider {
-  @apply h-5 w-px;
+  @apply w-px h-5;
 }
 
 .footer-links {
@@ -202,7 +202,7 @@ ul {
   @apply w-[50px] text-center flex items-center justify-center cursor-default;
 }
 .loading {
-  @apply animate-spin cursor-default;
+  @apply cursor-default animate-spin;
 }
 
 @keyframes rotation {
@@ -222,11 +222,11 @@ ul {
   @apply text-xl font-semibold text-left mt-0 mb-[25px];
 }
 .card-label-container {
-  @apply flex justify-between items-center mb-3;
+  @apply flex items-center justify-between mb-3;
 }
 
 .card-label {
-  @apply text-sm font-medium  cursor-pointer;
+  @apply text-sm font-medium cursor-pointer;
 }
 .toast {
   @apply fixed w-fit text-white font-medium shadow-[4px_8px_20px_rgba(0,0,0,0.15)] mx-auto my-0 px-4 py-2 rounded-[10px] top-[30px] inset-x-0 bg-[#00875f];
@@ -273,6 +273,7 @@ a {
 
 .app-header-container {
   @apply block;
+  @apply p-6;
   text-align: -webkit-center;
 }
 
