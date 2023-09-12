@@ -139,7 +139,7 @@ export async function createApp(config: CreateMagicAppConfig) {
           }).run();
         }
 
-        if (chain == 'evm') {
+        if (chain === 'evm') {
           network = await new Select({
             name: 'network',
             message: 'Which network would like to use?',
@@ -168,16 +168,18 @@ export async function createApp(config: CreateMagicAppConfig) {
           } else {
             config.template = 'nextjs-universal-wallet';
           }
+        } else if (chain === 'flow') {
+          config.template = 'nextjs-flow-dedicated-wallet';
         } else {
-          if (chain === 'flow') {
-            config.template = 'nextjs-flow-dedicated-wallet';
-          } else {
-            config.template = 'nextjs-dedicated-wallet';
-          }
+          config.template = 'nextjs-dedicated-wallet';
         }
         isChosenTemplateValid = true;
       }
     }
+  }
+
+  if (quickstart) {
+    network = 'polygon-mumbai';
   }
 
   const template = (
@@ -189,7 +191,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
         template: isChosenTemplateValid ? config.template : undefined,
-        network: quickstart ? 'polygon-mumbai' : network.length > 0 ? network : undefined,
+        network: network.length > 0 ? network : undefined,
         npmClient: 'npm',
       })}
       prompts={[
