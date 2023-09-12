@@ -183,12 +183,12 @@ export namespace AuthTypePrompt {
   ];
 
   export type Data = {
-    selectedAuthTypes: string[];
+    loginMethods: string[];
   };
 
   export const questions: Questions<Data> = {
     type: 'multiselect',
-    name: 'selectedAuthTypes',
+    name: 'loginMethods',
     message:
       'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
     hint: '(<space> to select, <return> to submit)',
@@ -214,7 +214,7 @@ export namespace AuthTypePrompt {
   };
 
   export const flags: Flags<Partial<Data>> = {
-    selectedAuthTypes: {
+    loginMethods: {
       type: [String],
       description: `The auth method(s) of your choice. You can provide this flag multiple times to select multiple methods. (one of: ${authMethods.join(
         ', ',

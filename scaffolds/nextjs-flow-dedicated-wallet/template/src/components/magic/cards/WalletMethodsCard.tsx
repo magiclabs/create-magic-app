@@ -7,10 +7,10 @@ import CardHeader from '@/components/ui/CardHeader'
 import {LoginMethod} from '@/utils/common'
 import GetIdToken from '../wallet-methods/GetIdToken'
 import GetMetadata from '../wallet-methods/GetMetadata'
-<% if(selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")){%>
+<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")){%>
 <%-`import UpdateEmail from '../wallet-methods/UpdateEmail'`-%>
 <% }%>
-<% if(selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
+<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
 <%-`import UpdatePhone from '../wallet-methods/UpdatePhone'`-%>
 <% }%>
 
@@ -21,7 +21,7 @@ const WalletMethods = ({token, setToken}: LoginProps) => {
 	return (
 		<Card>
 			<CardHeader id='methods'>Wallet Methods</CardHeader>
-			<% if(selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")){%>
+			<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")){%>
 				<%-`{loginMethod && loginMethod == 'EMAIL' && (
 					<>
 						<UpdateEmail />
@@ -29,7 +29,7 @@ const WalletMethods = ({token, setToken}: LoginProps) => {
 					</>
 				)}`-%>
 			<% }%>
-			<% if(selectedAuthTypes.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
+			<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
 				<%-`{loginMethod && loginMethod == 'SMS' && (
 					<>
 						<UpdatePhone />
