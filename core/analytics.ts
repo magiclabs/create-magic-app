@@ -13,7 +13,7 @@ export class SegmentAnalytics implements Analytics {
   private segment: Segment;
 
   constructor() {
-    this.segment = new Segment({ writeKey: '9hj4nUBAc6g8y9pUC0CTyVlFbwBcrQfK' });
+    this.segment = new Segment({ writeKey: 'g9GIEwAL2HOQHq6PXg9gHzSjEBuAuRLq' });
     addShutdownTask(async (reason) => {
       this.logEvent('cli-tool-shutdown', reason);
       await this.prepareForShutdown();
