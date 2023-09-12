@@ -20,6 +20,7 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
+import { Chain, mapTemplateToChain, mapTemplateToProduct } from './utils/templateMappings';
 
 const { Select, Input } = require('enquirer');
 
@@ -57,7 +58,6 @@ export async function createApp(config: CreateMagicAppConfig) {
 
   const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
-  let network = '';
 
   const availableScaffolds = fs
     .readdirSync(resolveToDist('scaffolds'))
@@ -87,7 +87,9 @@ export async function createApp(config: CreateMagicAppConfig) {
     config.projectName = projectName;
   }
 
-  let quickstart = false;
+  let network = '';
+  let chain: Chain | undefined = undefined;
+  let product: 'universal' | 'dedicated' | undefined = undefined;
   if (!config.template) {
     const configuration = await new Select({
       name: 'configuration',
@@ -100,86 +102,90 @@ export async function createApp(config: CreateMagicAppConfig) {
 
     if (configuration === 'quickstart') {
       config.template = 'nextjs-universal-wallet';
+      network = 'polygon-mumbai';
+      product = 'universal';
+      chain = 'evm';
       isChosenTemplateValid = true;
-      quickstart = true;
-    } else {
-      const chain = await new Select({
-        name: 'chain',
-        message: 'Which blockchain do you want to use?',
+    }
+  } else {
+    chain = mapTemplateToChain(config.template);
+    product = mapTemplateToProduct(config.template);
+  }
+
+  if (!chain && !network) {
+    chain = await new Select({
+      name: 'chain',
+      message: 'Which blockchain do you want to use?',
+      choices: [
+        { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
+        { name: 'solana', message: 'Solana' },
+        { name: 'flow', message: 'Flow' },
+      ],
+    }).run();
+  }
+
+  if (!network) {
+    if (chain === 'solana') {
+      network = await new Select({
+        name: 'network',
+        message: 'Which network would you like to use?',
+        hint: 'We recommend starting with a test network',
         choices: [
-          { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
-          { name: 'solana', message: 'Solana' },
-          { name: 'flow', message: 'Flow' },
+          { name: 'solana-mainnet', message: 'Mainnet' },
+          { name: 'solana-devnet', message: 'Devnet' },
         ],
       }).run();
 
-      if (chain === 'solana') {
-        network = await new Select({
-          name: 'network',
-          message: 'Which network would you like to use?',
-          hint: 'We recommend starting with a test network',
-          choices: [
-            { name: 'solana-mainnet', message: 'Mainnet' },
-            { name: 'solana-devnet', message: 'Devnet' },
-          ],
-        }).run();
-
-        config.template = 'nextjs-solana-dedicated-wallet';
-        isChosenTemplateValid = true;
-      } else {
-        if (chain === 'flow') {
-          network = await new Select({
-            name: 'network',
-            message: 'Which network would you like to use?',
-            hint: 'We recommend starting with a test network',
-            choices: [
-              { name: 'flow-mainnet', message: 'Mainnet' },
-              { name: 'flow-testnet', message: 'Testnet' },
-            ],
-          }).run();
-        }
-
-        if (chain === 'evm') {
-          network = await new Select({
-            name: 'network',
-            message: 'Which network would like to use?',
-            hint: 'We recommend starting with a test network',
-            choices: [
-              { name: 'ethereum', message: 'Ethereum (Mainnet)' },
-              { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
-              { name: 'polygon', message: 'Polygon (Mainnet)' },
-              { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
-            ],
-          }).run();
-        }
-
-        const product = await new Select({
-          name: 'product',
-          message: 'Choose your wallet type',
-          choices: [
-            { name: 'universal', message: 'Universal' },
-            { name: 'dedicated', message: 'Dedicated' },
-          ],
-        }).run();
-
-        if (product === 'universal') {
-          if (chain === 'flow') {
-            config.template = 'nextjs-flow-universal-wallet';
-          } else {
-            config.template = 'nextjs-universal-wallet';
-          }
-        } else if (chain === 'flow') {
-          config.template = 'nextjs-flow-dedicated-wallet';
-        } else {
-          config.template = 'nextjs-dedicated-wallet';
-        }
-        isChosenTemplateValid = true;
-      }
+      product = 'dedicated';
+      config.template = 'nextjs-solana-dedicated-wallet';
+      isChosenTemplateValid = true;
+    } else if (chain === 'flow') {
+      network = await new Select({
+        name: 'network',
+        message: 'Which network would you like to use?',
+        hint: 'We recommend starting with a test network',
+        choices: [
+          { name: 'flow-mainnet', message: 'Mainnet' },
+          { name: 'flow-testnet', message: 'Testnet' },
+        ],
+      }).run();
+    } else if (chain === 'evm') {
+      network = await new Select({
+        name: 'network',
+        message: 'Which network would like to use?',
+        hint: 'We recommend starting with a test network',
+        choices: [
+          { name: 'ethereum', message: 'Ethereum (Mainnet)' },
+          { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
+          { name: 'polygon', message: 'Polygon (Mainnet)' },
+          { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+        ],
+      }).run();
     }
   }
 
-  if (quickstart) {
-    network = 'polygon-mumbai';
+  if (!product) {
+    product = await new Select({
+      name: 'product',
+      message: 'Choose your wallet type',
+      choices: [
+        { name: 'universal', message: 'Universal' },
+        { name: 'dedicated', message: 'Dedicated' },
+      ],
+    }).run();
+
+    if (product === 'universal') {
+      if (chain === 'flow') {
+        config.template = 'nextjs-flow-universal-wallet';
+      } else {
+        config.template = 'nextjs-universal-wallet';
+      }
+    } else if (chain === 'flow') {
+      config.template = 'nextjs-flow-dedicated-wallet';
+    } else {
+      config.template = 'nextjs-dedicated-wallet';
+    }
+    isChosenTemplateValid = true;
   }
 
   const template = (
