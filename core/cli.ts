@@ -52,9 +52,9 @@ function sayHello() {
   if (shareUsageData !== undefined) {
     const consent = await modifyUsageConsent(shareUsageData);
     if (consent) {
-      console.log('Thank you for opting in for our developer experience improvement program.');
+      console.log('Thanks for helping us improve the developer experience by sharing anonymous usage data!');
     } else {
-      console.log('You have opted out of our developer experience improvement program.');
+      console.log('You are now opted out of sharing anonymous usage data.');
     }
     shutdown(0);
   }
