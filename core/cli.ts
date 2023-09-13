@@ -34,7 +34,7 @@ function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch, shareUsageData } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
   const collectUsageData = await initializeUsageConfigIfneeded();
   const config = loadConfig();
 
@@ -66,7 +66,7 @@ function sayHello() {
   }
 
   // Run the scaffold...
-  await createApp({ projectName, template, branch });
+  await createApp({ projectName, template, branch, network });
 })().catch((err) => {
   SharedAnalytics.logEvent('cli-tool-error', { error: err });
   if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {

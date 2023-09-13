@@ -2,8 +2,9 @@ import chalk from 'chalk';
 import { BINARY } from './config';
 import { CreateMagicAppData } from './create-app';
 import { Flags } from './flags';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 
-export interface GlobalOptions extends Partial<CreateMagicAppData> {
+export interface GlobalOptions extends Partial<CreateMagicAppData & BlockchainNetworkPrompt.Data> {
   help?: boolean;
   version?: boolean;
   [key: string]: any;
@@ -47,4 +48,6 @@ export const globalOptions: Flags<GlobalOptions> = {
     description:
       'A boolean representing whether or not to share anonymous usage data with Magic. The data cannot be traced back to you and is used to improve the developer experience.',
   },
+
+  ...BlockchainNetworkPrompt.flags,
 };
