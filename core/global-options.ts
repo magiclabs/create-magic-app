@@ -2,8 +2,9 @@ import chalk from 'chalk';
 import { BINARY } from './config';
 import { CreateMagicAppData } from './create-app';
 import { Flags } from './flags';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 
-export interface GlobalOptions extends Partial<CreateMagicAppData> {
+export interface GlobalOptions extends Partial<CreateMagicAppData & BlockchainNetworkPrompt.Data> {
   help?: boolean;
   version?: boolean;
   [key: string]: any;
@@ -41,4 +42,6 @@ export const globalOptions: Flags<GlobalOptions> = {
     alias: 'v',
     description: `Show which version of \`${BINARY}\` is currently in use.`,
   },
+
+  ...BlockchainNetworkPrompt.flags,
 };
