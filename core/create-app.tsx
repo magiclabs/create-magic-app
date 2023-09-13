@@ -21,10 +21,11 @@ import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
 import { Chain, mapTemplateToChain, mapTemplateToProduct } from './utils/templateMappings';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 
 const { Select, Input } = require('enquirer');
 
-export interface CreateMagicAppData {
+export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
    * The `make-magic` project branch to source templates from.
    */
@@ -87,7 +88,6 @@ export async function createApp(config: CreateMagicAppConfig) {
     config.projectName = projectName;
   }
 
-  let network = '';
   let chain: Chain | undefined = undefined;
   let product: 'universal' | 'dedicated' | undefined = undefined;
   if (!config.template) {
@@ -102,7 +102,7 @@ export async function createApp(config: CreateMagicAppConfig) {
 
     if (configuration === 'quickstart') {
       config.template = 'nextjs-universal-wallet';
-      network = 'polygon-mumbai';
+      config.network = 'polygon-mumbai';
       product = 'universal';
       chain = 'evm';
       isChosenTemplateValid = true;
@@ -112,7 +112,7 @@ export async function createApp(config: CreateMagicAppConfig) {
     product = mapTemplateToProduct(config.template);
   }
 
-  if (!chain && !network) {
+  if (!chain && !config.network) {
     chain = await new Select({
       name: 'chain',
       message: 'Which blockchain do you want to use?',
@@ -124,9 +124,9 @@ export async function createApp(config: CreateMagicAppConfig) {
     }).run();
   }
 
-  if (!network) {
+  if (!config.network) {
     if (chain === 'solana') {
-      network = await new Select({
+      config.network = await new Select({
         name: 'network',
         message: 'Which network would you like to use?',
         hint: 'We recommend starting with a test network',
@@ -140,7 +140,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       config.template = 'nextjs-solana-dedicated-wallet';
       isChosenTemplateValid = true;
     } else if (chain === 'flow') {
-      network = await new Select({
+      config.network = await new Select({
         name: 'network',
         message: 'Which network would you like to use?',
         hint: 'We recommend starting with a test network',
@@ -150,7 +150,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         ],
       }).run();
     } else if (chain === 'evm') {
-      network = await new Select({
+      config.network = await new Select({
         name: 'network',
         message: 'Which network would like to use?',
         hint: 'We recommend starting with a test network',
@@ -197,7 +197,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         branch: config?.branch ?? 'master',
         projectName: config?.projectName,
         template: isChosenTemplateValid ? config.template : undefined,
-        network: network.length > 0 ? network : undefined,
+        network: config.network,
         npmClient: 'npm',
       })}
       prompts={[
