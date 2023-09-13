@@ -34,7 +34,7 @@ function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch, shouldTrackUsageData } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch, shareUsageData } = await parseFlags(globalOptions);
   const collectUsageData = await initializeUsageConfigIfneeded();
   const config = loadConfig();
 
@@ -49,8 +49,8 @@ function sayHello() {
     shutdown(0);
   }
 
-  if (shouldTrackUsageData !== undefined) {
-    const consent = await modifyUsageConsent(shouldTrackUsageData);
+  if (shareUsageData !== undefined) {
+    const consent = await modifyUsageConsent(shareUsageData);
     if (consent) {
       console.log('Thank you for opting in for our developer experience improvement program.');
     } else {

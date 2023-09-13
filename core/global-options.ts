@@ -42,8 +42,9 @@ export const globalOptions: Flags<GlobalOptions> = {
     description: `Show which version of \`${BINARY}\` is currently in use.`,
   },
 
-  shouldTrackUsageData: {
+  shareUsageData: {
     type: Boolean,
-    description: chalk`Modify your consent for tracking anonymous usage data to improve developer experience.\nTo opt out, run {blue npx make-magic --should-track-usage-data false}\n`,
+    description:
+      'A boolean representing whether or not to share anonymous usage data with Magic. The data cannot be traced back to you and is used to improve the developer experience.',
   },
 };
