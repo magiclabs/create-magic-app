@@ -9,7 +9,7 @@ import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { shutdown, useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import { promptForUsageDataIfNeeded } from './utils/usagePermissions';
+import { modifyUsageConsent, initializeUsageConfigIfneeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
 import suppressWarnings from './utils/suppress-experimental-warnings';
 
@@ -34,7 +34,9 @@ function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch, shouldTrackUsageData } = await parseFlags(globalOptions);
+  const collectUsageData = await initializeUsageConfigIfneeded();
+  const config = loadConfig();
 
   if (version) {
     console.log(getMakeMagicVersion());
@@ -47,10 +49,18 @@ function sayHello() {
     shutdown(0);
   }
 
+  if (shouldTrackUsageData !== undefined) {
+    const consent = await modifyUsageConsent(shouldTrackUsageData);
+    if (consent) {
+      console.log('Thank you for opting in for our developer experience improvement program.');
+    } else {
+      console.log('You have opted out of our developer experience improvement program.');
+    }
+    shutdown(0);
+  }
+
   sayHello();
 
-  const collectUsageData = await promptForUsageDataIfNeeded();
-  const config = loadConfig();
   if (collectUsageData && config?.id) {
     SharedAnalytics.identifyUser(config.id);
   }

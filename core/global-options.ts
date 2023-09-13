@@ -41,4 +41,9 @@ export const globalOptions: Flags<GlobalOptions> = {
     alias: 'v',
     description: `Show which version of \`${BINARY}\` is currently in use.`,
   },
+
+  shouldTrackUsageData: {
+    type: Boolean,
+    description: chalk`Modify your consent for tracking anonymous usage data to improve developer experience.\nTo opt out, run {blue npx make-magic --should-track-usage-data false}\n`,
+  },
 };
