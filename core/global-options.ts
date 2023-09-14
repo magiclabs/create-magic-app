@@ -43,5 +43,11 @@ export const globalOptions: Flags<GlobalOptions> = {
     description: `Show which version of \`${BINARY}\` is currently in use.`,
   },
 
+  shareUsageData: {
+    type: Boolean,
+    description:
+      'A boolean representing whether or not to share anonymous usage data with Magic. The data cannot be traced back to you and is used to improve the developer experience.',
+  },
+
   ...BlockchainNetworkPrompt.flags,
 };

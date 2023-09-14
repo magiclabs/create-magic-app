@@ -9,7 +9,7 @@ import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { shutdown, useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import { promptForUsageDataIfNeeded } from './utils/usagePermissions';
+import { modifyUsageConsent, initializeUsageConfigIfneeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
 import suppressWarnings from './utils/suppress-experimental-warnings';
 
@@ -34,7 +34,9 @@ function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch, network } = await parseFlags(globalOptions);
+  const { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
+  const collectUsageData = await initializeUsageConfigIfneeded();
+  const config = loadConfig();
 
   if (version) {
     console.log(getMakeMagicVersion());
@@ -47,10 +49,18 @@ function sayHello() {
     shutdown(0);
   }
 
+  if (shareUsageData !== undefined) {
+    const consent = await modifyUsageConsent(shareUsageData);
+    if (consent) {
+      console.log('Thanks for helping us improve the developer experience by sharing anonymous usage data!');
+    } else {
+      console.log('You are now opted out of sharing anonymous usage data.');
+    }
+    shutdown(0);
+  }
+
   sayHello();
 
-  const collectUsageData = await promptForUsageDataIfNeeded();
-  const config = loadConfig();
   if (collectUsageData && config?.id) {
     SharedAnalytics.identifyUser(config.id);
   }
