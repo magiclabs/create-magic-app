@@ -90,18 +90,19 @@ export async function createApp(config: CreateMagicAppConfig) {
 
   let chain: Chain | undefined = undefined;
   let product: 'universal' | 'dedicated' | undefined = undefined;
+  let configuration = '';
   if (!config.template) {
-    const configuration = await new Select({
+    configuration = await new Select({
       name: 'configuration',
       message: 'Select a configuration to start with:',
       choices: [
-        { name: 'quickstart', message: 'Quickstart (Nextjs, Universal Wallet, Polygon Testnet)' },
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Dedicated Wallet, Polygon Testnet, Email OTP)' },
         { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
       ],
     }).run();
 
     if (configuration === 'quickstart') {
-      config.template = 'nextjs-universal-wallet';
+      config.template = 'nextjs-dedicated-wallet';
       config.network = 'polygon-mumbai';
       product = 'universal';
       chain = 'evm';
@@ -199,6 +200,7 @@ export async function createApp(config: CreateMagicAppConfig) {
         template: isChosenTemplateValid ? config.template : undefined,
         network: config.network,
         npmClient: 'npm',
+        loginMethods: configuration === 'quickstart' ? ['EmailOTP'] : undefined,
       })}
       prompts={[
         {
