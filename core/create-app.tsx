@@ -104,7 +104,7 @@ export async function createApp(config: CreateMagicAppConfig) {
     if (configuration === 'quickstart') {
       config.template = 'nextjs-dedicated-wallet';
       config.network = 'polygon-mumbai';
-      product = 'universal';
+      product = 'dedicated';
       chain = 'evm';
       isChosenTemplateValid = true;
     }
