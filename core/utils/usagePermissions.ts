@@ -3,14 +3,11 @@
 import crypto from 'crypto';
 import { loadConfig, saveConfig } from '../config';
 
-const { Select } = require('enquirer');
-
-export const promptForUsageDataIfNeeded = async (): Promise<boolean> => {
+export const initializeUsageConfigIfneeded = async (): Promise<boolean> => {
   let config = await loadConfig();
 
   if (!config) {
-    const answer = await promptForUsageData();
-    config = { shouldTrackUsageData: answer };
+    config = { shouldTrackUsageData: true };
     await saveConfig(config);
   }
 
@@ -22,12 +19,9 @@ export const promptForUsageDataIfNeeded = async (): Promise<boolean> => {
   return config.shouldTrackUsageData ?? false;
 };
 
-const promptForUsageData = async (): Promise<boolean> => {
-  const answer = await new Select({
-    name: 'analytics',
-    message: 'Would you like to help us improve this tool by allowing us to collect anonymous usage data?',
-    choices: [{ name: 'Yes' }, { name: 'No' }],
-  }).run();
-
-  return answer === 'Yes';
+export const modifyUsageConsent = async (shouldTrackUsageData: boolean) => {
+  let config = await loadConfig();
+  config = { ...config, shouldTrackUsageData };
+  await saveConfig(config);
+  return config?.shouldTrackUsageData ?? false;
 };
