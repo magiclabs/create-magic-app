@@ -170,8 +170,8 @@ export async function createApp(config: CreateMagicAppConfig) {
       name: 'product',
       message: 'Choose your wallet type',
       choices: [
-        { name: 'universal', message: 'Universal' },
         { name: 'dedicated', message: 'Dedicated' },
+        { name: 'universal', message: 'Universal' },
       ],
     }).run();
 
