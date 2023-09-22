@@ -1,0 +1,4 @@
+export default abstract class BaseScaffold {
+  public abstract templateName: string;
+  public abstract source: string | string[];
+}

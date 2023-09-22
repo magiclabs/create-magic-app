@@ -3,6 +3,7 @@
 import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
+import { Prompt } from 'enquirer';
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {
