@@ -55,18 +55,16 @@ const Twitter = ({ token, setToken }: LoginProps) => {
         <Spinner />
       ) : (
         <div className="login-method-grid-item-container">
-          <div
-            className={classNames(
-              'login-method-grid-item-container m-2',
-              token.length > 0 ? 'cursor-default' : 'cursor-pointer',
-            )}
+          <button
+            className="social-login-button"
             onClick={() => {
               if (token.length == 0) login();
             }}
+            disabled={false}
           >
-            <Image src={twitter} alt="Twitter" height={24} width={24} />
-            <div className="text-xs font-semibold">Twitter</div>
-          </div>
+            <Image src={twitter} alt="Twitter" height={24} width={24} className="mr-6" />
+            <div className="text-xs font-semibold text-center w-full">Continue with Twitter</div>
+          </button>
         </div>
       )}
     </Card>
