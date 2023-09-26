@@ -74,7 +74,7 @@ const SMSOTP = ({ token, setToken }: LoginProps) => {
           disabled={isLoginInProgress || (token.length > 0 ? false : phone.length == 0)}
           onClick={() => handleLogin()}
         >
-          {isLoginInProgress ? <Spinner /> : 'Log in Sign up'}
+          {isLoginInProgress ? <Spinner /> : 'Log in / Sign up'}
         </button>
       </div>
     </Card>
