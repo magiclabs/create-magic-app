@@ -97,7 +97,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       message: 'Select a configuration to start with:',
       choices: [
         { name: 'quickstart', message: 'Quickstart (Nextjs, Polygon Testnet, Email OTP)' },
-        { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
+        { name: 'custom', message: 'Custom Setup (Choose network, login methods, etc.)' },
       ],
     }).run();
 
@@ -166,22 +166,9 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
 
   if (!product) {
-    product = await new Select({
-      name: 'product',
-      message: 'Choose your wallet type',
-      choices: [
-        { name: 'dedicated', message: 'Dedicated' },
-        { name: 'universal', message: 'Universal' },
-      ],
-    }).run();
+    product = 'dedicated';
 
-    if (product === 'universal') {
-      if (chain === 'flow') {
-        config.template = 'nextjs-flow-universal-wallet';
-      } else {
-        config.template = 'nextjs-universal-wallet';
-      }
-    } else if (chain === 'flow') {
+    if (chain === 'flow') {
       config.template = 'nextjs-flow-dedicated-wallet';
     } else {
       config.template = 'nextjs-dedicated-wallet';
