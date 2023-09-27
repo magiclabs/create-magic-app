@@ -47,7 +47,7 @@ ul {
 }
 
 .nft-name {
-  @apply text-black font-semibold;
+  @apply font-semibold text-black;
   font-family: 'Inter';
 }
 
@@ -60,7 +60,7 @@ ul {
 }
 
 .cards-container {
-  @apply mt-[-250px] relative;
+  @apply relative top-[30px] md:top-[-60px] lg:top-[-60px];
 }
 
 @media only screen and (max-width: 767px) {
@@ -70,7 +70,7 @@ ul {
 }
 
 .network-dropdown {
-  @apply w-fit m-auto rounded-xl;
+  @apply m-auto w-fit rounded-xl;
 }
 
 .active-network {
@@ -116,7 +116,7 @@ ul {
   @apply flex flex-col items-center min-h-screen bg-gray-300;
 }
 .login-method-grid {
-  @apply w-[100%] grid grid-cols-4 gap-5 p-4;
+  @apply max-w-[100%] grid-rows-3 gap-5 p-4 mt-8;
 }
 
 .login-method-grid-item-container {
@@ -125,7 +125,7 @@ ul {
 
 .login-button {
   @apply w-full h-12 text-white font-semibold text-base leading-6 transition-[0.1s] text-center transition-[0.1s] m-auto px-2 py-3 rounded-[300px] border-[none];
-  background: #a799ff;
+  background: #8271f3;
 }
 
 .login-button:disabled {
@@ -142,7 +142,7 @@ ul {
 }
 
 .links {
-  @apply flex justify-center text-white font-semibold mt-5 mb-3 mx-auto;
+  @apply flex justify-center mx-auto mt-5 text-sm mb-3 font-semibold text-white;
 }
 .link {
   @apply transition-[0.1s] px-[30px] py-0;
@@ -163,7 +163,7 @@ ul {
   @apply cursor-pointer;
 }
 .link-divider {
-  @apply h-5 w-px;
+  @apply w-px h-5;
 }
 
 .footer-links {
@@ -221,7 +221,7 @@ ul {
   @apply w-[50px] text-center flex items-center justify-center cursor-default;
 }
 .loading {
-  @apply animate-spin cursor-default;
+  @apply cursor-default animate-spin;
 }
 
 @keyframes rotation {
@@ -234,18 +234,18 @@ ul {
 }
 
 .card {
-  @apply w-[300px] flex flex-col shadow-[0px_4px_24px_rgba(49,49,49,0.1)] mt-0 mb-[27px] mx-auto px-6 py-8 rounded-2xl bg-[#ffffff];
+  @apply w-[344px] flex flex-col shadow-[0px_4px_24px_rgba(49,49,49,0.1)] mt-0 mb-[27px] mx-auto px-6 py-8 rounded-2xl bg-[#ffffff];
 }
 
 .card-header {
   @apply text-xl font-semibold text-left mt-0 mb-[25px];
 }
 .card-label-container {
-  @apply flex justify-between items-center mb-3;
+  @apply flex items-center justify-between mb-3;
 }
 
 .card-label {
-  @apply text-sm font-medium  cursor-pointer;
+  @apply text-sm font-medium cursor-pointer;
 }
 .toast {
   @apply fixed w-fit text-white font-medium shadow-[4px_8px_20px_rgba(0,0,0,0.15)] mx-auto my-0 px-4 py-2 rounded-[10px] top-[30px] inset-x-0 bg-[#00875f];
@@ -291,10 +291,35 @@ a {
 }
 
 .app-header-container {
-  @apply block pt-4 w-full drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] min-h-[30vh] flex flex-col items-center bg-magic block;
+  @apply block w-full drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] min-h-[40%] flex-col gap-2.5 p-8 items-center bg-[url('/login_bg.png')] bg-cover bg-no-repeat pb-20;
   text-align: -webkit-center;
 }
 
 .redirect-container {
-  @apply flex flex-col items-center min-h-screen bg-[length:100%_auto] bg-[url('/background.svg')];
+  @apply flex flex-col items-center h-screen bg-center bg-cover bg-no-repeat bg-[url('/redirect_bg.png')];
+}
+
+.redirect-card {
+  @apply bg-[#F8F8FA] rounded-[10px] shadow-[0px_4px_24px_rgba(49,49,49,0.1)] p-2 m-12;
+}
+
+.social-login-button {
+  @apply flex flex-row min-w-[296px] h-12 text-[#3C4043] transition-[0.1s] px-6 py-3 rounded-[300px] bg-[#ffffff] border-2 border-[#DADCE0] relative top-16;
+}
+
+.social-login-button:disabled {
+  @apply opacity-50;
+}
+
+.social-login-button:hover:enabled {
+  @apply cursor-pointer;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #ffffff;
+}
+.social-login-button:active:enabled {
+  @apply opacity-50 scale-[0.99];
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #ffffff;
+}
+
+.api-button {
+  @apply bg-[#6844bc] text-[#FFFFFF] flex w-[280px] justify-center items-center h-12 font-semibold text-base leading-6 transition-[0.1s] px-6 py-3 rounded-[300px] border-[none];
 }

@@ -68,7 +68,7 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
           disabled={isLoginInProgress || (token.length > 0 ? false : email.length == 0)}
           onClick={() => handleLogin()}
         >
-          {isLoginInProgress ? <Spinner /> : 'Login'}
+          {isLoginInProgress ? <Spinner /> : 'Log in / Sign up'}
         </button>
       </div>
     </Card>

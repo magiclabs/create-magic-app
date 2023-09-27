@@ -55,18 +55,16 @@ const Facebook = ({ token, setToken }: LoginProps) => {
         <Spinner />
       ) : (
         <div className="login-method-grid-item-container">
-          <div
-            className={classNames(
-              'login-method-grid-item-container m-2',
-              token.length > 0 ? 'cursor-default' : 'cursor-pointer',
-            )}
+          <button
+            className="social-login-button"
             onClick={() => {
               if (token.length == 0) login();
             }}
+            disabled={false}
           >
-            <Image src={facebook} alt="Facebook" height={24} width={24} />
-            <div className="text-xs font-semibold">Facebook</div>
-          </div>
+            <Image src={facebook} alt="Facebook" height={24} width={24} className="mr-6" />
+            <div className="text-xs font-semibold text-center w-full">Continue with Facebook</div>
+          </button>
         </div>
       )}
     </Card>
