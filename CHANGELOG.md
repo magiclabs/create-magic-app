@@ -1,3 +1,9 @@
+# v4.4.1 (Wed Sep 27 2023)
+
+#### 🚀 Enhancement
+
+- Remove Universal option from prompts (it remains available in flags)
+
 # v4.4.0 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
