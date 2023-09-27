@@ -10,9 +10,12 @@ export default createScaffold<NextDedicatedWalletData>(
     <Zombi {...props} prompts={mergePrompts(AuthTypePrompt.questions, PublishableApiKeyPrompt.questions)}>
       {(data) => (
         <>
-          <Template source="./public/background.svg" />
+          <Template source="./public/info.svg" />
+          <Template source="./public/link_white.svg" />
+          <Template source="./public/login_bg.png" />
+          <Template source="./public/logo.svg" />
+          <Template source="./public/redirect_bg.png" />
           <Template source="./public/favicon.ico" />
-          <Template source="./public/magic_color_white.svg" />
           <Template source="./public/link.svg" />
           <Template source="./.env.example" />
           <Template source="./.eslintrc.json" />
