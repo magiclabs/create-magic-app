@@ -96,7 +96,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       name: 'configuration',
       message: 'Select a configuration to start with:',
       choices: [
-        { name: 'quickstart', message: 'Quickstart (Nextjs, Dedicated Wallet, Polygon Testnet, Email OTP)' },
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Polygon Testnet, Email OTP)' },
         { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
       ],
     }).run();
