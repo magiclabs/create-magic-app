@@ -214,6 +214,34 @@ export namespace AuthTypePrompt {
     },
   };
 
+  // export const loginMethodsPrompt = new Prompt({
+  //   type: 'multiselect',
+  //   name: 'loginMethods',
+  //   message:
+  //     'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
+  //   hint: '(<space> to select, <return> to submit)',
+  //   choices: authMethods,
+  //   validate: (value) => {
+  //     if (!value.length) {
+  //       return `Please use spacebar to select at least one login option.`;
+  //     }
+
+  //     return true;
+  //   },
+  //   // @ts-ignore
+  //   result(names: string[]) {
+  //     return names.filter((x: string) => !x.includes('Social Logins'));
+  //   },
+  //   format(value) {
+  //     // if (value) {
+  //     //   return value.filter((x) => !x.includes('Social Logins')).join(', ');
+  //     // }
+
+  //     // return '';
+  //     return value;
+  //   },
+  // });
+
   export const flags: Flags<Partial<Data>> = {
     loginMethods: {
       type: [String],

@@ -20,12 +20,19 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import { Chain, mapTemplateToChain, mapTemplateToProduct } from './utils/templateMappings';
-import { BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
-import UniversalScaffold, { flags } from 'scaffolds/nextjs-universal-wallet/newScaffold';
-import ejs from 'ejs';
+import {
+  Chain,
+  mapTemplateToChain,
+  mapTemplateToFlags,
+  mapTemplateToProduct,
+  mapTemplateToScaffold,
+} from './utils/templateMappings';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
+import { copyDirectory, copyFile } from './utils/fs';
+import { Prompt } from 'enquirer';
+//import UniversalScaffold, { flags } from 'scaffolds/nextjs-universal-wallet/newScaffold';
 
-const { Select, Input } = require('enquirer');
+const { Select, Input, MultiSelect } = require('enquirer');
 
 export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
@@ -311,8 +318,9 @@ export async function createApp(config: CreateMagicAppConfig) {
   // return scaffoldResult;
 
   console.log('config: ', JSON.stringify(config, null, 2));
-  const templateFlags = await parseFlags(flags, config?.data);
+  const templateFlags: any = await parseFlags(mapTemplateToFlags(config.template as string), config?.data);
   console.log('template flags: ', JSON.stringify(templateFlags, null, 2));
+  console.log('product: ', product, ' chain: ', chain);
   const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${config.branch}`, GITHUB_BASE_URL);
   const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(config.template as string));
   if (repoInfo) {
@@ -331,40 +339,43 @@ export async function createApp(config: CreateMagicAppConfig) {
     fs.mkdirSync(`${cwd}/${config.projectName}`);
   }
   process.chdir(config.projectName as string);
-  const uniScaffold = new UniversalScaffold({
-    network: templateFlags.network as string,
-    publishableApiKey: templateFlags.publishableApiKey as string,
+
+  const scaffold = mapTemplateToScaffold(config.template as string, {
+    ...config,
+    ...templateFlags,
+    ...config.data,
   });
 
-  if (typeof uniScaffold.source == 'string') {
-    const basePath = `${resolveToRoot('scaffolds', uniScaffold.templateName)}/template`;
-    uniScaffold.readTemplateDirs(basePath, (err, filePaths) => {
-      // if (err) console.log(err);
-      // for (const filePath of filePaths) {
-      //   if (!filePath.includes('.')) {
-      //     fs.mkdirSync(`${process.cwd()}/${filePath.replace(basePath, '')}`, { recursive: true });
-      //   } else {
-      //     fs.copyFileSync(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`);
-      //   }
-      // }
-      //console.log('filePaths: ', filePaths);
-      for (const filePath of filePaths) {
-        fs.renameSync(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`);
-      }
-    });
-
-    if (fs.existsSync(`${process.cwd()}\\/.env.example`)) {
-      fs.renameSync(`${process.cwd()}\\/.env.example`, `${process.cwd()}\\/.env`);
-    }
-
-    ejs.renderFile(`${basePath}/.env.example`, { ...config, ...templateFlags, ...config.data }, (err, str) => {
-      if (err) console.log(err);
-      console.log('ejs: ', str);
+  const basePath = `${resolveToRoot('scaffolds', scaffold.templateName)}\\template`;
+  if (typeof scaffold.source == 'string') {
+    copyDirectory(basePath, basePath, {
+      ...config,
+      ...templateFlags,
+      ...config.data,
     });
   } else {
-    for (const filePath of uniScaffold.source) {
-      console.log('path: ' + `${resolveToRoot('scaffolds', `${uniScaffold.templateName}/template`, filePath)}`);
+    for (const filePath of scaffold.source) {
+      const resolvedPath = resolveToRoot('scaffolds', `${scaffold.templateName}/template/${filePath}`);
+
+      const isDirectory = fs.statSync(resolvedPath).isDirectory();
+      if (isDirectory) {
+        copyDirectory(resolvedPath, basePath, {
+          ...config,
+          ...templateFlags,
+          ...config.data,
+        });
+      } else {
+        copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, {
+          ...config,
+          ...templateFlags,
+          ...config.data,
+        });
+      }
     }
+  }
+
+  if (fs.existsSync(`${process.cwd()}\\.env.example`)) {
+    fs.renameSync(`${process.cwd()}\\.env.example`, `${process.cwd()}\\.env`);
   }
 }
 
