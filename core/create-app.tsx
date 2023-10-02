@@ -28,7 +28,7 @@ import {
   mapTemplateToScaffold,
 } from './utils/templateMappings';
 import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
-import { copyDirectory, copyFile } from './utils/fs';
+import { copyFile, getAllFilePaths } from './utils/fs';
 import { Prompt } from 'enquirer';
 //import UniversalScaffold, { flags } from 'scaffolds/nextjs-universal-wallet/newScaffold';
 
@@ -347,30 +347,26 @@ export async function createApp(config: CreateMagicAppConfig) {
   });
 
   const basePath = `${resolveToRoot('scaffolds', scaffold.templateName)}\\template`;
+  const allDirFilePaths = [];
   if (typeof scaffold.source == 'string') {
-    copyDirectory(basePath, basePath, {
-      ...config,
-      ...templateFlags,
-      ...config.data,
-    });
+    allDirFilePaths.push(...getAllFilePaths(basePath));
   } else {
     for (const filePath of scaffold.source) {
       const resolvedPath = resolveToRoot('scaffolds', `${scaffold.templateName}/template/${filePath}`);
 
       const isDirectory = fs.statSync(resolvedPath).isDirectory();
       if (isDirectory) {
-        copyDirectory(resolvedPath, basePath, {
-          ...config,
-          ...templateFlags,
-          ...config.data,
-        });
+        allDirFilePaths.push(...getAllFilePaths(resolvedPath));
       } else {
-        copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, {
-          ...config,
-          ...templateFlags,
-          ...config.data,
-        });
+        allDirFilePaths.push(resolvedPath);
       }
+    }
+    for (const filePath of allDirFilePaths) {
+      await copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, {
+        ...config,
+        ...templateFlags,
+        ...config.data,
+      });
     }
   }
 
