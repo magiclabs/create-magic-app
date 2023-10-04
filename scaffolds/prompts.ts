@@ -4,6 +4,7 @@ import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
 import { Prompt } from 'enquirer';
+const { Select, MultiSelect, Input } = require('enquirer');
 
 export namespace PublishableApiKeyPrompt {
   export type Data = {
@@ -27,6 +28,14 @@ export namespace PublishableApiKeyPrompt {
 
     return question;
   })();
+
+  export const publishableApiKeyPrompt = async () =>
+    await new Input({
+      message: 'Enter Magic publishable API key from https://dashboard.magic.link:',
+      // @ts-ignore
+      hint: '(leave blank to skip for now)',
+      validate,
+    }).run();
 
   export const flags: Flags<Partial<Data>> = {
     publishableApiKey: {
@@ -163,6 +172,52 @@ export namespace BlockchainNetworkPrompt {
     ],
   };
 
+  export const chainPrompt = async () =>
+    await new Select({
+      name: 'chain',
+      message: 'Which blockchain do you want to use?',
+      choices: [
+        { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
+        { name: 'solana', message: 'Solana' },
+        { name: 'flow', message: 'Flow' },
+      ],
+    }).run();
+
+  export const solanaNetworkPrompt = async () =>
+    await new Select({
+      name: 'network',
+      message: 'Which network would you like to use?',
+      hint: 'We recommend starting with a test network',
+      choices: [
+        { name: 'solana-mainnet', message: 'Mainnet' },
+        { name: 'solana-devnet', message: 'Devnet' },
+      ],
+    }).run();
+
+  export const flowNetworkPrompt = async () =>
+    await new Select({
+      name: 'network',
+      message: 'Which network would you like to use?',
+      hint: 'We recommend starting with a test network',
+      choices: [
+        { name: 'flow-mainnet', message: 'Mainnet' },
+        { name: 'flow-testnet', message: 'Testnet' },
+      ],
+    }).run();
+
+  export const evmNetworkPrompt = async () =>
+    await new Select({
+      name: 'network',
+      message: 'Which network would like to use?',
+      hint: 'We recommend starting with a test network',
+      choices: [
+        { name: 'ethereum', message: 'Ethereum (Mainnet)' },
+        { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
+        { name: 'polygon', message: 'Polygon (Mainnet)' },
+        { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+      ],
+    }).run();
+
   export const flags: Flags<Partial<Data>> = {
     network: {
       alias: 'n',
@@ -214,33 +269,23 @@ export namespace AuthTypePrompt {
     },
   };
 
-  // export const loginMethodsPrompt = new Prompt({
-  //   type: 'multiselect',
-  //   name: 'loginMethods',
-  //   message:
-  //     'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
-  //   hint: '(<space> to select, <return> to submit)',
-  //   choices: authMethods,
-  //   validate: (value) => {
-  //     if (!value.length) {
-  //       return `Please use spacebar to select at least one login option.`;
-  //     }
+  export const loginMethodsPrompt = async () =>
+    await new MultiSelect({
+      message:
+        'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
+      hint: '(<space> to select, <return> to submit)',
+      choices: authMethods,
+      validate: (value: string | any[]) => {
+        if (!value.length) {
+          return `Please use spacebar to select at least one login option.`;
+        }
 
-  //     return true;
-  //   },
-  //   // @ts-ignore
-  //   result(names: string[]) {
-  //     return names.filter((x: string) => !x.includes('Social Logins'));
-  //   },
-  //   format(value) {
-  //     // if (value) {
-  //     //   return value.filter((x) => !x.includes('Social Logins')).join(', ');
-  //     // }
-
-  //     // return '';
-  //     return value;
-  //   },
-  // });
+        return true;
+      },
+      result(names: string[]) {
+        return names.filter((x: string) => !x.includes('Social Logins'));
+      },
+    }).run();
 
   export const flags: Flags<Partial<Data>> = {
     loginMethods: {

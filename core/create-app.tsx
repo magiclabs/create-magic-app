@@ -28,9 +28,11 @@ import {
   mapTemplateToScaffold,
 } from './utils/templateMappings';
 import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
-import { copyFile, getAllFilePaths } from './utils/fs';
-import { Prompt } from 'enquirer';
-//import UniversalScaffold, { flags } from 'scaffolds/nextjs-universal-wallet/newScaffold';
+import { copyFile, readTemplateDirs } from './utils/fs';
+import ora from 'ora';
+import { HrTime, createTimer } from './utils/timer';
+import prettyTime from 'pretty-time';
+import BaseScaffold from './types/BaseScaffold';
 
 const { Select, Input, MultiSelect } = require('enquirer');
 
@@ -123,54 +125,33 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
 
   if (!chain && !config.network) {
-    chain = await new Select({
-      name: 'chain',
-      message: 'Which blockchain do you want to use?',
-      choices: [
-        { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
-        { name: 'solana', message: 'Solana' },
-        { name: 'flow', message: 'Flow' },
-      ],
-    }).run();
+    chain = await BlockchainNetworkPrompt.chainPrompt();
   }
 
   if (!config.network) {
     if (chain === 'solana') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would you like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'solana-mainnet', message: 'Mainnet' },
-          { name: 'solana-devnet', message: 'Devnet' },
-        ],
-      }).run();
+      config.network = await BlockchainNetworkPrompt.solanaNetworkPrompt();
 
       product = 'dedicated';
       config.template = 'nextjs-solana-dedicated-wallet';
       isChosenTemplateValid = true;
     } else if (chain === 'flow') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would you like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'flow-mainnet', message: 'Mainnet' },
-          { name: 'flow-testnet', message: 'Testnet' },
-        ],
-      }).run();
+      config.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
     } else if (chain === 'evm') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'ethereum', message: 'Ethereum (Mainnet)' },
-          { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
-          { name: 'polygon', message: 'Polygon (Mainnet)' },
-          { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
-        ],
-      }).run();
+      config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+    }
+  } else {
+    if (
+      config.network == 'ethereum' ||
+      config.network == 'ethereum-goerli' ||
+      config.network == 'polygon' ||
+      config.network == 'polygon-mumbai'
+    ) {
+      chain = 'evm';
+    } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
+      chain = 'solana';
+    } else {
+      chain = 'flow';
     }
   }
 
@@ -317,10 +298,7 @@ export async function createApp(config: CreateMagicAppConfig) {
 
   // return scaffoldResult;
 
-  console.log('config: ', JSON.stringify(config, null, 2));
   const templateFlags: any = await parseFlags(mapTemplateToFlags(config.template as string), config?.data);
-  console.log('template flags: ', JSON.stringify(templateFlags, null, 2));
-  console.log('product: ', product, ' chain: ', chain);
   const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${config.branch}`, GITHUB_BASE_URL);
   const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(config.template as string));
   if (repoInfo) {
@@ -340,39 +318,112 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
   process.chdir(config.projectName as string);
 
-  const scaffold = mapTemplateToScaffold(config.template as string, {
+  const templateData = {
     ...config,
     ...templateFlags,
     ...config.data,
-  });
+  };
+
+  const { gray, yellow, cyan, red } = chalk;
+  const timer = createTimer();
+  let timeElapsed: HrTime;
+  timer.start();
+
+  const spinner = ora({ text: 'Scaffolding', spinner: 'dots10' });
+  spinner.start();
+
+  const scaffold = await mapTemplateToScaffold(config.template as string, templateData, spinner, timer);
+
+  spinner.start();
+  timer.resume();
+  console.log(gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName) + '\n');
 
   const basePath = `${resolveToRoot('scaffolds', scaffold.templateName)}\\template`;
   const allDirFilePaths = [];
   if (typeof scaffold.source == 'string') {
-    allDirFilePaths.push(...getAllFilePaths(basePath));
+    readTemplateDirs(basePath, (err, filePaths) => {
+      if (err) {
+        console.log(err);
+      }
+      for (const filePath of filePaths) {
+        allDirFilePaths.push(filePath);
+      }
+    });
   } else {
     for (const filePath of scaffold.source) {
       const resolvedPath = resolveToRoot('scaffolds', `${scaffold.templateName}/template/${filePath}`);
 
       const isDirectory = fs.statSync(resolvedPath).isDirectory();
       if (isDirectory) {
-        allDirFilePaths.push(...getAllFilePaths(resolvedPath));
+        readTemplateDirs(resolvedPath, (err, filePaths) => {
+          if (err) {
+            console.log(err);
+          }
+          for (const filePath of filePaths) {
+            allDirFilePaths.push(filePath);
+          }
+        });
       } else {
         allDirFilePaths.push(resolvedPath);
       }
     }
     for (const filePath of allDirFilePaths) {
-      await copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, {
-        ...config,
-        ...templateFlags,
-        ...config.data,
-      });
+      await copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, templateData);
     }
   }
 
   if (fs.existsSync(`${process.cwd()}\\.env.example`)) {
     fs.renameSync(`${process.cwd()}\\.env.example`, `${process.cwd()}\\.env`);
   }
+  const prettyTimeElapsed = prettyTime(timer.stop());
+  spinner.succeed(gray(`Generated in ${cyan.bold(prettyTimeElapsed)}\n\n`));
+
+  addShutdownTask(() => {
+    console.log(); // Aesthetics!
+
+    const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
+
+    const msg = [
+      '✨\n',
+      chalk`{bold {green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${config.projectName}}!}`,
+      chalk`Created {bold.rgb(0,255,255) ${config.projectName}} at {bold.rgb(0,255,255) ${path.join(
+        destinationRoot,
+        config.projectName!,
+      )}}`,
+    ];
+
+    console.log(msg.join('\n'));
+  });
+
+  const installCmd = await createPostRenderAction({
+    data: templateData,
+    cmd: 'installDependenciesCommand',
+    scaffold,
+    log: true,
+  })?.wait();
+  const startCmd = createPostRenderAction({ data: templateData, cmd: 'startCommand', scaffold, log: true });
+
+  addShutdownTask(() => {
+    console.log(); // Aesthetics!
+
+    const separator = '';
+
+    const msg = [
+      (installCmd || startCmd) && chalk`Inside your app directory, you can run several commands:\n`,
+
+      installCmd && chalk`  {rgb(0,255,255) ${installCmd}}`,
+      installCmd && chalk`    Install dependencies.\n`,
+
+      startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
+      startCmd && chalk`    Starts the app with a local development server.\n`,
+
+      startCmd && chalk`Type the following to restart your newly-created app:\n`,
+      startCmd && chalk`  {rgb(0,255,255) cd} ${config.projectName}`,
+      startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
+    ].filter(Boolean);
+
+    console.log(msg.join('\n'));
+  });
 }
 
 function printPostShutdownInstructions(data: CreateMagicAppData & { destinationRoot: string } & Record<string, any>) {
@@ -398,15 +449,15 @@ function printPostShutdownInstructions(data: CreateMagicAppData & { destinationR
 function createPostRenderAction(options: {
   data: CreateMagicAppData & Record<string, any>;
   cmd: 'installDependenciesCommand' | 'startCommand';
+  scaffold: BaseScaffold;
   log?: boolean;
 }) {
-  const getCmd = getScaffoldDefinition(options.data.template)[options.cmd];
-  const cmdWithArgs = typeof getCmd === 'function' ? getCmd(options.data) : getCmd ?? [];
-  const [cmd, ...args] = cmdWithArgs;
+  const getCmd =
+    options.cmd == 'installDependenciesCommand' ? options.scaffold.installationCommand : options.scaffold.startCommand;
 
-  if (cmd) {
-    const subprocess = execa(cmd, args, { stdio: 'inherit' });
-    const bin = cmdWithArgs.join(' ');
+  if (getCmd) {
+    const subprocess = execa(getCmd.join(' '), undefined, { stdio: 'inherit' });
+    const bin = getCmd.join(' ');
 
     return Object.assign(bin, {
       wait: async () => {

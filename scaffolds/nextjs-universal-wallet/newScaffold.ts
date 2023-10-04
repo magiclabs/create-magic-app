@@ -11,6 +11,8 @@ export const flags: Flags<Partial<Data>> = { ...BlockchainNetworkPrompt.flags, .
 export default class UniversalScaffold extends BaseScaffold {
   public templateName = 'nextjs-universal-wallet';
   private data: Data;
+  public installationCommand: string[] = ['npm', 'install'];
+  public startCommand: string[] = ['npm', 'run', 'dev'];
   public source: string | string[] = './';
 
   constructor(data: Data) {

@@ -10,6 +10,9 @@ import SolanaDedicatedScaffold, {
   flags as solanaDedicatedFlags,
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/newScaffold';
 import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/newScaffold';
+import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { Ora, Spinner } from 'ora';
+import { Timer } from './timer';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
@@ -50,17 +53,53 @@ export function mapTemplateToProduct(template: string): Product | undefined {
   }
 }
 
-export function mapTemplateToScaffold(template: string, data: any): BaseScaffold {
+export async function mapTemplateToScaffold(
+  template: string,
+  data: any,
+  spinner: Ora,
+  timer: Timer,
+): Promise<BaseScaffold> {
+  if (spinner.isSpinning) {
+    spinner.stop();
+    timer.pause();
+  }
+  if (!data.publishableApiKey) {
+    data.publishableApiKey = await PublishableApiKeyPrompt.publishableApiKeyPrompt();
+  }
   switch (template) {
     case 'nextjs-dedicated-wallet':
+      if (!data.network) {
+        data.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+      }
+      if (!data.loginMethods || data.loginMethods.length === 0) {
+        data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
+      }
       return new DedicatedScaffold(data);
     case 'nextjs-universal-wallet':
+      if (!data.network) {
+        data.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+      }
       return new UniversalScaffold(data);
     case 'nextjs-solana-dedicated-wallet':
+      if (!data.network) {
+        data.network = await BlockchainNetworkPrompt.solanaNetworkPrompt();
+      }
+      if (!data.loginMethods || data.loginMethods.length === 0) {
+        data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
+      }
       return new SolanaDedicatedScaffold(data);
     case 'nextjs-flow-universal-wallet':
+      if (!data.network) {
+        data.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
+      }
       return new FlowUniversalScaffold(data);
     case 'nextjs-flow-dedicated-wallet':
+      if (!data.network) {
+        data.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
+      }
+      if (!data.loginMethods || data.loginMethods.length === 0) {
+        data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
+      }
       return new FlowDedicatedScaffold(data);
     default:
       throw new Error(`Invalid template: ${template}`);

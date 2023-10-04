@@ -13,6 +13,8 @@ export const flags: Flags<Partial<Data>> = {
 export default class FlowDedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-flow-dedicated-wallet';
   private data: Data;
+  public installationCommand: string[] = ['npm', 'install'];
+  public startCommand: string[] = ['npm', 'run', 'dev'];
   public source: string | string[] = [
     './public/background.svg',
     './public/favicon.ico',

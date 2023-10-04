@@ -39,13 +39,6 @@ async function outputFile(to: string, data: any) {
   }
 }
 
-export const getAllFilePaths = (dirPath: string): string[] => {
-  return readTemplateDirs(dirPath, (err, filePaths) => {
-    if (err) console.log(err);
-    return filePaths;
-  });
-};
-
 export const readTemplateDirs = (
   root: string,
   done: (err: NodeJS.ErrnoException | null, results: string[]) => void,
