@@ -6,6 +6,72 @@ import type { ValuesOf } from 'core/types/utility-types';
 import { Prompt } from 'enquirer';
 const { Select, MultiSelect, Input } = require('enquirer');
 
+export namespace ProjectNamePrompt {
+  export type Data = {
+    projectName: string;
+  };
+
+  export const askProjectName = async () =>
+    await new Input({
+      name: 'projectName',
+      message: 'What is your project named?',
+      initial: 'awesome-magic-app',
+    }).run();
+
+  export const flags: Flags<Partial<Data>> = {
+    projectName: {
+      type: String,
+      description: 'The name of your project.',
+    },
+  };
+}
+
+export namespace ConfigurationPrompt {
+  export type Data = {
+    configuration: string;
+  };
+
+  export const askConfiguration = async () =>
+    new Select({
+      name: 'configuration',
+      message: 'Select a configuration to start with:',
+      choices: [
+        { name: 'quickstart', message: 'Quickstart (Nextjs, Dedicated Wallet, Polygon Testnet, Email OTP)' },
+        { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
+      ],
+    }).run();
+
+  export const flags: Flags<Partial<Data>> = {
+    configuration: {
+      type: String,
+      description: 'The configuration type of your project.',
+    },
+  };
+}
+
+export namespace ProductPrompt {
+  export type Data = {
+    product: string;
+  };
+
+  export const askProduct = async () =>
+    new Select({
+      name: 'product',
+      message: 'Choose your wallet type',
+      choices: [
+        { name: 'universal', message: 'Universal' },
+        { name: 'dedicated', message: 'Dedicated' },
+      ],
+    }).run();
+
+  export const flags: Flags<Partial<Data>> = {
+    product: {
+      type: String,
+      description: 'The product type of your project.',
+    },
+  };
+}
+
 export namespace PublishableApiKeyPrompt {
   export type Data = {
     publishableApiKey: string;

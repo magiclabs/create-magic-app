@@ -20,21 +20,13 @@ import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import {
-  Chain,
-  mapTemplateToChain,
-  mapTemplateToFlags,
-  mapTemplateToProduct,
-  mapTemplateToScaffold,
-} from './utils/templateMappings';
+import { buildTemplate, mapTemplateToFlags, mapTemplateToScaffold } from './utils/templateMappings';
 import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 import { copyFile, readTemplateDirs } from './utils/fs';
 import ora from 'ora';
 import { HrTime, createTimer } from './utils/timer';
 import prettyTime from 'pretty-time';
 import BaseScaffold from './types/BaseScaffold';
-
-const { Select, Input, MultiSelect } = require('enquirer');
 
 export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
@@ -89,95 +81,17 @@ export async function createApp(config: CreateMagicAppConfig) {
     console.warn(); // Aesthetics!
   }
 
-  if (!config.projectName) {
-    const projectName = await new Input({
-      name: 'projectName',
-      message: 'What is your project named?',
-      initial: 'awesome-magic-app',
-    }).run();
+  config = {
+    ...(await buildTemplate({
+      ...config,
+      chain: undefined,
+      product: undefined,
+      configuration: undefined,
+      isChosenTemplateValid: false,
+    })),
+  };
 
-    config.projectName = projectName;
-  }
-
-  let chain: Chain | undefined = undefined;
-  let product: 'universal' | 'dedicated' | undefined = undefined;
-  let configuration = '';
-  if (!config.template) {
-    configuration = await new Select({
-      name: 'configuration',
-      message: 'Select a configuration to start with:',
-      choices: [
-        { name: 'quickstart', message: 'Quickstart (Nextjs, Dedicated Wallet, Polygon Testnet, Email OTP)' },
-        { name: 'custom', message: 'Custom Setup (Choose product, network, etc.)' },
-      ],
-    }).run();
-
-    if (configuration === 'quickstart') {
-      config.template = 'nextjs-dedicated-wallet';
-      config.network = 'polygon-mumbai';
-      product = 'dedicated';
-      chain = 'evm';
-      isChosenTemplateValid = true;
-    }
-  } else {
-    chain = mapTemplateToChain(config.template);
-    product = mapTemplateToProduct(config.template);
-  }
-
-  if (!chain && !config.network) {
-    chain = await BlockchainNetworkPrompt.chainPrompt();
-  }
-
-  if (!config.network) {
-    if (chain === 'solana') {
-      config.network = await BlockchainNetworkPrompt.solanaNetworkPrompt();
-
-      product = 'dedicated';
-      config.template = 'nextjs-solana-dedicated-wallet';
-      isChosenTemplateValid = true;
-    } else if (chain === 'flow') {
-      config.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
-    } else if (chain === 'evm') {
-      config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
-    }
-  } else {
-    if (
-      config.network == 'ethereum' ||
-      config.network == 'ethereum-goerli' ||
-      config.network == 'polygon' ||
-      config.network == 'polygon-mumbai'
-    ) {
-      chain = 'evm';
-    } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
-      chain = 'solana';
-    } else {
-      chain = 'flow';
-    }
-  }
-
-  if (!product) {
-    product = await new Select({
-      name: 'product',
-      message: 'Choose your wallet type',
-      choices: [
-        { name: 'universal', message: 'Universal' },
-        { name: 'dedicated', message: 'Dedicated' },
-      ],
-    }).run();
-
-    if (product === 'universal') {
-      if (chain === 'flow') {
-        config.template = 'nextjs-flow-universal-wallet';
-      } else {
-        config.template = 'nextjs-universal-wallet';
-      }
-    } else if (chain === 'flow') {
-      config.template = 'nextjs-flow-dedicated-wallet';
-    } else {
-      config.template = 'nextjs-dedicated-wallet';
-    }
-    isChosenTemplateValid = true;
-  }
+  console.log('config', JSON.stringify(config, null, 2));
 
   // const template = (
   //   <Zombi<CreateMagicAppData>

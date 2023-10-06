@@ -10,9 +10,17 @@ import SolanaDedicatedScaffold, {
   flags as solanaDedicatedFlags,
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/newScaffold';
 import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/newScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import {
+  AuthTypePrompt,
+  BlockchainNetworkPrompt,
+  ConfigurationPrompt,
+  ProductPrompt,
+  ProjectNamePrompt,
+  PublishableApiKeyPrompt,
+} from 'scaffolds/prompts';
 import { Ora, Spinner } from 'ora';
 import { Timer } from './timer';
+import { CreateMagicAppConfig } from 'core/create-app';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
@@ -23,8 +31,14 @@ export type Template =
   | 'nextjs-flow-dedicated-wallet';
 
 export type Product = 'universal' | 'dedicated';
+type ConfigType = CreateMagicAppConfig & {
+  chain: Chain | undefined;
+  product: Product | undefined;
+  configuration: string | undefined;
+  isChosenTemplateValid: boolean;
+};
 
-export function mapTemplateToChain(template: string): Chain | undefined {
+function mapTemplateToChain(template: string): Chain | undefined {
   switch (template) {
     case 'nextjs-dedicated-wallet':
     case 'nextjs-universal-wallet':
@@ -39,7 +53,7 @@ export function mapTemplateToChain(template: string): Chain | undefined {
   }
 }
 
-export function mapTemplateToProduct(template: string): Product | undefined {
+function mapTemplateToProduct(template: string): Product | undefined {
   switch (template) {
     case 'nextjs-dedicated-wallet':
     case 'nextjs-solana-dedicated-wallet':
@@ -122,3 +136,87 @@ export function mapTemplateToFlags(template: string): any {
       throw new Error(`Invalid template: ${template}`);
   }
 }
+
+const quickstartConfig = (config: ConfigType): ConfigType => ({
+  ...config,
+  template: 'nextjs-dedicated-wallet',
+  network: 'polygon-mumbai',
+  product: 'dedicated',
+  chain: 'evm',
+  isChosenTemplateValid: true,
+});
+
+const solanaConfig = async (config: ConfigType): Promise<ConfigType> => ({
+  ...config,
+  template: 'nextjs-solana-dedicated-wallet',
+  network: await BlockchainNetworkPrompt.solanaNetworkPrompt(),
+  product: 'dedicated',
+  chain: 'solana',
+  isChosenTemplateValid: true,
+});
+
+export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => {
+  if (!config.projectName) {
+    config.projectName = await ProjectNamePrompt.askProjectName();
+  }
+
+  if (!config.template) {
+    config.configuration = await ConfigurationPrompt.askConfiguration();
+
+    if (config.configuration === 'quickstart') {
+      config = quickstartConfig(config);
+    }
+  } else {
+    config = {
+      ...config,
+      product: mapTemplateToProduct(config.template),
+      chain: mapTemplateToChain(config.template),
+    };
+  }
+
+  if (!config.chain && !config.network) {
+    config.chain = await BlockchainNetworkPrompt.chainPrompt();
+  }
+
+  if (!config.network) {
+    if (config.chain === 'solana') {
+      config = await solanaConfig(config);
+    } else if (config.chain === 'flow') {
+      config.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
+    } else if (config.chain === 'evm') {
+      config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+    }
+  } else {
+    if (
+      config.network == 'ethereum' ||
+      config.network == 'ethereum-goerli' ||
+      config.network == 'polygon' ||
+      config.network == 'polygon-mumbai'
+    ) {
+      config.chain = 'evm';
+    } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
+      config.chain = 'solana';
+    } else {
+      config.chain = 'flow';
+    }
+  }
+
+  if (!config.product) {
+    config.product = await ProductPrompt.askProduct();
+
+    if (config.product === 'universal') {
+      if (config.chain === 'flow') {
+        config.template = 'nextjs-flow-universal-wallet';
+      } else {
+        config.template = 'nextjs-universal-wallet';
+      }
+    } else if (config.chain === 'flow') {
+      config.template = 'nextjs-flow-dedicated-wallet';
+    } else {
+      config.template = 'nextjs-dedicated-wallet';
+    }
+    config.isChosenTemplateValid = true;
+  }
+
+  return config;
+};
