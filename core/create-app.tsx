@@ -24,6 +24,7 @@ import ora from 'ora';
 import { HrTime, createTimer } from './utils/timer';
 import prettyTime from 'pretty-time';
 import BaseScaffold from './types/BaseScaffold';
+import { renderScaffold } from './utils/renderScaffold';
 
 export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
@@ -130,43 +131,8 @@ export async function createApp(config: CreateMagicAppConfig) {
   timer.resume();
   console.log(gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName) + '\n');
 
-  const basePath = `${resolveToRoot('scaffolds', scaffold.templateName)}\\template`;
-  const allDirFilePaths = [];
-  if (typeof scaffold.source == 'string') {
-    readTemplateDirs(basePath, (err, filePaths) => {
-      if (err) {
-        console.log(err);
-      }
-      for (const filePath of filePaths) {
-        allDirFilePaths.push(filePath);
-      }
-    });
-  } else {
-    for (const filePath of scaffold.source) {
-      const resolvedPath = resolveToRoot('scaffolds', `${scaffold.templateName}/template/${filePath}`);
+  await renderScaffold(process.cwd(), scaffold, templateData);
 
-      const isDirectory = fs.statSync(resolvedPath).isDirectory();
-      if (isDirectory) {
-        readTemplateDirs(resolvedPath, (err, filePaths) => {
-          if (err) {
-            console.log(err);
-          }
-          for (const filePath of filePaths) {
-            allDirFilePaths.push(filePath);
-          }
-        });
-      } else {
-        allDirFilePaths.push(resolvedPath);
-      }
-    }
-    for (const filePath of allDirFilePaths) {
-      await copyFile(filePath, `${process.cwd()}/${filePath.replace(basePath, '')}`, templateData);
-    }
-  }
-
-  if (fs.existsSync(`${process.cwd()}\\.env.example`)) {
-    fs.renameSync(`${process.cwd()}\\.env.example`, `${process.cwd()}\\.env`);
-  }
   const prettyTimeElapsed = prettyTime(timer.stop());
   spinner.succeed(gray(`Generated in ${cyan.bold(prettyTimeElapsed)}\n\n`));
 
@@ -253,6 +219,10 @@ function createPostRenderAction(options: {
 
     return Object.assign(bin, {
       wait: async () => {
+        console.log(process.cwd());
+        console.log(fs.existsSync(path.join(process.cwd(), 'package.json')));
+        console.log(subprocess);
+        console.log(bin);
         await subprocess;
         return bin;
       },

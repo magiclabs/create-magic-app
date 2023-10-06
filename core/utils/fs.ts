@@ -4,8 +4,9 @@ const { Confirm } = require('enquirer');
 import fs from 'fs';
 import fse from 'fs-extra';
 import { isBinary } from './is-binary';
-import { createPromise } from 'core/create-promists';
+import { createPromise } from 'core/create-promise';
 
+// TODO - rename so that we know it also renders ejs
 export const copyFile = async (from: string, to: string, data: any) => {
   await createPromise<void>(async (resolve, reject) => {
     const buffer = await fse.readFile(from);
