@@ -1,15 +1,15 @@
 import BaseScaffold from '../types/BaseScaffold';
-import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/nextjs-dedicated-wallet/newScaffold';
+import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/nextjs-dedicated-wallet/scaffold';
 import FlowDedicatedScaffold, {
   flags as flowDedicatedFlags,
-} from '../../scaffolds/nextjs-flow-dedicated-wallet/newScaffold';
+} from '../../scaffolds/nextjs-flow-dedicated-wallet/scaffold';
 import FlowUniversalScaffold, {
   flags as flowUniversalFlags,
-} from '../../scaffolds/nextjs-flow-universal-wallet/newScaffold';
+} from '../../scaffolds/nextjs-flow-universal-wallet/scaffold';
 import SolanaDedicatedScaffold, {
   flags as solanaDedicatedFlags,
-} from '../../scaffolds/nextjs-solana-dedicated-wallet/newScaffold';
-import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/newScaffold';
+} from '../../scaffolds/nextjs-solana-dedicated-wallet/scaffold';
+import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/scaffold';
 import {
   AuthTypePrompt,
   BlockchainNetworkPrompt,

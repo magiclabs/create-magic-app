@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import type { Questions } from 'zombi';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
 import { Prompt } from 'enquirer';
@@ -82,19 +81,6 @@ export namespace PublishableApiKeyPrompt {
       ? true
       : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
 
-  export const questions: Questions<Data> = (() => {
-    const question: Questions<Data> = {
-      type: 'input',
-      name: 'publishableApiKey',
-      message: 'Enter Magic publishable API key from https://dashboard.magic.link:',
-      // @ts-ignore
-      hint: '(leave blank to skip for now)',
-      validate,
-    };
-
-    return question;
-  })();
-
   export const publishableApiKeyPrompt = async () =>
     await new Input({
       message: 'Enter Magic publishable API key from https://dashboard.magic.link:',
@@ -107,30 +93,6 @@ export namespace PublishableApiKeyPrompt {
     publishableApiKey: {
       type: String,
       description: 'The Magic publishable API key for your app.',
-    },
-  };
-}
-
-export namespace SecretApiKeyPrompt {
-  export type Data = {
-    secretApiKey: 'npm' | 'yarn';
-  };
-
-  const validate = (value: string) =>
-    value.startsWith('sk') ? true : '--secret-api-key should look like `sk_live_...` or `sk_test_...`';
-
-  export const questions: Questions<Data> = {
-    type: 'input',
-    name: 'secretApiKey',
-    validate,
-    message: 'Enter your Magic secret API key:',
-  };
-
-  export const flags: Flags<Partial<Data>> = {
-    secretApiKey: {
-      type: String,
-      validate,
-      description: 'The Magic secret API key for your app.',
     },
   };
 }
@@ -161,81 +123,9 @@ export namespace NpmClientPrompt {
   }
 }
 
-export namespace SocialLoginsPrompt {
-  export const providers = [
-    'apple',
-    'bitbucket',
-    'discord',
-    'facebook',
-    'github',
-    'gitlab',
-    'google',
-    'linkedin',
-    'twitter',
-    'twitch',
-    'microsoft',
-  ];
-
-  export type Data = {
-    socialLogin: string[];
-  };
-
-  export const questions: Questions<Data> = {
-    type: 'multiselect',
-    name: 'socialLogin',
-    message: 'Choose your social login providers:',
-    choices: providers,
-    validate: (value) => {
-      if (!value.length) {
-        return `Please select at least one social login provider.`;
-      }
-
-      return true;
-    },
-  };
-
-  export const flags: Flags<Partial<Data>> = {
-    socialLogin: {
-      type: [String],
-      description: `The social login provider(s) of your choice. You can provide this flag multiple times to select multiple providers. (one of: ${providers.join(
-        ', ',
-      )})`,
-      validate: (value) => {
-        console.log('value');
-        const invalid: string[] = [];
-
-        value.forEach((i) => {
-          if (!providers.includes(i)) invalid.push(i);
-        });
-
-        if (invalid.length) {
-          return `Received incompatible social login provider(s): (${invalid.join(', ')})`;
-        }
-      },
-    },
-  };
-}
-
 export namespace BlockchainNetworkPrompt {
   export type Data = {
     network: string;
-  };
-
-  export const questions: Questions<Data> = {
-    type: 'select',
-    name: 'network',
-    message: 'Select a blockchain network:',
-    // @ts-ignore
-    hint: 'We recommend starting with a testnet.',
-    choices: [
-      { value: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
-      { value: 'polygon', message: 'Polygon (Mainnet)' },
-      {
-        value: 'ethereum-goerli',
-        message: 'Ethereum (Goerli Testnet)',
-      },
-      { value: 'ethereum', message: 'Ethereum (Mainnet)' },
-    ],
   };
 
   export const chainPrompt = async () =>
@@ -308,33 +198,6 @@ export namespace AuthTypePrompt {
     loginMethods: string[];
   };
 
-  export const questions: Questions<Data> = {
-    type: 'multiselect',
-    name: 'loginMethods',
-    message:
-      'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
-    hint: '(<space> to select, <return> to submit)',
-    choices: authMethods,
-    validate: (value) => {
-      if (!value.length) {
-        return `Please use spacebar to select at least one login option.`;
-      }
-
-      return true;
-    },
-    // @ts-ignore
-    result(names: string[]) {
-      return names.filter((x: string) => !x.includes('Social Logins'));
-    },
-    format(value) {
-      if (value) {
-        return value.filter((x) => !x.includes('Social Logins')).join(', ');
-      }
-
-      return '';
-    },
-  };
-
   export const loginMethodsPrompt = async () =>
     await new MultiSelect({
       message:
@@ -361,10 +224,6 @@ export namespace AuthTypePrompt {
       )})`,
       validate: (value) => {
         const invalid: string[] = [];
-
-        // value.forEach((i) => {
-        //   if (!authMethods.includes(i)) invalid.push(i);
-        // });
 
         if (invalid.length) {
           return `Received unknown auth method(s): (${invalid.join(', ')})`;

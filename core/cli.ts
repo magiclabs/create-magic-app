@@ -1,10 +1,9 @@
 import fs from 'fs';
 import chalk from 'chalk';
-import { ZombiError, ZombiErrorCode } from 'zombi';
 import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
-import { CreateMagicAppError } from './utils/errors-warnings';
+import { CreateMagicAppError, CreateMagicAppErrorCode } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { shutdown, useGracefulShutdown } from './utils/shutdown';
@@ -69,7 +68,7 @@ function sayHello() {
   await createApp({ projectName, template, branch, network });
 })().catch((err) => {
   SharedAnalytics.logEvent('cli-tool-error', { error: err });
-  if (err instanceof ZombiError && err.code === ZombiErrorCode.USER_CANCELED_PROMPT) {
+  if (err instanceof CreateMagicAppError && err.code === CreateMagicAppErrorCode.USER_CANCELED_PROMPT) {
     // Skip logging errors about users canceling input, just exit!
     shutdown(1);
   }

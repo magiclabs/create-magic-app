@@ -25,8 +25,7 @@
       "react-is": ["compiled/react-is", "node_modules/@types/react-is", "node_modules/react-is"],
       "tar": ["compiled/tar", "node_modules/@types/tar", "node_modules/tar"],
       "wrap-ansi": ["compiled/wrap-ansi", "node_modules/@types/wrap-ansi", "node_modules/wrap-ansi"],
-      "yargs-parser": ["compiled/yargs-parser", "node_modules/@types/yargs-parser", "node_modules/yargs-parser"],
-      "zombi": ["compiled/zombi", "node_modules/@types/zombi", "node_modules/zombi"]
+      "yargs-parser": ["compiled/yargs-parser", "node_modules/@types/yargs-parser", "node_modules/yargs-parser"]
     }
   },
   "include": ["core", "scaffolds", "compiled"],
