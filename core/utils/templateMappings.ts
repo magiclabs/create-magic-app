@@ -20,7 +20,7 @@ import {
 } from 'scaffolds/prompts';
 import { Ora, Spinner } from 'ora';
 import { Timer } from './timer';
-import { CreateMagicAppConfig } from 'core/create-app';
+import { CreateMagicAppConfig, pauseTimerAndSpinner } from 'core/create-app';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
@@ -36,6 +36,7 @@ type ConfigType = CreateMagicAppConfig & {
   product: Product | undefined;
   configuration: string | undefined;
   isChosenTemplateValid: boolean;
+  isQuickstart: boolean;
 };
 
 function mapTemplateToChain(template: string): Chain | undefined {
@@ -73,10 +74,7 @@ export async function mapTemplateToScaffold(
   spinner: Ora,
   timer: Timer,
 ): Promise<BaseScaffold> {
-  if (spinner.isSpinning) {
-    spinner.stop();
-    timer.pause();
-  }
+  pauseTimerAndSpinner(timer, spinner);
   if (!data.publishableApiKey) {
     data.publishableApiKey = await PublishableApiKeyPrompt.publishableApiKeyPrompt();
   }
@@ -85,8 +83,13 @@ export async function mapTemplateToScaffold(
       if (!data.network) {
         data.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
       }
-      if (!data.loginMethods || data.loginMethods.length === 0) {
-        data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
+
+      if (data.isQuickstart) {
+        data.loginMethods = ['Email OTP'];
+      } else {
+        if (!data.loginMethods || data.loginMethods.length === 0) {
+          data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
+        }
       }
       return new DedicatedScaffold(data);
     case 'nextjs-universal-wallet':
@@ -144,6 +147,7 @@ const quickstartConfig = (config: ConfigType): ConfigType => ({
   product: 'dedicated',
   chain: 'evm',
   isChosenTemplateValid: true,
+  isQuickstart: true,
 });
 
 const solanaConfig = async (config: ConfigType): Promise<ConfigType> => ({
@@ -153,6 +157,7 @@ const solanaConfig = async (config: ConfigType): Promise<ConfigType> => ({
   product: 'dedicated',
   chain: 'solana',
   isChosenTemplateValid: true,
+  isQuickstart: false,
 });
 
 export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => {
@@ -165,6 +170,7 @@ export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => 
 
     if (config.configuration === 'quickstart') {
       config = quickstartConfig(config);
+      return config;
     }
   } else {
     config = {

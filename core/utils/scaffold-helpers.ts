@@ -3,9 +3,10 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 
-import { getAbsoluteTemplatePath, resolveToDist } from './path-helpers';
+import { getAbsoluteTemplatePath, resolveToDist, resolveToRoot } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
 import type { Flags, ValueType } from '../flags';
+import fs from 'fs';
 
 /**
  * The render function for a `make-magic` scaffold.
@@ -91,4 +92,16 @@ export function getScaffoldRender(data: CreateMagicAppData & Record<string, any>
     name: data.template,
     templateRoot: getAbsoluteTemplatePath(data.template),
   });
+}
+
+/**
+ * Creates a new project directory if it doesn't exist and makes it cwd.
+ * @param cwd Destination directory where the scaffold will be created
+ * @param projectName Project name
+ */
+export function createProjectDirIfDoesntExists(cwd: string, projectName: string) {
+  if (!fs.existsSync(resolveToRoot(cwd, projectName))) {
+    fs.mkdirSync(resolveToRoot(cwd, projectName));
+  }
+  process.chdir(projectName as string);
 }

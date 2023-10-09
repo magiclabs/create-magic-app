@@ -1,6 +1,6 @@
 import BaseScaffold from 'core/types/BaseScaffold';
 import { resolveToRoot } from './path-helpers';
-import { copyFile, readTemplateDirs } from './fs';
+import { copyFileWithEjsData, readTemplateDirs } from './fs';
 import path from 'path';
 import fs from 'fs';
 
@@ -40,7 +40,7 @@ export const renderScaffold = async (cwd: string, scaffold: BaseScaffold, templa
   }
 
   for (const filePath of allDirFilePaths) {
-    await copyFile(filePath, path.join(cwd, filePath.replace(basePath, '')), templateData);
+    await copyFileWithEjsData(filePath, path.join(cwd, filePath.replace(basePath, '')), templateData);
   }
 
   if (fs.existsSync(path.join(cwd, '.env.example'))) {

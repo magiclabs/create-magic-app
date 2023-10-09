@@ -12,19 +12,19 @@ import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
 import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist, resolveToRoot } from './utils/path-helpers';
-import { getScaffoldDefinition } from './utils/scaffold-helpers';
+import { createProjectDirIfDoesntExists, getScaffoldDefinition } from './utils/scaffold-helpers';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
 import { buildTemplate, mapTemplateToFlags, mapTemplateToScaffold } from './utils/templateMappings';
 import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
-import { copyFile, readTemplateDirs } from './utils/fs';
-import ora from 'ora';
-import { HrTime, createTimer } from './utils/timer';
+import ora, { Ora } from 'ora';
+import { Timer, createTimer } from './utils/timer';
 import prettyTime from 'pretty-time';
 import BaseScaffold from './types/BaseScaffold';
 import { renderScaffold } from './utils/renderScaffold';
+import { ConsoleMessages } from './cli';
 
 export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
@@ -85,6 +85,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       product: undefined,
       configuration: undefined,
       isChosenTemplateValid: false,
+      isQuickstart: false,
     })),
   };
 
@@ -106,10 +107,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   }
 
   const cwd = process.cwd();
-  if (!fs.existsSync(`${cwd}/${config.projectName}`)) {
-    fs.mkdirSync(`${cwd}/${config.projectName}`);
-  }
-  process.chdir(config.projectName as string);
+  createProjectDirIfDoesntExists(cwd, config.projectName!);
 
   const templateData = {
     ...config,
@@ -117,18 +115,15 @@ export async function createApp(config: CreateMagicAppConfig) {
     ...config.data,
   };
 
-  const { gray, yellow, cyan, red } = chalk;
+  const { gray, cyan } = chalk;
   const timer = createTimer();
-  let timeElapsed: HrTime;
-  timer.start();
 
   const spinner = ora({ text: 'Scaffolding', spinner: 'dots10' });
-  spinner.start();
+  startTimerAndSpinner(timer, spinner, false);
 
   const scaffold = await mapTemplateToScaffold(config.template as string, templateData, spinner, timer);
 
-  spinner.start();
-  timer.resume();
+  startTimerAndSpinner(timer, spinner, true);
   console.log(gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName) + '\n');
 
   await renderScaffold(process.cwd(), scaffold, templateData);
@@ -137,20 +132,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   spinner.succeed(gray(`Generated in ${cyan.bold(prettyTimeElapsed)}\n\n`));
 
   addShutdownTask(() => {
-    console.log(); // Aesthetics!
-
-    const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
-
-    const msg = [
-      '✨\n',
-      chalk`{bold {green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${config.projectName}}!}`,
-      chalk`Created {bold.rgb(0,255,255) ${config.projectName}} at {bold.rgb(0,255,255) ${path.join(
-        destinationRoot,
-        config.projectName!,
-      )}}`,
-    ];
-
-    console.log(msg.join('\n'));
+    console.log(ConsoleMessages.bootstrapSuccess(config.projectName!, path.join(destinationRoot, config.projectName!)));
   });
 
   const installCmd = await createPostRenderAction({
@@ -162,42 +144,8 @@ export async function createApp(config: CreateMagicAppConfig) {
   const startCmd = createPostRenderAction({ data: templateData, cmd: 'startCommand', scaffold, log: true });
 
   addShutdownTask(() => {
-    console.log(); // Aesthetics!
-
-    const separator = '';
-
-    const msg = [
-      (installCmd || startCmd) && chalk`Inside your app directory, you can run several commands:\n`,
-
-      installCmd && chalk`  {rgb(0,255,255) ${installCmd}}`,
-      installCmd && chalk`    Install dependencies.\n`,
-
-      startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
-      startCmd && chalk`    Starts the app with a local development server.\n`,
-
-      startCmd && chalk`Type the following to restart your newly-created app:\n`,
-      startCmd && chalk`  {rgb(0,255,255) cd} ${config.projectName}`,
-      startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
-    ].filter(Boolean);
-
-    console.log(msg.join('\n'));
+    console.log(ConsoleMessages.postRenderCommands(installCmd, startCmd, config.projectName!));
   });
-}
-
-function printPostShutdownInstructions(data: CreateMagicAppData & { destinationRoot: string } & Record<string, any>) {
-  console.log(); // Aesthetics!
-
-  const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
-
-  const msg = [
-    chalk`{bold You've successfully bootstrapped a ${magic} app with {rgb(0,255,255) ${data.template}}!}`,
-    chalk`Created {bold.rgb(0,255,255) ${data.projectName}} at {bold.rgb(0,255,255) ${path.join(
-      data.destinationRoot,
-      data.projectName,
-    )}}`,
-  ];
-
-  console.log(msg.join('\n'));
 }
 
 /**
@@ -219,13 +167,24 @@ function createPostRenderAction(options: {
 
     return Object.assign(bin, {
       wait: async () => {
-        console.log(process.cwd());
-        console.log(fs.existsSync(path.join(process.cwd(), 'package.json')));
-        console.log(subprocess);
-        console.log(bin);
         await subprocess;
         return bin;
       },
     });
+  }
+}
+
+export function startTimerAndSpinner(timer: Timer, spinner: Ora, isPaused: boolean) {
+  if (isPaused) {
+    timer.resume();
+  }
+  timer.start();
+  spinner.start();
+}
+
+export function pauseTimerAndSpinner(timer: Timer, spinner: Ora) {
+  timer.pause();
+  if (spinner.isSpinning) {
+    spinner.stop();
   }
 }

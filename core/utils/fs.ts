@@ -4,10 +4,10 @@ const { Confirm } = require('enquirer');
 import fs from 'fs';
 import fse from 'fs-extra';
 import { isBinary } from './is-binary';
-import { createPromise } from 'core/create-promise';
+import { createPromise } from 'core/utils/create-promise';
 
 // TODO - rename so that we know it also renders ejs
-export const copyFile = async (from: string, to: string, data: any) => {
+export const copyFileWithEjsData = async (from: string, to: string, data: any) => {
   await createPromise<void>(async (resolve, reject) => {
     const buffer = await fse.readFile(from);
     const shouldRenderEjs = !isBinary(from, buffer);
@@ -35,7 +35,7 @@ export const copyFile = async (from: string, to: string, data: any) => {
 };
 
 async function outputFile(to: string, data: any) {
-  if (await shouldOutputFile(to)) {
+  if (await shouldOverwriteFile(to)) {
     await fse.outputFile(to, data);
   }
 }
@@ -68,7 +68,7 @@ export const readTemplateDirs = (
   return filePaths;
 };
 
-const shouldOutputFile = async (filePath: string): Promise<boolean> => {
+const shouldOverwriteFile = async (filePath: string): Promise<boolean> => {
   const exists = await fse.pathExists(filePath);
   if (exists) {
     const overwrite = await new Confirm({
