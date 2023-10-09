@@ -1,5 +1,6 @@
 import fs from 'fs';
 import chalk from 'chalk';
+import got from 'got';
 import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
@@ -11,7 +12,6 @@ import { SharedAnalytics } from './analytics';
 import { modifyUsageConsent, initializeUsageConfigIfneeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
 import suppressWarnings from './utils/suppress-experimental-warnings';
-import execa from 'compiled/execa';
 
 export const ConsoleMessages = {
   bootstrapSuccess: (projectName: string, destination: string) => {
@@ -49,7 +49,7 @@ export const ConsoleMessages = {
   },
 };
 
-function sayHello() {
+async function sayHello() {
   console.log(chalk`\n
  {rgb(92,101,246) █▀▀ █}{rgb(127,103,246) ▀█ █▀▀} {rgb(133,139,247) ▄▀█ ▀█▀} {rgb(168,140,248) █▀▀}
  {rgb(92,101,246) █▄▄ █}{rgb(127,103,246) ▀▄ ██▄} {rgb(133,139,247) █▀█  █ } {rgb(168,140,248) ██▄}
@@ -61,7 +61,16 @@ function sayHello() {
  {rgb(92,101,246) █▀█ █}{rgb(127,103,246) ▀▀ █▀▀}
 `);
 
-  console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
+  const currentVersion = getMakeMagicVersion();
+  const latestVersion = await getLatestMakeMagicVersion();
+  if (currentVersion !== latestVersion) {
+    console.log(
+      chalk`{rgb(92,101,246) A new version of {bold make-magic} is available! {rgb(0,255,255) ${currentVersion}} → {rgb(0,255,255) ${latestVersion}}}`,
+    );
+    console.log(chalk`{rgb(92,101,246) Run {rgb(0,255,255) npm i -g make-magic} to update!}\n\n`);
+  } else {
+    console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
+  }
 }
 
 (async () => {
@@ -80,7 +89,7 @@ function sayHello() {
   }
 
   if (help) {
-    sayHello();
+    await sayHello();
     printHelp(globalOptions, template);
     shutdown(0);
   }
@@ -95,8 +104,7 @@ function sayHello() {
     shutdown(0);
   }
 
-  sayHello();
-  await getLatestMakeMagicVersion();
+  await sayHello();
 
   if (collectUsageData && config?.id) {
     SharedAnalytics.identifyUser(config.id);
@@ -126,16 +134,7 @@ function getMakeMagicVersion() {
 }
 
 async function getLatestMakeMagicVersion() {
-  const subprocess = execa('npm view make-magic version', undefined, { stdio: 'inherit' });
-  const bin = 'npm view make-magic version';
+  const latest = await got.get('https://registry.npmjs.org/make-magic/latest');
 
-  const thing = Object.assign(bin, {
-    wait: async () => {
-      await subprocess;
-      return bin;
-    },
-  });
-
-  const response = await thing.wait();
-  console.log('returned response:', response);
+  return JSON.parse(latest.body).version;
 }
