@@ -11,6 +11,7 @@ import { SharedAnalytics } from './analytics';
 import { modifyUsageConsent, initializeUsageConfigIfneeded } from './utils/usagePermissions';
 import { loadConfig } from './config';
 import suppressWarnings from './utils/suppress-experimental-warnings';
+import execa from 'compiled/execa';
 
 export const ConsoleMessages = {
   bootstrapSuccess: (projectName: string, destination: string) => {
@@ -95,6 +96,7 @@ function sayHello() {
   }
 
   sayHello();
+  await getLatestMakeMagicVersion();
 
   if (collectUsageData && config?.id) {
     SharedAnalytics.identifyUser(config.id);
@@ -121,4 +123,19 @@ function sayHello() {
 
 function getMakeMagicVersion() {
   return JSON.parse(fs.readFileSync(resolveToRoot('package.json')).toString('utf8')).version;
+}
+
+async function getLatestMakeMagicVersion() {
+  const subprocess = execa('npm view make-magic version', undefined, { stdio: 'inherit' });
+  const bin = 'npm view make-magic version';
+
+  const thing = Object.assign(bin, {
+    wait: async () => {
+      await subprocess;
+      return bin;
+    },
+  });
+
+  const response = await thing.wait();
+  console.log('returned response:', response);
 }
