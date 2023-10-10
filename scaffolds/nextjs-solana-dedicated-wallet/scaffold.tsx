@@ -10,6 +10,11 @@ export const flags: Flags<Partial<Data>> = {
   ...AuthTypePrompt.flags,
 };
 
+export const definition = {
+  shortDescription: 'A dedicated wallet scaffold for Next.js using Solana',
+  featured: true,
+};
+
 export default class SolanaDedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-solana-dedicated-wallet';
   private data: Data;

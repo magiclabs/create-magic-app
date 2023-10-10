@@ -10,6 +10,11 @@ export const flags: Flags<Partial<Data>> = {
   ...AuthTypePrompt.flags,
 };
 
+export const definition = {
+  shortDescription: 'A dedicated wallet scaffold for Next.js',
+  featured: true,
+};
+
 export default class DedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-dedicated-wallet';
   private data: Data;

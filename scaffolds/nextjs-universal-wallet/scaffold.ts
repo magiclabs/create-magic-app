@@ -8,6 +8,11 @@ export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data;
 
 export const flags: Flags<Partial<Data>> = { ...BlockchainNetworkPrompt.flags, ...PublishableApiKeyPrompt.flags };
 
+export const definition = {
+  shortDescription: 'A Universal Wallet scaffold for Next.js',
+  featured: true,
+};
+
 export default class UniversalScaffold extends BaseScaffold {
   public templateName = 'nextjs-universal-wallet';
   private data: Data;

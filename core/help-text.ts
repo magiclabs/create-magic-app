@@ -7,6 +7,7 @@ import wrapAnsi from 'wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
 import { mapTemplateToFlags } from './utils/templateMappings';
+import { c } from 'tar';
 
 const styled = {
   Usage: chalk.bold.inverse(' USAGE '),
@@ -43,7 +44,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
 
   // Template-specific options
   try {
-    const { flags } = mapTemplateToFlags(scaffoldName!);
+    const flags = mapTemplateToFlags(scaffoldName!);
     helpSections.push(
       createHelpSection({
         heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),

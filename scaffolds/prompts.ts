@@ -219,9 +219,9 @@ export namespace AuthTypePrompt {
   export const flags: Flags<Partial<Data>> = {
     loginMethods: {
       type: [String],
-      description: `The auth method(s) of your choice. You can provide this flag multiple times to select multiple methods. (one of: ${authMethods.join(
-        ', ',
-      )})`,
+      description: `The auth method(s) of your choice. You can provide this flag multiple times to select multiple methods. (one of: ${authMethods
+        .map((method) => (method.choices ? method.choices.map((choice) => choice).join(', ') : method.name))
+        .join(', ')})`,
       validate: (value) => {
         const invalid: string[] = [];
 
