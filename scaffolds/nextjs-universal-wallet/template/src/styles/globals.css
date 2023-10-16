@@ -280,3 +280,11 @@ a {
 .redirect-container {
   @apply flex flex-col items-center min-h-screen bg-['100%_auto'] bg-[url('/login.svg')];
 }
+
+.redirect-card {
+  @apply bg-[#F8F8FA] rounded-[10px] shadow-[0px_4px_24px_rgba(49,49,49,0.1)] p-2 m-12;
+}
+
+.api-button {
+  @apply bg-[#6844bc] text-[#FFFFFF] flex w-[280px] justify-center items-center h-12 font-semibold text-base leading-6 transition-[0.1s] px-6 py-3 rounded-[300px] border-[none];
+}

@@ -89,8 +89,6 @@ export async function createApp(config: CreateMagicAppConfig) {
     })),
   };
 
-  console.log('config', JSON.stringify(config, null, 2));
-
   const templateFlags: any = await parseFlags(mapTemplateToFlags(config.template as string), config?.data);
   const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${config.branch}`, GITHUB_BASE_URL);
   const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(config.template as string));

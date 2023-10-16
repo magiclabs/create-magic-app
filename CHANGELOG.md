@@ -1,6 +1,39 @@
-# v4.2.2 (Tue Sep 12 2023)
+# v4.4.1 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
+
+- Remove Universal option from prompts (it remains available in flags)
+
+# v4.4.0 (Wed Sep 27 2023)
+
+#### 🚀 Enhancement
+
+- Updates the UI design of the templates
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
+# v4.3.1 (Fri Sep 15 2023)
+
+#### 🚀 Enhancement
+
+- Enables anonymous usage tracking with a command to opt out
+- Updates Quickstart to use Dedicated Wallet
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
+# v4.2.2 (Tue Sep 12 2023)
+
+#### 🐛 Bug Fix
 
 - Fix bug where network isn't always added into template configuration
 
@@ -8,6 +41,8 @@
 
 - James ([@jamesrp13](https://github.com/jamesrp13))
 - Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
 
 # v4.2.0 (Mon Sep 11 2023)
 

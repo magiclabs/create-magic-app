@@ -2,7 +2,6 @@ import { Flags } from 'core/flags';
 import BaseScaffold from 'core/types/BaseScaffold';
 import { Prompt } from 'enquirer';
 import { BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
-import * as fs from 'fs';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data;
 

@@ -1,6 +1,6 @@
 import { Flags } from 'core/flags';
 import BaseScaffold from 'core/types/BaseScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
 export type Data = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
@@ -21,10 +21,13 @@ export default class SolanaDedicatedScaffold extends BaseScaffold {
   public installationCommand: string[] = ['npm', 'install'];
   public startCommand: string[] = ['npm', 'run', 'dev'];
   public source: string | string[] = [
-    './public/background.svg',
     './public/favicon.ico',
-    './public/magic_color_white.svg',
+    './public/logo.svg',
+    './public/info.svg',
     './public/link.svg',
+    './public/link_white.svg',
+    './public/redirect_bg.png',
+    './public/login_bg.png',
     './.env.example',
     './.eslintrc.json',
     './.gitignore',

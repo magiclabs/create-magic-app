@@ -45,7 +45,7 @@ export const ConsoleMessages = {
       startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
     ].filter(Boolean);
 
-    msg.join('\n');
+    return msg.join('\n');
   },
 };
 
