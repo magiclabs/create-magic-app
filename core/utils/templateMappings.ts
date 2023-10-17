@@ -1,3 +1,13 @@
+import { Ora, Spinner } from 'ora';
+import {
+  AuthTypePrompt,
+  BlockchainNetworkPrompt,
+  ConfigurationPrompt,
+  ProductPrompt,
+  ProjectNamePrompt,
+  PublishableApiKeyPrompt,
+} from 'scaffolds/prompts';
+import { CreateMagicAppConfig, pauseTimerAndSpinner } from 'core/create-app';
 import BaseScaffold from '../types/BaseScaffold';
 import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/nextjs-dedicated-wallet/scaffold';
 import FlowDedicatedScaffold, {
@@ -10,17 +20,7 @@ import SolanaDedicatedScaffold, {
   flags as solanaDedicatedFlags,
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/scaffold';
 import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/scaffold';
-import {
-  AuthTypePrompt,
-  BlockchainNetworkPrompt,
-  ConfigurationPrompt,
-  ProductPrompt,
-  ProjectNamePrompt,
-  PublishableApiKeyPrompt,
-} from 'scaffolds/prompts';
-import { Ora, Spinner } from 'ora';
 import { Timer } from './timer';
-import { CreateMagicAppConfig, pauseTimerAndSpinner } from 'core/create-app';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
@@ -86,10 +86,8 @@ export async function mapTemplateToScaffold(
 
       if (data.isQuickstart) {
         data.loginMethods = ['Email OTP'];
-      } else {
-        if (!data.loginMethods || data.loginMethods.length === 0) {
-          data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
-        }
+      } else if (!data.loginMethods || data.loginMethods.length === 0) {
+        data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
       }
       return new DedicatedScaffold(data);
     case 'nextjs-universal-wallet':
@@ -192,19 +190,17 @@ export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => 
     } else if (config.chain === 'evm') {
       config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
     }
+  } else if (
+    config.network == 'ethereum' ||
+    config.network == 'ethereum-goerli' ||
+    config.network == 'polygon' ||
+    config.network == 'polygon-mumbai'
+  ) {
+    config.chain = 'evm';
+  } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
+    config.chain = 'solana';
   } else {
-    if (
-      config.network == 'ethereum' ||
-      config.network == 'ethereum-goerli' ||
-      config.network == 'polygon' ||
-      config.network == 'polygon-mumbai'
-    ) {
-      config.chain = 'evm';
-    } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
-      config.chain = 'solana';
-    } else {
-      config.chain = 'flow';
-    }
+    config.chain = 'flow';
   }
 
   if (!config.product) {

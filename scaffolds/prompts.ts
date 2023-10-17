@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+import { Prompt } from 'enquirer';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
-import { Prompt } from 'enquirer';
+import { ExecaCommand } from 'core/types/BaseScaffold';
+
 const { Select, MultiSelect, Input } = require('enquirer');
 
 export namespace ProjectNamePrompt {
@@ -11,7 +13,7 @@ export namespace ProjectNamePrompt {
   };
 
   export const askProjectName = async () =>
-    await new Input({
+    new Input({
       name: 'projectName',
       message: 'What is your project named?',
       initial: 'awesome-magic-app',
@@ -82,7 +84,7 @@ export namespace PublishableApiKeyPrompt {
       : '--publishable-api-key should look like `pk_live_...` or `pk_test_...`';
 
   export const publishableApiKeyPrompt = async () =>
-    await new Input({
+    new Input({
       message: 'Enter Magic publishable API key from https://dashboard.magic.link:',
       // @ts-ignore
       hint: '(leave blank to skip for now)',
@@ -116,9 +118,11 @@ export namespace NpmClientPrompt {
     return data.npmClient === 'yarn' ? ['yarn', 'install'] : ['npm', 'install'];
   }
 
-  export function getStartCommand(packageJsonScript: string) {
+  export function getStartCommand(packageJsonScript: string): ExecaCommand | ((data: Data) => ExecaCommand) {
     return (data: Data) => {
-      return data.npmClient === 'npm' ? ['npm', 'run', packageJsonScript] : ['yarn', packageJsonScript];
+      return data.npmClient === 'npm'
+        ? { command: 'npm', args: ['run', packageJsonScript] }
+        : { command: 'yarn', args: [packageJsonScript] };
     };
   }
 }
@@ -129,7 +133,7 @@ export namespace BlockchainNetworkPrompt {
   };
 
   export const chainPrompt = async () =>
-    await new Select({
+    new Select({
       name: 'chain',
       message: 'Which blockchain do you want to use?',
       choices: [
@@ -140,7 +144,7 @@ export namespace BlockchainNetworkPrompt {
     }).run();
 
   export const solanaNetworkPrompt = async () =>
-    await new Select({
+    new Select({
       name: 'network',
       message: 'Which network would you like to use?',
       hint: 'We recommend starting with a test network',
@@ -151,7 +155,7 @@ export namespace BlockchainNetworkPrompt {
     }).run();
 
   export const flowNetworkPrompt = async () =>
-    await new Select({
+    new Select({
       name: 'network',
       message: 'Which network would you like to use?',
       hint: 'We recommend starting with a test network',
@@ -162,7 +166,7 @@ export namespace BlockchainNetworkPrompt {
     }).run();
 
   export const evmNetworkPrompt = async () =>
-    await new Select({
+    new Select({
       name: 'network',
       message: 'Which network would like to use?',
       hint: 'We recommend starting with a test network',
@@ -199,7 +203,7 @@ export namespace AuthTypePrompt {
   };
 
   export const loginMethodsPrompt = async () =>
-    await new MultiSelect({
+    new MultiSelect({
       message:
         'How do you want your users to log in to their wallet? See Magic docs for help (https://magic.link/docs/auth/overview)',
       hint: '(<space> to select, <return> to submit)',

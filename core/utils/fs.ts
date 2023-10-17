@@ -1,10 +1,11 @@
-import chalk from 'chalk';
-import { renderFile } from 'ejs';
-const { Confirm } = require('enquirer');
 import fs from 'fs';
+import { renderFile } from 'ejs';
 import fse from 'fs-extra';
-import { isBinary } from './is-binary';
+import chalk from 'chalk';
 import { createPromise } from 'core/utils/create-promise';
+import { isBinary } from './is-binary';
+
+const { Confirm } = require('enquirer');
 
 // TODO - rename so that we know it also renders ejs
 export const copyFileWithEjsData = async (from: string, to: string, data: any) => {
@@ -44,13 +45,13 @@ export const readTemplateDirs = (
   root: string,
   done: (err: NodeJS.ErrnoException | null, results: string[]) => void,
 ): string[] => {
-  var filePaths: string[] = [];
+  let filePaths: string[] = [];
   fs.readdir(root, (err, files) => {
     if (err) {
       console.log(err);
       return;
     }
-    var pending = files.length;
+    let pending = files.length;
     if (!pending) return done(null, filePaths);
     files.forEach((file) => {
       const stats = fs.statSync(`${root}/${file}`);

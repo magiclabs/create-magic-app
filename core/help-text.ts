@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 
+import { c } from 'tar';
 import chalk from 'chalk';
 import decamelize from 'decamelize';
 import wrapAnsi from 'wrap-ansi';
 import { BINARY } from './config';
 import { Flags, Flag } from './flags';
 import { mapTemplateToFlags } from './utils/templateMappings';
-import { c } from 'tar';
 
 const styled = {
   Usage: chalk.bold.inverse(' USAGE '),
@@ -48,7 +48,7 @@ export function printHelp(globalOptions: Flags, scaffoldName?: string) {
     helpSections.push(
       createHelpSection({
         heading: styled.Options + chalk.bold(' ❯ ') + chalk.bold.hex('#b93fff').inverse(` ${scaffoldName} `),
-        content: createOptionsTable(flags as any),
+        content: createOptionsTable(flags),
       }),
     );
   } catch {}

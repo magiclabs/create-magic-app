@@ -3,10 +3,11 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 
+import fs from 'fs';
 import { getAbsoluteTemplatePath, resolveToDist, resolveToRoot } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
 import type { Flags, ValueType } from '../flags';
-import fs from 'fs';
+import { ExecaCommand } from 'core/types/BaseScaffold';
 
 /**
  * Metadata about the scaffold being defined.
@@ -29,12 +30,12 @@ type ScaffoldMetadata<T extends Record<string, ValueType> = Record<string, any>>
    * Provides an optional shell command to install dependencies
    * required by the scaffolded project.
    */
-  installDependenciesCommand?: string[] | ((data: T & CreateMagicAppData) => string[]);
+  installDependenciesCommand?: ExecaCommand | ((data: T & CreateMagicAppData) => ExecaCommand);
 
   /**
    * Provides an optional shell command to start the scaffolded project.
    */
-  startCommand?: string[] | ((data: T & CreateMagicAppData) => string[]);
+  startCommand?: ExecaCommand | ((data: T & CreateMagicAppData) => ExecaCommand);
 
   /**
    * Provides metadata about CLI flags that may be used
@@ -63,5 +64,5 @@ export function createProjectDirIfDoesntExists(cwd: string, projectName: string)
   if (!fs.existsSync(resolveToRoot(cwd, projectName))) {
     fs.mkdirSync(resolveToRoot(cwd, projectName));
   }
-  process.chdir(projectName as string);
+  process.chdir(projectName);
 }

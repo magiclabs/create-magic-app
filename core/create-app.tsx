@@ -6,8 +6,11 @@
 import fs from 'fs';
 import { URL } from 'url';
 import path from 'path';
+import ora, { Ora } from 'ora';
+import prettyTime from 'pretty-time';
 import execa from 'execa';
 import chalk from 'chalk';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
@@ -18,10 +21,7 @@ import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
 import { buildTemplate, mapTemplateToFlags, mapTemplateToScaffold } from './utils/templateMappings';
-import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
-import ora, { Ora } from 'ora';
 import { Timer, createTimer } from './utils/timer';
-import prettyTime from 'pretty-time';
 import BaseScaffold from './types/BaseScaffold';
 import { renderScaffold } from './utils/renderScaffold';
 import { ConsoleMessages } from './cli';
@@ -71,7 +71,7 @@ export async function createApp(config: CreateMagicAppConfig) {
       };
     });
 
-  let isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
@@ -122,7 +122,7 @@ export async function createApp(config: CreateMagicAppConfig) {
   const scaffold = await mapTemplateToScaffold(config.template as string, templateData, spinner, timer);
 
   startTimerAndSpinner(timer, spinner, true);
-  console.log(gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName) + '\n');
+  console.log(`${gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName)}\n`);
 
   await renderScaffold(process.cwd(), scaffold, templateData);
 
@@ -160,8 +160,8 @@ function createPostRenderAction(options: {
     options.cmd == 'installDependenciesCommand' ? options.scaffold.installationCommand : options.scaffold.startCommand;
 
   if (getCmd) {
-    const subprocess = execa(getCmd.join(' '), undefined, { stdio: 'inherit' });
-    const bin = getCmd.join(' ');
+    const subprocess = execa(getCmd.command, getCmd.args, { stdio: 'inherit' });
+    const bin = `${getCmd.command} ${getCmd.args.join(' ')}`;
 
     return Object.assign(bin, {
       wait: async () => {

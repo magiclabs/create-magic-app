@@ -1,15 +1,15 @@
+import path from 'path';
+import fs from 'fs';
 import BaseScaffold from 'core/types/BaseScaffold';
 import { resolveToRoot } from './path-helpers';
 import { copyFileWithEjsData, readTemplateDirs } from './fs';
-import path from 'path';
-import fs from 'fs';
 
 // TODO - update templateData type to be more specific
 export const renderScaffold = async (cwd: string, scaffold: BaseScaffold, templateData: any) => {
   const basePath = resolveToRoot('scaffolds', scaffold.templateName, 'template');
   const allDirFilePaths: string[] = [];
   // typeof scaffold.source being a string means it's a directory and we should copy all files
-  if (typeof scaffold.source == 'string') {
+  if (typeof scaffold.source === 'string') {
     readTemplateDirs(basePath, async (err, filePaths) => {
       if (err) {
         console.log(err);

@@ -1,6 +1,6 @@
-import { Flags } from 'core/flags';
-import BaseScaffold from 'core/types/BaseScaffold';
 import { Prompt } from 'enquirer';
+import { Flags } from 'core/flags';
+import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
 import { BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data;
@@ -15,8 +15,8 @@ export const definition = {
 export default class UniversalScaffold extends BaseScaffold {
   public templateName = 'nextjs-universal-wallet';
   private data: Data;
-  public installationCommand: string[] = ['npm', 'install'];
-  public startCommand: string[] = ['npm', 'run', 'dev'];
+  public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
+  public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
   public source: string | string[] = './';
 
   constructor(data: Data) {
