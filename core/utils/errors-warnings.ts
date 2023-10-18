@@ -6,6 +6,7 @@ import chalk from 'chalk';
  */
 export enum CreateMagicAppErrorCode {
   VALIDATION_ERROR = 'VALIDATION_ERROR',
+  USER_CANCELED_PROMPT = 'USER_CANCELED_PROMPT',
 }
 
 /**
@@ -29,4 +30,8 @@ export function printWarning(message?: string) {
  */
 export function createValidationError(message?: string) {
   return new CreateMagicAppError(CreateMagicAppErrorCode.VALIDATION_ERROR, message);
+}
+
+export function createUserCanceledPromptError(message?: string) {
+  return new CreateMagicAppError(CreateMagicAppErrorCode.USER_CANCELED_PROMPT, message);
 }

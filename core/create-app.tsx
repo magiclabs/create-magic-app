@@ -6,24 +6,25 @@
 import fs from 'fs';
 import { URL } from 'url';
 import path from 'path';
-import React from 'react';
-import { Zombi, Directory, scaffold } from 'zombi';
+import ora, { Ora } from 'ora';
+import prettyTime from 'pretty-time';
 import execa from 'execa';
 import chalk from 'chalk';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 import { downloadAndExtractRepo, getRepoInfo } from './utils/repo';
 import { makeDir } from './utils/make-dir';
 import { DEFAULT_CREATE_MAGIC_APP_REPO, GITHUB_BASE_URL } from './config';
-import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist } from './utils/path-helpers';
-import { getScaffoldDefinition, getScaffoldRender } from './utils/scaffold-helpers';
-import { filterNilValues } from './utils/filter-nil-values';
+import { getAbsoluteTemplatePath, getRelativeTemplatePath, resolveToDist, resolveToRoot } from './utils/path-helpers';
+import { createProjectDirIfDoesntExists, getScaffoldDefinition } from './utils/scaffold-helpers';
 import { printWarning } from './utils/errors-warnings';
 import { parseFlags } from './flags';
 import { addShutdownTask } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
-import { Chain, mapTemplateToChain, mapTemplateToProduct } from './utils/templateMappings';
-import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
-
-const { Select, Input } = require('enquirer');
+import { buildTemplate, mapTemplateToFlags, mapTemplateToScaffold } from './utils/templateMappings';
+import { Timer, createTimer } from './utils/timer';
+import BaseScaffold from './types/BaseScaffold';
+import { renderScaffold } from './utils/renderScaffold';
+import { ConsoleMessages } from './cli';
 
 export interface CreateMagicAppData extends BlockchainNetworkPrompt.Data {
   /**
@@ -57,7 +58,6 @@ export interface CreateMagicAppConfig extends Partial<CreateMagicAppData> {
 export async function createApp(config: CreateMagicAppConfig) {
   SharedAnalytics.logEvent('cli-tool-started', { input: config });
 
-  const isProgrammaticFlow = !!config.data;
   const destinationRoot = process.cwd();
 
   const availableScaffolds = fs
@@ -71,245 +71,79 @@ export async function createApp(config: CreateMagicAppConfig) {
       };
     });
 
-  let isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);
     console.warn(); // Aesthetics!
   }
 
-  if (!config.projectName) {
-    const projectName = await new Input({
-      name: 'projectName',
-      message: 'What is your project named?',
-      initial: 'awesome-magic-app',
-    }).run();
-
-    config.projectName = projectName;
-  }
-
-  let chain: Chain | undefined = undefined;
-  let product: 'universal' | 'dedicated' | undefined = undefined;
-  let configuration = '';
-  if (!config.template) {
-    configuration = await new Select({
-      name: 'configuration',
-      message: 'Select a configuration to start with:',
-      choices: [
-        { name: 'quickstart', message: 'Quickstart (Nextjs, Polygon Testnet, Email OTP)' },
-        { name: 'custom', message: 'Custom Setup (Choose network, login methods, etc.)' },
-      ],
-    }).run();
-
-    if (configuration === 'quickstart') {
-      config.template = 'nextjs-dedicated-wallet';
-      config.network = 'polygon-mumbai';
-      product = 'dedicated';
-      chain = 'evm';
-      isChosenTemplateValid = true;
-    }
-  } else {
-    chain = mapTemplateToChain(config.template);
-    product = mapTemplateToProduct(config.template);
-  }
-
-  if (!chain && !config.network) {
-    chain = await new Select({
-      name: 'chain',
-      message: 'Which blockchain do you want to use?',
-      choices: [
-        { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
-        { name: 'solana', message: 'Solana' },
-        { name: 'flow', message: 'Flow' },
-      ],
-    }).run();
-  }
-
-  if (!config.network) {
-    if (chain === 'solana') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would you like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'solana-mainnet', message: 'Mainnet' },
-          { name: 'solana-devnet', message: 'Devnet' },
-        ],
-      }).run();
-
-      product = 'dedicated';
-      config.template = 'nextjs-solana-dedicated-wallet';
-      isChosenTemplateValid = true;
-    } else if (chain === 'flow') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would you like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'flow-mainnet', message: 'Mainnet' },
-          { name: 'flow-testnet', message: 'Testnet' },
-        ],
-      }).run();
-    } else if (chain === 'evm') {
-      config.network = await new Select({
-        name: 'network',
-        message: 'Which network would like to use?',
-        hint: 'We recommend starting with a test network',
-        choices: [
-          { name: 'ethereum', message: 'Ethereum (Mainnet)' },
-          { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
-          { name: 'polygon', message: 'Polygon (Mainnet)' },
-          { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
-        ],
-      }).run();
-    }
-  }
-
-  if (!product) {
-    product = 'dedicated';
-
-    if (chain === 'flow') {
-      config.template = 'nextjs-flow-dedicated-wallet';
-    } else {
-      config.template = 'nextjs-dedicated-wallet';
-    }
-    isChosenTemplateValid = true;
-  }
-
-  const template = (
-    <Zombi<CreateMagicAppData>
-      name="create-magic-app"
-      templateRoot={false}
-      destinationRoot={destinationRoot}
-      data={filterNilValues({
-        branch: config?.branch ?? 'master',
-        projectName: config?.projectName,
-        template: isChosenTemplateValid ? config.template : undefined,
-        network: config.network,
-        npmClient: 'npm',
-        loginMethods: configuration === 'quickstart' ? ['EmailOTP'] : undefined,
-      })}
-      prompts={[
-        {
-          type: 'input',
-          name: 'projectName',
-          message: 'What is your project named?',
-          initial: 'awesome-magic-app',
-        },
-      ]}
-    >
-      {async (data) => {
-        const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${data.branch}`, GITHUB_BASE_URL);
-        const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(data.template));
-
-        if (repoInfo) {
-          const templatePath = getAbsoluteTemplatePath(data.template);
-
-          if (!fs.existsSync(templatePath)) {
-            await makeDir(templatePath);
-            await downloadAndExtractRepo(templatePath, repoInfo);
-          }
-        } else {
-          // TODO: Handle case where repo info is not found
-        }
-
-        const templateData = await parseFlags(getScaffoldDefinition(data.template).flags, config?.data);
-        const renderTemplate = getScaffoldRender(filterNilValues({ ...config, ...templateData, ...data }));
-        return <Directory name={data.projectName}>{renderTemplate()}</Directory>;
-      }}
-    </Zombi>
-  );
-  const scaffoldResult = await scaffold<{ 'create-magic-app': CreateMagicAppData; [key: string]: any }>(template);
-  const { projectName: chosenProjectName, template: chosenTemplate } = scaffoldResult.data['create-magic-app'];
-
-  SharedAnalytics.logEvent('cli-tool-scaffold-cloned', { data: scaffoldResult.data });
-
-  console.log(); // Aesthetics!
-
-  // Save the current working directory and
-  // change directories into the rendered scaffold.
-  const cwd = process.cwd();
-  process.chdir(chosenProjectName);
-
-  if (fs.existsSync(`${cwd}/${chosenProjectName}/.env.example`)) {
-    fs.renameSync(`${cwd}/${chosenProjectName}/.env.example`, `${cwd}/${chosenProjectName}/.env`);
-  }
-
-  // Do post-render actions...
-  const data = {
-    ...scaffoldResult.data['create-magic-app'],
-    ...scaffoldResult.data[chosenTemplate],
+  config = {
+    ...(await buildTemplate({
+      ...config,
+      chain: undefined,
+      product: undefined,
+      configuration: undefined,
+      isChosenTemplateValid: false,
+      isQuickstart: false,
+    })),
   };
 
-  if (isProgrammaticFlow) {
-    await createPostRenderAction({ data, cmd: 'installDependenciesCommand' })?.wait();
+  const templateFlags: any = await parseFlags(mapTemplateToFlags(config.template as string), config?.data);
+  const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${config.branch}`, GITHUB_BASE_URL);
+  const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(config.template as string));
+  if (repoInfo) {
+    const templatePath = getAbsoluteTemplatePath(config.template as string);
+
+    // TODO - come back to this to check if out of date
+    if (!fs.existsSync(templatePath)) {
+      await makeDir(templatePath);
+      await downloadAndExtractRepo(templatePath, repoInfo);
+    }
   } else {
-    addShutdownTask(() => {
-      console.log(); // Aesthetics!
-
-      const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
-
-      const msg = [
-        '✨\n',
-        chalk`{bold {green Success!} You've bootstrapped a ${magic} app with {rgb(0,255,255) ${chosenTemplate}}!}`,
-        chalk`Created {bold.rgb(0,255,255) ${chosenProjectName}} at {bold.rgb(0,255,255) ${path.join(
-          destinationRoot,
-          chosenProjectName,
-        )}}`,
-      ];
-
-      console.log(msg.join('\n'));
-    });
-
-    const installCmd = await createPostRenderAction({ data, cmd: 'installDependenciesCommand', log: true })?.wait();
-    const startCmd = createPostRenderAction({ data, cmd: 'startCommand', log: true });
-
-    addShutdownTask(() => {
-      console.log(); // Aesthetics!
-
-      const separator = '';
-
-      const msg = [
-        (installCmd || startCmd) && chalk`Inside your app directory, you can run several commands:\n`,
-
-        installCmd && chalk`  {rgb(0,255,255) ${installCmd}}`,
-        installCmd && chalk`    Install dependencies.\n`,
-
-        startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
-        startCmd && chalk`    Starts the app with a local development server.\n`,
-
-        startCmd && chalk`Type the following to restart your newly-created app:\n`,
-        startCmd && chalk`  {rgb(0,255,255) cd} ${chosenProjectName}`,
-        startCmd && chalk`  {rgb(0,255,255) ${startCmd}}`,
-      ].filter(Boolean);
-
-      console.log(msg.join('\n'));
-    });
-
-    SharedAnalytics.logEvent('cli-tool-completed', {});
+    // TODO: Handle case where repo info is not found
   }
 
-  // Return to the previous working directory
-  // before "post-render actions" executed.
-  process.chdir(cwd);
+  const cwd = process.cwd();
+  createProjectDirIfDoesntExists(cwd, config.projectName!);
 
-  return scaffoldResult;
-}
+  const templateData = {
+    ...config,
+    ...templateFlags,
+    ...config.data,
+  };
 
-function printPostShutdownInstructions(data: CreateMagicAppData & { destinationRoot: string } & Record<string, any>) {
-  console.log(); // Aesthetics!
+  const { gray, cyan } = chalk;
+  const timer = createTimer();
 
-  const magic = chalk`{rgb(92,101,246) M}{rgb(127,103,246) ag}{rgb(168,140,248) ic}`;
+  const spinner = ora({ text: 'Scaffolding', spinner: 'dots10' });
+  startTimerAndSpinner(timer, spinner, false);
 
-  const msg = [
-    chalk`{bold You've successfully bootstrapped a ${magic} app with {rgb(0,255,255) ${data.template}}!}`,
-    chalk`Created {bold.rgb(0,255,255) ${data.projectName}} at {bold.rgb(0,255,255) ${path.join(
-      data.destinationRoot,
-      data.projectName,
-    )}}`,
-  ];
+  const scaffold = await mapTemplateToScaffold(config.template as string, templateData, spinner, timer);
 
-  console.log(msg.join('\n'));
+  startTimerAndSpinner(timer, spinner, true);
+  console.log(`${gray('\n\nRunning scaffold ') + cyan.bold(scaffold.templateName)}\n`);
+
+  await renderScaffold(process.cwd(), scaffold, templateData);
+
+  const prettyTimeElapsed = prettyTime(timer.stop());
+  spinner.succeed(gray(`Generated in ${cyan.bold(prettyTimeElapsed)}\n\n`));
+
+  addShutdownTask(() => {
+    console.log(ConsoleMessages.bootstrapSuccess(config.projectName!, path.join(destinationRoot, config.projectName!)));
+  });
+
+  const installCmd = await createPostRenderAction({
+    data: templateData,
+    cmd: 'installDependenciesCommand',
+    scaffold,
+    log: true,
+  })?.wait();
+  const startCmd = createPostRenderAction({ data: templateData, cmd: 'startCommand', scaffold, log: true });
+
+  addShutdownTask(() => {
+    console.log(ConsoleMessages.postRenderCommands(installCmd, startCmd, config.projectName!));
+  });
 }
 
 /**
@@ -319,15 +153,15 @@ function printPostShutdownInstructions(data: CreateMagicAppData & { destinationR
 function createPostRenderAction(options: {
   data: CreateMagicAppData & Record<string, any>;
   cmd: 'installDependenciesCommand' | 'startCommand';
+  scaffold: BaseScaffold;
   log?: boolean;
 }) {
-  const getCmd = getScaffoldDefinition(options.data.template)[options.cmd];
-  const cmdWithArgs = typeof getCmd === 'function' ? getCmd(options.data) : getCmd ?? [];
-  const [cmd, ...args] = cmdWithArgs;
+  const getCmd =
+    options.cmd === 'installDependenciesCommand' ? options.scaffold.installationCommand : options.scaffold.startCommand;
 
-  if (cmd) {
-    const subprocess = execa(cmd, args, { stdio: 'inherit' });
-    const bin = cmdWithArgs.join(' ');
+  if (getCmd) {
+    const subprocess = execa(getCmd.command, getCmd.args, { stdio: 'inherit' });
+    const bin = `${getCmd.command} ${getCmd.args.join(' ')}`;
 
     return Object.assign(bin, {
       wait: async () => {
@@ -335,5 +169,20 @@ function createPostRenderAction(options: {
         return bin;
       },
     });
+  }
+}
+
+export function startTimerAndSpinner(timer: Timer, spinner: Ora, isPaused: boolean) {
+  if (isPaused) {
+    timer.resume();
+  }
+  timer.start();
+  spinner.start();
+}
+
+export function pauseTimerAndSpinner(timer: Timer, spinner: Ora) {
+  timer.pause();
+  if (spinner.isSpinning) {
+    spinner.stop();
   }
 }

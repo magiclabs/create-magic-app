@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import AppHeader from '../ui/AppHeader';
-import Links from './Links';
+import Links from './DevLinks';
 import ConnectButton from '../ui/ConnectButton';
 import Spacer from '../ui/Spacer';
 import LoginPageBackground from 'public/login.svg';

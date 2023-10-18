@@ -4,7 +4,7 @@ import AppHeader from '../ui/AppHeader';
 import Wallet from './cards/UserInfoCard';
 import WalletMethods from './cards/WalletMethodsCard';
 import SendTransaction from './cards/SendTransactionsCard';
-import Links from './Links';
+import Links from './DevLinks';
 import Spacer from '../ui/Spacer';
 import HomePageBackground from 'public/main.svg';
 interface Props {

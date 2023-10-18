@@ -1,8 +1,8 @@
 import chalk from 'chalk';
+import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 import { BINARY } from './config';
 import { CreateMagicAppData } from './create-app';
 import { Flags } from './flags';
-import { BlockchainNetworkPrompt } from 'scaffolds/prompts';
 
 export interface GlobalOptions extends Partial<CreateMagicAppData & BlockchainNetworkPrompt.Data> {
   help?: boolean;
