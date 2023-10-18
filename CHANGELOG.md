@@ -1,8 +1,24 @@
+# v4.4.2 (Wed Sep 27 2023)
+
+#### 🚀 Enhancement
+
+- Removes dependency on Zombi
+- Fixes issue caused by web3.js update
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
 # v4.4.1 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
 
 - Remove Universal option from prompts (it remains available in flags)
+
+---
 
 # v4.4.0 (Wed Sep 27 2023)
 
