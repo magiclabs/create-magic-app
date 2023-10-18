@@ -44,6 +44,7 @@ export const renderScaffold = async (cwd: string, scaffold: BaseScaffold, templa
 
 async function copyFilesAndRenameEnv(allDirFilePaths: string[], basePath: string, cwd: string, templateData: any) {
   for (const filePath of allDirFilePaths) {
+    // eslint-disable-next-line no-await-in-loop
     await copyFileWithEjsData(filePath, path.join(cwd, filePath.replace(basePath, '')), templateData);
   }
   if (fs.existsSync(path.join(cwd, '.env.example'))) {

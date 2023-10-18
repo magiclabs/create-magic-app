@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import { createPromise } from 'core/utils/create-promise';
 import { isBinary } from './is-binary';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Confirm } = require('enquirer');
 
 // TODO - rename so that we know it also renders ejs

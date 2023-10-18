@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { Prompt } from 'enquirer';
 import type { Flags } from 'core/flags';
 import type { ValuesOf } from 'core/types/utility-types';
 import { ExecaCommand } from 'core/types/BaseScaffold';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Select, MultiSelect, Input } = require('enquirer');
 
 export namespace ProjectNamePrompt {
