@@ -157,7 +157,7 @@ function createPostRenderAction(options: {
   log?: boolean;
 }) {
   const getCmd =
-    options.cmd == 'installDependenciesCommand' ? options.scaffold.installationCommand : options.scaffold.startCommand;
+    options.cmd === 'installDependenciesCommand' ? options.scaffold.installationCommand : options.scaffold.startCommand;
 
   if (getCmd) {
     const subprocess = execa(getCmd.command, getCmd.args, { stdio: 'inherit' });

@@ -59,17 +59,22 @@ export default class SolanaDedicatedScaffold extends BaseScaffold {
     if (typeof this.source !== 'string') {
       data.loginMethods.forEach((authType) => {
         (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
-        (authType === 'Discord' ||
+        if (
+          authType === 'Discord' ||
           authType === 'Facebook' ||
           authType === 'Github' ||
           authType === 'Google' ||
           authType === 'Twitch' ||
-          authType === 'Twitter') &&
+          authType === 'Twitter'
+        ) {
           (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
-        authType.replaceAll(' ', '') === 'EmailOTP' &&
+        }
+        if (authType.replaceAll(' ', '') === 'EmailOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
-        authType.replaceAll(' ', '') === 'SMSOTP' &&
+        }
+        if (authType.replaceAll(' ', '') === 'SMSOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
+        }
       });
     }
   }

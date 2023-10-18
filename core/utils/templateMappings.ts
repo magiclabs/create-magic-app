@@ -70,10 +70,11 @@ function mapTemplateToProduct(template: string): Product | undefined {
 
 export async function mapTemplateToScaffold(
   template: string,
-  data: any,
+  appData: any,
   spinner: Ora,
   timer: Timer,
 ): Promise<BaseScaffold> {
+  const data = appData;
   pauseTimerAndSpinner(timer, spinner);
   if (!data.publishableApiKey) {
     data.publishableApiKey = await PublishableApiKeyPrompt.publishableApiKeyPrompt();
@@ -158,7 +159,8 @@ const solanaConfig = async (config: ConfigType): Promise<ConfigType> => ({
   isQuickstart: false,
 });
 
-export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => {
+export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> => {
+  let config = appConfig;
   if (!config.projectName) {
     config.projectName = await ProjectNamePrompt.askProjectName();
   }
@@ -191,13 +193,13 @@ export const buildTemplate = async (config: ConfigType): Promise<ConfigType> => 
       config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
     }
   } else if (
-    config.network == 'ethereum' ||
-    config.network == 'ethereum-goerli' ||
-    config.network == 'polygon' ||
-    config.network == 'polygon-mumbai'
+    config.network === 'ethereum' ||
+    config.network === 'ethereum-goerli' ||
+    config.network === 'polygon' ||
+    config.network === 'polygon-mumbai'
   ) {
     config.chain = 'evm';
-  } else if (config.network == 'solana-denvet' || config.network == 'solana-mainnet') {
+  } else if (config.network === 'solana-denvet' || config.network === 'solana-mainnet') {
     config.chain = 'solana';
   } else {
     config.chain = 'flow';

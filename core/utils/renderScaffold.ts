@@ -30,8 +30,8 @@ export const renderScaffold = async (cwd: string, scaffold: BaseScaffold, templa
           if (err) {
             console.log(err);
           }
-          for (const filePath of filePaths) {
-            allDirFilePaths.push(filePath);
+          for (const sourceFilePath of filePaths) {
+            allDirFilePaths.push(sourceFilePath);
           }
         });
       } else {

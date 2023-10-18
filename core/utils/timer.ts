@@ -33,7 +33,8 @@ export function createTimer() {
   return {
     start() {
       startTime = process.hrtime();
-      pauses = resumes = [];
+      pauses = [];
+      resumes = [];
     },
 
     pause() {

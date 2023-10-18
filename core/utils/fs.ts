@@ -20,8 +20,8 @@ export const copyFileWithEjsData = async (from: string, to: string, data: any) =
         } else {
           try {
             await outputFile(to, str).then(resolve).catch(reject);
-          } catch (err) {
-            reject(err);
+          } catch (error) {
+            reject(error);
           }
         }
       });
@@ -56,7 +56,7 @@ export const readTemplateDirs = (
     files.forEach((file) => {
       const stats = fs.statSync(`${root}/${file}`);
       if (stats && stats.isDirectory()) {
-        readTemplateDirs(`${root}/${file}`, async (err, res) => {
+        readTemplateDirs(`${root}/${file}`, async (error, res) => {
           filePaths = filePaths.concat(res);
           if (!--pending) done(null, filePaths);
         });

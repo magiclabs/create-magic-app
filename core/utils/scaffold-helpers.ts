@@ -4,10 +4,10 @@
 /* eslint-disable global-require */
 
 import fs from 'fs';
+import { ExecaCommand } from 'core/types/BaseScaffold';
 import { getAbsoluteTemplatePath, resolveToDist, resolveToRoot } from './path-helpers';
 import type { CreateMagicAppData } from '../create-app';
 import type { Flags, ValueType } from '../flags';
-import { ExecaCommand } from 'core/types/BaseScaffold';
 
 /**
  * Metadata about the scaffold being defined.
