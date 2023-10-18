@@ -11,6 +11,5 @@
   "react-is",
   "tar",
   "wrap-ansi",
-  "yargs-parser",
-  "zombi"
+  "yargs-parser"
 ]

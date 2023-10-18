@@ -1,3 +1,22 @@
+# v4.4.1 (Wed Sep 27 2023)
+
+#### 🚀 Enhancement
+
+- Remove Universal option from prompts (it remains available in flags)
+
+# v4.4.0 (Wed Sep 27 2023)
+
+#### 🚀 Enhancement
+
+- Updates the UI design of the templates
+
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
 # v4.3.1 (Fri Sep 15 2023)
 
 #### 🚀 Enhancement

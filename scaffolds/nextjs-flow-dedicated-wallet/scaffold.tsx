@@ -1,75 +1,81 @@
-import React from 'react';
-import { Template, Zombi, mergePrompts } from 'zombi';
-import { createScaffold } from 'core/utils/scaffold-helpers';
+import { Flags } from 'core/flags';
+import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
 import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
 
-type NextDedicatedWalletData = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
+export type Data = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
-export default createScaffold<NextDedicatedWalletData>(
-  (props) => (
-    <Zombi {...props} prompts={mergePrompts(AuthTypePrompt.questions, PublishableApiKeyPrompt.questions)}>
-      {(data) => (
-        <>
-          <Template source="./public/info.svg" />
-          <Template source="./public/link_white.svg" />
-          <Template source="./public/login_bg.png" />
-          <Template source="./public/logo.svg" />
-          <Template source="./public/redirect_bg.png" />
-          <Template source="./public/favicon.ico" />
-          <Template source="./public/link.svg" />
-          <Template source="./.env.example" />
-          <Template source="./.eslintrc.json" />
-          <Template source="./.gitignore" />
-          <Template source="./package.json" />
-          <Template source="./postcss.config.js" />
-          <Template source="./tailwind.config.js" />
-          <Template source="./tsconfig.json" />
-          <Template source="./README.md" />
-          <Template source="./src/components/ui" />
-          <Template source="./src/components/magic/cards" />
-          <Template source="./src/components/magic/wallet-methods/Disconnect.tsx" />
-          <Template source="./src/components/magic/wallet-methods/GetIdToken.tsx" />
-          <Template source="./src/components/magic/wallet-methods/GetMetadata.tsx" />
-          <Template source="./src/components/magic/Dashboard.tsx" />
-          <Template source="./src/components/magic/DevLinks.tsx" />
-          <Template source="./src/components/magic/Header.tsx" />
-          <Template source="./src/components/magic/Login.tsx" />
-          <Template source="./src/components/magic/MagicProvider.tsx" />
-          <Template source="./src/components/magic/MagicDashboardRedirect.tsx" />
-          <Template source="./src/pages" />
-          <Template source="./src/styles" />
-          <Template source="./src/utils" />
+export const flags: Flags<Partial<Data>> = {
+  ...NpmClientPrompt.flags,
+  ...PublishableApiKeyPrompt.flags,
+  ...AuthTypePrompt.flags,
+};
 
-          {data.loginMethods.map((authType) => (
-            <React.Fragment key={authType}>
-              <Template source={`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`} />
-              {(authType === 'Discord' ||
-                authType === 'Facebook' ||
-                authType === 'Github' ||
-                authType === 'Google' ||
-                authType === 'Twitch' ||
-                authType === 'Twitter') && <Template source={`./public/social/${authType.replaceAll(' ', '')}.svg`} />}
-              {authType.replaceAll(' ', '') === 'EmailOTP' && (
-                <Template source="./src/components/magic/wallet-methods/UpdateEmail.tsx" />
-              )}
-              {authType.replaceAll(' ', '') === 'SMSOTP' && (
-                <Template source="./src/components/magic/wallet-methods/UpdatePhone.tsx" />
-              )}
-            </React.Fragment>
-          ))}
-        </>
-      )}
-    </Zombi>
-  ),
+export const definition = {
+  shortDescription: 'A dedicated wallet scaffold for Next.js using Flow',
+  featured: true,
+};
 
-  {
-    shortDescription: 'Flow Universal Wallet',
-    installDependenciesCommand: NpmClientPrompt.getInstallCommand,
-    startCommand: NpmClientPrompt.getStartCommand('dev'),
-    flags: {
-      ...NpmClientPrompt.flags,
-      ...PublishableApiKeyPrompt.flags,
-      ...AuthTypePrompt.flags,
-    },
-  },
-);
+export default class FlowDedicatedScaffold extends BaseScaffold {
+  public templateName = 'nextjs-flow-dedicated-wallet';
+  private data: Data;
+  public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
+  public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
+  public source: string | string[] = [
+    './public/favicon.ico',
+    './public/logo.svg',
+    './public/info.svg',
+    './public/link.svg',
+    './public/link_white.svg',
+    './public/redirect_bg.png',
+    './public/login_bg.png',
+    './.env.example',
+    './.eslintrc.json',
+    './.gitignore',
+    './package.json',
+    './postcss.config.js',
+    './tailwind.config.js',
+    './tsconfig.json',
+    './README.md',
+    './src/components/ui',
+    './src/components/magic/cards',
+    './src/components/magic/wallet-methods/Disconnect.tsx',
+    './src/components/magic/wallet-methods/GetIdToken.tsx',
+    './src/components/magic/wallet-methods/GetMetadata.tsx',
+    './src/components/magic/Dashboard.tsx',
+    './src/components/magic/DevLinks.tsx',
+    './src/components/magic/Header.tsx',
+    './src/components/magic/Login.tsx',
+    './src/components/magic/MagicProvider.tsx',
+    './src/components/magic/MagicDashboardRedirect.tsx',
+    './src/pages',
+    './src/styles',
+    './src/utils',
+  ];
+
+  constructor(data: Data) {
+    super();
+    this.data = data;
+
+    if (typeof this.source !== 'string') {
+      data.loginMethods.forEach((authType) => {
+        (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
+        if (
+          authType === 'Discord' ||
+          authType === 'Facebook' ||
+          authType === 'Github' ||
+          authType === 'Google' ||
+          authType === 'Twitch' ||
+          authType === 'Twitter'
+        ) {
+          (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
+        }
+        if (authType.replaceAll(' ', '') === 'EmailOTP') {
+          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
+        }
+        if (authType.replaceAll(' ', '') === 'SMSOTP') {
+          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
+        }
+      });
+    }
+  }
+}

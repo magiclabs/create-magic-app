@@ -4,7 +4,7 @@ import { REPO_ROOT } from '../config';
 /**
  * Resolve an absolute path relative to the repository root.
  */
-export function resolveToRoot(...pathSegments: string[]) {
+export function resolveToRoot(...pathSegments: string[]): string {
   return path.resolve(REPO_ROOT, ...pathSegments);
 }
 
