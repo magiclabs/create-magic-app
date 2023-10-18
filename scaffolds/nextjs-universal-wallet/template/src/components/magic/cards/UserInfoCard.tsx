@@ -26,7 +26,7 @@ const UserInfo = ({ setAccount }: Props) => {
   const getBalance = useCallback(async () => {
     if (publicAddress && web3) {
       const balance = await web3.eth.getBalance(publicAddress);
-      setBalance(web3.utils.fromWei(balance));
+      setBalance(web3.utils.fromWei(balance, 'ether'));
       console.log('BALANCE: ', balance);
     }
   }, [web3, publicAddress]);
