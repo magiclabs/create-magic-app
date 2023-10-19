@@ -47,6 +47,11 @@ export const ConsoleMessages = {
 
     return msg.join('\n');
   },
+
+  gitHubIssuesLink: () => {
+    const msg = chalk`For feedback/questions/issues, please use {rgb(0,255,255) https://github.com/magiclabs/create-magic-app/issues/new/choose}`;
+    return msg;
+  },
 };
 
 async function sayHello() {
@@ -71,6 +76,9 @@ async function sayHello() {
   } else {
     console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
   }
+
+  console.log(ConsoleMessages.gitHubIssuesLink());
+  console.log();
 }
 
 (async () => {
