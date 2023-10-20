@@ -91,7 +91,7 @@ export async function parseFlags<T extends Flags>(flags: T, data?: {}): Promise<
 
   Object.entries(flags).forEach(([flag, options]) => {
     if (options.alias) {
-      aliases[flag] = [options.alias];
+      aliases[flag] = [options.alias.toLowerCase()];
     }
 
     if (options.type === Boolean) {
@@ -106,8 +106,12 @@ export async function parseFlags<T extends Flags>(flags: T, data?: {}): Promise<
       boolean: booleans,
     });
 
+  const caseInsensitiveResults = Object.fromEntries(
+    Object.entries(results).map(([key, value]) => [convertArgToCamelCase(key), value]),
+  );
+
   const defaultResults = getFlagDefaults(flags);
-  const validatedResults = await validateFlagInputs(flags, results);
+  const validatedResults = await validateFlagInputs(flags, caseInsensitiveResults);
   const finalResults = { ...defaultResults, ...validatedResults };
 
   // If `data` is provided (in other words, if the flow is programmatic rather
@@ -182,4 +186,15 @@ async function validateFlagInputs<T extends Flags>(flags: T, inputs: {} = {}) {
       ),
     ),
   );
+}
+
+function convertArgToCamelCase(arg: string) {
+  const tokens = arg.split('-');
+  return tokens.reduce((camelCase, token, index) => {
+    if (index === 0) {
+      return token.toLowerCase();
+    }
+
+    return camelCase + token.charAt(0).toUpperCase() + token.slice(1).toLowerCase();
+  }, '');
 }
