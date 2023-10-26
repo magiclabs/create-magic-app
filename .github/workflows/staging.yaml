@@ -1,9 +1,8 @@
-name: Publish
+name: Staging
 on:
   push:
     branches:
-      - 'master'
-      - 'main'
+      - 'staging'
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -14,7 +13,7 @@ jobs:
   publish:
     runs-on: ubuntu-20.04
     name: Publish
-    environment: production
+    environment: staging
     steps:
       - uses: actions/checkout@v3
         with:
@@ -35,7 +34,7 @@ jobs:
           yarn install --immutable
 
       - name: Build
-        run: yarn run build
+        run: export DEFAULT_BRANCH=staging;yarn run build
 
       - name: Create Release
         run: yarn auto shipit -v

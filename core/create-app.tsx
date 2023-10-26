@@ -90,7 +90,10 @@ export async function createApp(config: CreateMagicAppConfig) {
   };
 
   const templateFlags: any = await parseFlags(mapTemplateToFlags(config.template as string), config?.data);
-  const repoUrl = new URL(`${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${config.branch}`, GITHUB_BASE_URL);
+  const repoUrl = new URL(
+    `${DEFAULT_CREATE_MAGIC_APP_REPO}/tree/${process.env.DEFAULT_BRANCH ?? config.branch}`,
+    GITHUB_BASE_URL,
+  );
   const repoInfo = await getRepoInfo(repoUrl, getRelativeTemplatePath(config.template as string));
   if (repoInfo) {
     const templatePath = getAbsoluteTemplatePath(config.template as string);
