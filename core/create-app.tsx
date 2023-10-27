@@ -113,8 +113,6 @@ export async function createApp(config: CreateMagicAppConfig) {
     ...config.data,
   };
 
-  console.log('templateData', templateData);
-
   const { gray, cyan } = chalk;
   const timer = createTimer();
 

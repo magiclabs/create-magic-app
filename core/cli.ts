@@ -87,13 +87,13 @@ async function sayHello() {
 
   useGracefulShutdown();
 
-  var { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
+  const parsedFlags = await parseFlags(globalOptions);
+  const { version, help, projectName, shareUsageData } = parsedFlags;
+  let { template, network, branch } = parsedFlags;
 
   template = makeInputsLowercase(template);
   network = makeInputsLowercase(network);
   branch = makeInputsLowercase(branch);
-
-  console.log('network', network);
 
   const collectUsageData = await initializeUsageConfigIfneeded();
   const config = loadConfig();

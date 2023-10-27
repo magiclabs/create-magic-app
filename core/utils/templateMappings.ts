@@ -8,6 +8,7 @@ import {
   PublishableApiKeyPrompt,
 } from 'scaffolds/prompts';
 import { CreateMagicAppConfig, pauseTimerAndSpinner } from 'core/create-app';
+import { makeInputsLowercase } from 'core/flags';
 import BaseScaffold from '../types/BaseScaffold';
 import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/nextjs-dedicated-wallet/scaffold';
 import FlowDedicatedScaffold, {
@@ -21,7 +22,6 @@ import SolanaDedicatedScaffold, {
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/scaffold';
 import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/scaffold';
 import { Timer } from './timer';
-import { makeInputsLowercase } from 'core/flags';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =

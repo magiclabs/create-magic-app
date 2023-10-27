@@ -57,8 +57,10 @@ export default class DedicatedScaffold extends BaseScaffold {
     this.data = data;
 
     if (typeof this.source !== 'string') {
-      data.loginMethods = data.loginMethods.map((authType) => AuthTypePrompt.mapInputToLoginMethods(authType));
-      data.loginMethods.forEach((authType) => {
+      this.data.loginMethods = this.data.loginMethods.map((authType) =>
+        AuthTypePrompt.mapInputToLoginMethods(authType),
+      );
+      this.data.loginMethods.forEach((authType) => {
         (this.source as string[]).push(`./src/components/magic/auth/${authType}.tsx`);
         if (
           authType === 'Discord' ||
