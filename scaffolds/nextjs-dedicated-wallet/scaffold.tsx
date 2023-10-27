@@ -57,8 +57,9 @@ export default class DedicatedScaffold extends BaseScaffold {
     this.data = data;
 
     if (typeof this.source !== 'string') {
+      data.loginMethods = data.loginMethods.map((authType) => AuthTypePrompt.mapInputToLoginMethods(authType));
       data.loginMethods.forEach((authType) => {
-        (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
+        (this.source as string[]).push(`./src/components/magic/auth/${authType}.tsx`);
         if (
           authType === 'Discord' ||
           authType === 'Facebook' ||
@@ -67,12 +68,12 @@ export default class DedicatedScaffold extends BaseScaffold {
           authType === 'Twitch' ||
           authType === 'Twitter'
         ) {
-          (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
+          (this.source as string[]).push(`./public/social/${authType}.svg`);
         }
-        if (authType.replaceAll(' ', '') === 'EmailOTP') {
+        if (authType === 'EmailOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
         }
-        if (authType.replaceAll(' ', '') === 'SMSOTP') {
+        if (authType === 'SMSOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
         }
       });

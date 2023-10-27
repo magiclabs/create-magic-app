@@ -235,4 +235,36 @@ export namespace AuthTypePrompt {
       },
     },
   };
+
+  export const mapInputToLoginMethods = (input: string) => {
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('emailotp')) {
+      return 'EmailOTP';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('smsotp')) {
+      return 'SMSOTP';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('google')) {
+      return 'Google';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('github')) {
+      return 'Github';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('discord')) {
+      return 'Discord';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('twitter')) {
+      return 'Twitter';
+    }
+
+    if (input.replaceAll(' ', '').toLocaleLowerCase().includes('twitch')) {
+      return 'Twitch';
+    }
+
+    return input;
+  };
 }

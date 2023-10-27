@@ -5,7 +5,7 @@ import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
 import { CreateMagicAppError, CreateMagicAppErrorCode } from './utils/errors-warnings';
-import { parseFlags } from './flags';
+import { makeInputsLowercase, parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { shutdown, useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
@@ -87,7 +87,14 @@ async function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
+  var { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
+
+  template = makeInputsLowercase(template);
+  network = makeInputsLowercase(network);
+  branch = makeInputsLowercase(branch);
+
+  console.log('network', network);
+
   const collectUsageData = await initializeUsageConfigIfneeded();
   const config = loadConfig();
 

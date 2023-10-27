@@ -21,6 +21,7 @@ import SolanaDedicatedScaffold, {
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/scaffold';
 import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/scaffold';
 import { Timer } from './timer';
+import { makeInputsLowercase } from 'core/flags';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
@@ -75,6 +76,7 @@ export async function mapTemplateToScaffold(
   timer: Timer,
 ): Promise<BaseScaffold> {
   const data = appData;
+  data.network = makeInputsLowercase(data.network);
   pauseTimerAndSpinner(timer, spinner);
   if (!data.publishableApiKey) {
     data.publishableApiKey = await PublishableApiKeyPrompt.publishableApiKeyPrompt();
