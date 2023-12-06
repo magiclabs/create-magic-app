@@ -1,0 +1,6 @@
+{
+  "network": "ethereum-goerli",
+  "publishableApiKey": "ejs-json-file-test-key",
+  "loginMethods": ["EmailOTP", "SMSOTP"],
+  "projectName": "ejs-test-project"
+}
