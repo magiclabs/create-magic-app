@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-ejs": "watch 'node ejs_script.js' ./",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

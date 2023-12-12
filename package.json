@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "dev-ejs": "node ejs_script.js",
     "dev": "yarn clean && tsc-watch --onSuccess \"yarn build-dev\"",
     "build-dev": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
@@ -67,6 +68,7 @@
     "tsc-alias": "^1.5.0",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.1.2",
+    "watch": "^1.0.2",
     "wrap-ansi": "^7.0.0",
     "yargs-parser": "^20.2.4"
   },
