@@ -2,7 +2,7 @@ const tsNode = require('ts-node');
 let json = require('json5');
 let fs = require('fs-extra');
 
-//setting up tsconfig for ts-node to compilt the scaffold.ts file of any scaffold
+//setting up tsconfig for ts-node to compile the scaffold.ts file of any scaffold
 const setupTsconfig = () => {
   let tsconfig = {
     compilerOptions: {

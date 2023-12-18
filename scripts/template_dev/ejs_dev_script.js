@@ -4,12 +4,14 @@ let fs = require('fs-extra');
 const { setupTsconfig, convertCommandToString } = require('./utils');
 
 setupTsconfig();
+const { templateDevData } = require('../../scaffolds/dev-data');
 
 let nextProcess = null;
 
 const template = process.argv[2];
 
-const EJS_DATA_FILE = '../ejs/ejs_data.json';
+// const EJS_DATA_FILE = '../ejs/ejs_data.json';
+const ejsData = templateDevData[template];
 const ejsSourceFiles = [
   { inputFile: './package.json', outputFile: './package.json' },
   { inputFile: './.env.example', outputFile: './.env' },
@@ -19,7 +21,8 @@ const ejsSourceFiles = [
     outputFile: './src/components/magic/cards/WalletMethodsCard.tsx',
   },
 ];
-const scaffoldInstance = new (require(`../scaffolds/${template}/scaffold.ts`).default)();
+console.log(process.cwd());
+const scaffoldInstance = new (require(`../../scaffolds/${template}/scaffold.ts`).default)();
 
 console.log('Rebuilding template...');
 fs.rmSync('./test', { recursive: true, force: true });
@@ -29,14 +32,12 @@ fs.cpSync(`./scaffolds/${template}/template`, './test', { recursive: true });
 process.chdir('./test');
 
 if (!fs.existsSync('./node_modules')) {
-  console.log('Current directory: ', process.cwd());
-
   console.log('Installing dependencies...');
   execSync(convertCommandToString(scaffoldInstance.installationCommand), { stdio: 'inherit' });
 }
 
 ejsSourceFiles.forEach(({ inputFile, outputFile }) => {
-  const result = execSync(`ejs ${inputFile} -f ${EJS_DATA_FILE} -o ${outputFile}`);
+  const result = execSync(`ejs ${inputFile} -i '${JSON.stringify(ejsData)}' -o ${outputFile}`);
   console.log('Template compiled:', inputFile);
 });
 
