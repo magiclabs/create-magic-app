@@ -600,6 +600,13 @@
     "@types/minipass" "*"
     "@types/node" "*"
 
+"@types/watch@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@types/watch/-/watch-1.0.6.tgz"
+  integrity sha512-FyGZcrtLHiajvMEqkFO+C42TvQl0lCJG4ZDVTuw4n6oeAOAfiO8iBRqOKHWxBe0z/b9pUk3kE8QtIUGQXsQP6A==
+  dependencies:
+    "@types/node" "*"
+
 "@types/yargs-parser@^20.2.0":
   version "20.2.2"
   resolved "https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-20.2.2.tgz"

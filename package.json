@@ -12,7 +12,7 @@
     "dist"
   ],
   "scripts": {
-    "dev-ejs": "node ejs_script.js",
+    "dev-ejs": "node ejs/ejs_script.js",
     "dev": "yarn clean && tsc-watch --onSuccess \"yarn build-dev\"",
     "build-dev": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
@@ -35,6 +35,7 @@
     "@types/react": "^17.0.0",
     "@types/react-is": "^17.0.0",
     "@types/tar": "^4.0.4",
+    "@types/watch": "^1.0.6",
     "@types/yargs-parser": "^20.2.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@vercel/ncc": "^0.36.1",

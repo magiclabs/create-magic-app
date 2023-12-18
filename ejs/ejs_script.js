@@ -1,27 +1,28 @@
 const { execSync, exec } = require('child_process');
-const fs = require('fs');
 const watch = require('watch');
+let fs = require('fs-extra');
+const { setupTsconfig, convertCommandToString } = require('./utils');
+
+setupTsconfig();
 
 let nextProcess = null;
 
 const template = process.argv[2];
-const rebuild = process.argv.includes('rebuild');
 
-const EJS_DATA_FILE = '../ejs_data.json';
+const EJS_DATA_FILE = '../ejs/ejs_data.json';
 const ejsSourceFiles = [
   { inputFile: './package.json', outputFile: './package.json' },
-  { inputFile: './.env.example', outputFile: './.env.example' },
+  { inputFile: './.env.example', outputFile: './.env' },
   { inputFile: './src/components/magic/Login.tsx', outputFile: './src/components/magic/Login.tsx' },
   {
     inputFile: './src/components/magic/cards/WalletMethodsCard.tsx',
     outputFile: './src/components/magic/cards/WalletMethodsCard.tsx',
   },
 ];
+const scaffoldInstance = new (require(`../scaffolds/${template}/scaffold.ts`).default)();
 
-if (rebuild) {
-  console.log('Rebuilding template...');
-  fs.rmSync('./test', { recursive: true, force: true });
-}
+console.log('Rebuilding template...');
+fs.rmSync('./test', { recursive: true, force: true });
 
 fs.cpSync(`./scaffolds/${template}/template`, './test', { recursive: true });
 
@@ -31,7 +32,7 @@ if (!fs.existsSync('./node_modules')) {
   console.log('Current directory: ', process.cwd());
 
   console.log('Installing dependencies...');
-  execSync('npm install', { stdio: 'inherit' });
+  execSync(convertCommandToString(scaffoldInstance.installationCommand), { stdio: 'inherit' });
 }
 
 ejsSourceFiles.forEach(({ inputFile, outputFile }) => {
@@ -40,7 +41,7 @@ ejsSourceFiles.forEach(({ inputFile, outputFile }) => {
 });
 
 console.log('Running dev server...');
-nextProcess = exec('npm run dev', { stdio: 'inherit' });
+nextProcess = exec(convertCommandToString(scaffoldInstance.startCommand), { stdio: 'inherit' });
 nextProcess.stdout.on('data', function (data) {
   console.log(data);
 });

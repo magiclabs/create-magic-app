@@ -1,6 +1,6 @@
-import { Flags } from 'core/flags';
-import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { Flags } from '../../core/flags';
+import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
+import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
@@ -17,7 +17,7 @@ export const definition = {
 
 export default class DedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-dedicated-wallet';
-  private data: Data;
+  private data: Data | undefined;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
   public source: string | string[] = [
@@ -52,30 +52,31 @@ export default class DedicatedScaffold extends BaseScaffold {
     './src/utils',
   ];
 
-  constructor(data: Data) {
+  constructor(data: Data | undefined) {
     super();
     this.data = data;
-
-    if (typeof this.source !== 'string') {
-      data.loginMethods.forEach((authType) => {
-        (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
-        if (
-          authType === 'Discord' ||
-          authType === 'Facebook' ||
-          authType === 'Github' ||
-          authType === 'Google' ||
-          authType === 'Twitch' ||
-          authType === 'Twitter'
-        ) {
-          (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
-        }
-        if (authType.replaceAll(' ', '') === 'EmailOTP') {
-          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
-        }
-        if (authType.replaceAll(' ', '') === 'SMSOTP') {
-          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
-        }
-      });
+    if (data) {
+      if (typeof this.source !== 'string') {
+        data.loginMethods.forEach((authType) => {
+          (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
+          if (
+            authType === 'Discord' ||
+            authType === 'Facebook' ||
+            authType === 'Github' ||
+            authType === 'Google' ||
+            authType === 'Twitch' ||
+            authType === 'Twitter'
+          ) {
+            (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
+          }
+          if (authType.replaceAll(' ', '') === 'EmailOTP') {
+            (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
+          }
+          if (authType.replaceAll(' ', '') === 'SMSOTP') {
+            (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
+          }
+        });
+      }
     }
   }
 }
