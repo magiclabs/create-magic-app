@@ -15,18 +15,18 @@ Please note we have a **code of conduct**, please follow it in all your interact
 - For chores/the rest: `chore/[descriptive_chore_name]`
 
 4. Install dependencies with Yarn: `yarn install`
-5. Add `./node_modules/.bin` to your system's [`PATH`](https://en.wikipedia.org/wiki/PATH_(variable)), if it's not already listed.
+5. Add `./node_modules/.bin` to your system's [`PATH`](<https://en.wikipedia.org/wiki/PATH_(variable)>), if it's not already listed.
 6. Start building for development: `yarn dev`
 
 ### Development Scripts
 
-| NPM Script                  | Description |
-| --------------------------- | ----------- |
-| `yarn dev`                  | Start building the CLI tool in development mode. |
-| `yarn build`                | Build the CLI tool for production. |
-| `yarn clean`                | Run cleaning scripts. |
-| `yarn lint`                 | Run the linter. |
-| `yarn test`                 | Run unit tests. |
+| NPM Script   | Description                                      |
+| ------------ | ------------------------------------------------ |
+| `yarn dev`   | Start building the CLI tool in development mode. |
+| `yarn build` | Build the CLI tool for production.               |
+| `yarn clean` | Run cleaning scripts.                            |
+| `yarn lint`  | Run the linter.                                  |
+| `yarn test`  | Run unit tests.                                  |
 
 ## Opening a Pull Request
 
@@ -37,6 +37,73 @@ Please note we have a **code of conduct**, please follow it in all your interact
 ## Cutting a release
 
 We use [`auto`](https://github.com/intuit/auto) as our continous delivery tool. Cutting a release is just a matter of merging to `master`. For pre-releases, you can create a `next` branch as the base for your experimental/W.I.P. feature. Please familiarize yourself with the [documentation for `auto`](https://intuit.github.io/auto/docs) if you are in a position to cut a release.
+
+## Community Templates
+
+### Adding a new template
+
+1. Fork the repository.
+2. Create a new branch `feat/<template_name>`.
+3. Create a new directory under `scaffolds` named `<template_name>`.
+4. Under that, create a `<template>` directory which will contain the source code.
+5. Create a `scaffold.ts` as well under the `<template_name>` directory.
+6. Modify `core/utils/templateMappings.ts` accordingly to include the new template.
+7. If your project uses `.env`, make sure it is named as `.env.example`
+
+### Updating existing template
+
+1. If there are changes in the template source itself, edit the template from `scaffolds/<template_name>/template`.
+2. If there are changes in the scaffold declaration, edit the `scaffolds/<template_name>/scaffold.ts`.
+3. Change `core/utils/templateMappings.ts` accordingly to incorporate new changes.
+
+### Adding / Updating prompts
+
+Magic CLI uses `enquirer` package to create prompts for the templates.
+
+#### Adding a new prompt
+
+1. Create the `<PromptNamespace>` in `scaffolds/prompts.ts`
+2. Make sure your prompt includes an exported type named `Data` and `flags` object. This will be used to show `--help` for the template specific options.
+3. If your prompt needs questions, export those questions in respective functions.
+
+Here's an example:
+
+```ts
+export namespace GreetingPrompt {
+  //This type will be used in `scaffold.ts` to determine the type of data on which the template depends on
+  export type Data = {
+    Name: string;
+  };
+
+  //This prompt will be called if the data is not provided in flag arguments when calling the CLI
+  export const askName = async () =>
+    new Input({
+      name: 'Name',
+      message: 'What is your name?',
+      initial: 'John Doe',
+    }).run();
+
+  //Used for declaring flags, their aliases and providing help description
+  export const flags: Flags<Partial<Data>> = {
+    Name: {
+      type: String,
+      description: 'Your name.',
+    },
+  };
+}
+```
+
+#### Updating a prompt
+
+Edit the `scaffolds/prompts.ts` to update the desired prompt.
+
+> Update the `scaffolds/<template_name>/scaffold.ts` files which depend on the newly added / edited templates appropriately. Also, make necessary changes to `core/utils/templateMappings.ts`.
+
+### EJS Templates
+
+Magic CLI uses `ejs` package to embed Javascript templates in the code which needs to change dynamically based on CLI inputs. If your template uses EJS embedding, make sure to add default values for your template in the `scaffolds/dev-data.ts` file. Make sure that the properties in the default valies matches that of the flags on which your template depends on.
+
+You can run and test the template with `npm run template-dev <template-name>` script to make sure that the template is working as expected.
 
 ## Contributor Covenant Code of Conduct
 
@@ -140,7 +207,7 @@ Violating these terms may lead to a permanent ban.
 #### 4. Permanent Ban
 
 **Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior,  harassment of an
+standards, including sustained inappropriate behavior, harassment of an
 individual, or aggression toward or disparagement of classes of individuals.
 
 **Consequence**: A permanent ban from any sort of public interaction within
@@ -158,4 +225,3 @@ enforcement ladder](https://github.com/mozilla/diversity).
 For answers to common questions about this code of conduct, see the FAQ at
 https://www.contributor-covenant.org/faq. Translations are available at
 https://www.contributor-covenant.org/translations.
-
