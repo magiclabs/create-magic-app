@@ -109,7 +109,7 @@ ul {
 }
 
 .home-page {
-  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px] bg-no-repeat bg-[url('/main.svg')];
+  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px] bg-no-repeat;
 }
 
 .login-page {

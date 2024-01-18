@@ -102,14 +102,14 @@ ul {
 }
 
 .home-page {
-  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px] bg-no-repeat bg-[url('/main.svg')];
+  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px] bg-[url('/login_bg.png')] bg-no-repeat;
 }
 
 .login-page {
   @apply min-h-screen bg-[length:100%_auto] bg-[url('/login.svg')];
 }
 .connect-button {
-  @apply w-[296px] h-12 text-white font-semibold text-base leading-6 transition-[0.1s] text-center transition-[0.1s] m-auto px-6 py-3 rounded-[300px] border-[none];
+  @apply w-[296px] h-12 text-white font-semibold text-base leading-6 text-center transition-[0.1s] m-auto px-6 py-3 rounded-[300px] border-[none];
   background: rgba(255, 255, 255, 0.1);
 }
 

@@ -6,7 +6,6 @@ import WalletMethods from './cards/WalletMethodsCard';
 import SendTransaction from './cards/SendTransactionsCard';
 import Links from './DevLinks';
 import Spacer from '../ui/Spacer';
-import HomePageBackground from 'public/main.svg';
 interface Props {
   setAccount: React.Dispatch<React.SetStateAction<string | null>>;
 }
