@@ -19,8 +19,8 @@ export default function Home({ setAccount }: Props) {
       <Spacer size={120} />
       <TableOfContents />
       <div className="cards-container">
-        <SendTransaction />
         <Wallet setAccount={setAccount} />
+        <SendTransaction />
         <WalletMethods setAccount={setAccount} />
         <Spacer size={15} />
         <Links dark />

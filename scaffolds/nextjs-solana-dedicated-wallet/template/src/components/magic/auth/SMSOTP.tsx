@@ -22,11 +22,11 @@ const SMSOTP = ({ token, setToken }: LoginProps) => {
       try {
         setLoginInProgress(true);
         setPhoneError(false);
-        const account = await magic?.auth.loginWithSMS({
+        const token = await magic?.auth.loginWithSMS({
           phoneNumber: phone,
         });
-        if (account) {
-          saveToken(account, setToken, 'SMS');
+        if (token) {
+          saveToken(token, setToken, 'SMS');
           setPhone('');
         }
       } catch (e) {

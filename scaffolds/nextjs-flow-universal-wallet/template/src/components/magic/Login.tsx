@@ -17,11 +17,11 @@ const Login = ({ setAccount }: Props) => {
     if (!magic) return;
     try {
       setDisabled(true);
-      const account = await magic.flow.getAccount();
+      const token = await magic.flow.getAccount();
       setDisabled(false);
-      console.log('Logged in user:', account);
-      localStorage.setItem('user', account);
-      setAccount(account);
+      console.log('Logged in user:', token);
+      localStorage.setItem('user', token);
+      setAccount(token);
     } catch (error) {
       setDisabled(false);
       console.error(error);
