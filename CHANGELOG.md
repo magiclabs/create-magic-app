@@ -1,3 +1,15 @@
+# v4.5.0 (Fri Jan 19 2024)
+
+#### 🚀 Enhancement
+
+- Removed deprecated package. Updated magic-sdk package to latest version [#121](https://github.com/magiclabs/create-magic-app/pull/121) ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+#### Authors: 1
+
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+---
+
 # v4.4.2 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
