@@ -1,6 +1,5 @@
 import {getNetworkUrl} from '@/utils/network'
 import {OAuthExtension} from '@magic-ext/oauth'
-import {AuthExtension} from '@magic-ext/auth'
 import {Magic as MagicBase} from 'magic-sdk'
 import {
 	ReactNode,
@@ -14,7 +13,7 @@ import {SolanaExtension} from '@magic-ext/solana'
 import {Connection} from '@solana/web3.js'
 
 export type Magic = MagicBase<
-	AuthExtension & OAuthExtension[] & SolanaExtension[]
+	OAuthExtension[] & SolanaExtension[]
 >
 
 type MagicContextType = {
@@ -39,7 +38,6 @@ const MagicProvider = ({children}: {children: ReactNode}) => {
 				process.env.NEXT_PUBLIC_MAGIC_API_KEY as string,
 				{
 					extensions: [
-						new AuthExtension(),
 						new OAuthExtension(),
 						new SolanaExtension({
 							rpcUrl: getNetworkUrl(),

@@ -1,6 +1,5 @@
 import {getNetwork, getNetworkUrl} from '@/utils/network'
 import {OAuthExtension} from '@magic-ext/oauth'
-import {AuthExtension} from '@magic-ext/auth'
 import {Magic as MagicBase} from 'magic-sdk'
 import {
 	ReactNode,
@@ -14,7 +13,7 @@ import {FlowExtension} from '@magic-ext/flow'
 import * as fcl from '@onflow/fcl'
 
 export type Magic = MagicBase<
-	AuthExtension & OAuthExtension[] & FlowExtension[]
+	OAuthExtension[] & FlowExtension[]
 >
 
 type MagicContextType = {
@@ -36,7 +35,6 @@ const MagicProvider = ({children}: {children: ReactNode}) => {
 				process.env.NEXT_PUBLIC_MAGIC_API_KEY as string,
 				{
 					extensions: [
-						new AuthExtension(),
 						new OAuthExtension(),
 						new FlowExtension({
 							rpcUrl: getNetworkUrl(),

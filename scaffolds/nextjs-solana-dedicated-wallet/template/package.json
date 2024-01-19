@@ -9,7 +9,6 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
-    "@magic-ext/auth": "^4.0.0",
     "@magic-ext/oauth": "^15.0.0",
     "@magic-ext/solana": "^17.0.0",
     "@solana/web3.js": "^1.87.1",
