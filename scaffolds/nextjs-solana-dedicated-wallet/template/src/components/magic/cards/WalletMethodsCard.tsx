@@ -10,9 +10,6 @@ import GetMetadata from '../wallet-methods/GetMetadata'
 <% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("EmailOTP")){%>
 <%-`import UpdateEmail from '../wallet-methods/UpdateEmail'`-%>
 <% }%>
-<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
-<%-`import UpdatePhone from '../wallet-methods/UpdatePhone'`-%>
-<% }%>
 
 const WalletMethods = ({token, setToken}: LoginProps) => {
 	const [loginMethod, setLoginMethod] = useState<LoginMethod | null>(
@@ -25,14 +22,6 @@ const WalletMethods = ({token, setToken}: LoginProps) => {
 				<%-`{loginMethod && loginMethod == 'EMAIL' && (
 					<>
 						<UpdateEmail />
-						<Divider />
-					</>
-				)}`-%>
-			<% }%>
-			<% if(loginMethods.map(authType => authType.replaceAll(" ", "")).includes("SMSOTP")){%>
-				<%-`{loginMethod && loginMethod == 'SMS' && (
-					<>
-						<UpdatePhone />
 						<Divider />
 					</>
 				)}`-%>
