@@ -8,6 +8,7 @@ import {
   PublishableApiKeyPrompt,
 } from 'scaffolds/prompts';
 import { CreateMagicAppConfig, pauseTimerAndSpinner } from 'core/create-app';
+import { makeInputsLowercase } from 'core/flags';
 import BaseScaffold from '../types/BaseScaffold';
 import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/nextjs-dedicated-wallet/scaffold';
 import FlowDedicatedScaffold, {
@@ -75,6 +76,7 @@ export async function mapTemplateToScaffold(
   timer: Timer,
 ): Promise<BaseScaffold> {
   const data = appData;
+  data.network = makeInputsLowercase(data.network);
   pauseTimerAndSpinner(timer, spinner);
   if (!data.publishableApiKey) {
     data.publishableApiKey = await PublishableApiKeyPrompt.publishableApiKeyPrompt();

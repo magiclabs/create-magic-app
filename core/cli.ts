@@ -5,7 +5,7 @@ import { createApp } from './create-app';
 import { printHelp } from './help-text';
 import { resolveToRoot } from './utils/path-helpers';
 import { CreateMagicAppError, CreateMagicAppErrorCode } from './utils/errors-warnings';
-import { parseFlags } from './flags';
+import { makeInputsLowercase, parseFlags } from './flags';
 import { globalOptions } from './global-options';
 import { shutdown, useGracefulShutdown } from './utils/shutdown';
 import { SharedAnalytics } from './analytics';
@@ -47,6 +47,11 @@ export const ConsoleMessages = {
 
     return msg.join('\n');
   },
+
+  gitHubIssuesLink: () => {
+    const msg = chalk`For feedback/questions/issues, please use {rgb(0,255,255) https://github.com/magiclabs/create-magic-app/issues/new/choose}`;
+    return msg;
+  },
 };
 
 async function sayHello() {
@@ -71,6 +76,9 @@ async function sayHello() {
   } else {
     console.log(chalk`\n {dim v${getMakeMagicVersion()}}\n\n`);
   }
+
+  console.log(ConsoleMessages.gitHubIssuesLink());
+  console.log();
 }
 
 (async () => {
@@ -79,7 +87,14 @@ async function sayHello() {
 
   useGracefulShutdown();
 
-  const { version, help, projectName, template, branch, network, shareUsageData } = await parseFlags(globalOptions);
+  const parsedFlags = await parseFlags(globalOptions);
+  const { version, help, projectName, shareUsageData } = parsedFlags;
+  let { template, network, branch } = parsedFlags;
+
+  template = makeInputsLowercase(template);
+  network = makeInputsLowercase(network);
+  branch = makeInputsLowercase(branch);
+
   const collectUsageData = await initializeUsageConfigIfneeded();
   const config = loadConfig();
 

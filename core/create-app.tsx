@@ -71,7 +71,9 @@ export async function createApp(config: CreateMagicAppConfig) {
       };
     });
 
-  const isChosenTemplateValid = availableScaffolds.map((i) => i.name).includes(config?.template!);
+  const isChosenTemplateValid = availableScaffolds
+    .map((i) => i.name)
+    .includes((config?.template ? config.template : '').toLowerCase());
 
   if (config?.template && !isChosenTemplateValid) {
     printWarning(chalk`'{bold ${config.template}}' does not match any templates.`);

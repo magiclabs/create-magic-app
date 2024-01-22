@@ -91,7 +91,7 @@ export async function parseFlags<T extends Flags>(flags: T, data?: {}): Promise<
 
   Object.entries(flags).forEach(([flag, options]) => {
     if (options.alias) {
-      aliases[flag] = [options.alias];
+      aliases[flag] = [options.alias.toLowerCase()];
     }
 
     if (options.type === Boolean) {
@@ -182,4 +182,11 @@ async function validateFlagInputs<T extends Flags>(flags: T, inputs: {} = {}) {
       ),
     ),
   );
+}
+
+export function makeInputsLowercase(arg: string | undefined): string | undefined {
+  if (arg === undefined) {
+    return undefined;
+  }
+  return arg.toLowerCase();
 }
