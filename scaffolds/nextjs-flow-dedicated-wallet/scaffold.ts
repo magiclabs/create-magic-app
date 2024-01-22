@@ -55,28 +55,24 @@ export default class FlowDedicatedScaffold extends BaseScaffold {
   constructor(data: Data | undefined) {
     super();
     this.data = data;
-    if (data) {
-      if (typeof this.source !== 'string') {
-        data.loginMethods.forEach((authType) => {
-          (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
-          if (
-            authType === 'Discord' ||
-            authType === 'Facebook' ||
-            authType === 'Github' ||
-            authType === 'Google' ||
-            authType === 'Twitch' ||
-            authType === 'Twitter'
-          ) {
-            (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
-          }
-          if (authType.replaceAll(' ', '') === 'EmailOTP') {
-            (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
-          }
-          if (authType.replaceAll(' ', '') === 'SMSOTP') {
-            (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
-          }
-        });
-      }
+
+    if (typeof this.source !== 'string') {
+      data.loginMethods.forEach((authType) => {
+        (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
+        if (
+          authType === 'Discord' ||
+          authType === 'Facebook' ||
+          authType === 'Github' ||
+          authType === 'Google' ||
+          authType === 'Twitch' ||
+          authType === 'Twitter'
+        ) {
+          (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
+        }
+        if (authType.replaceAll(' ', '') === 'EmailOTP') {
+          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
+        }
+      });
     }
   }
 }
