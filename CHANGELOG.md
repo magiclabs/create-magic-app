@@ -1,3 +1,22 @@
+# v4.5.0 (Mon Jan 22 2024)
+
+#### 🚀 Enhancement
+
+- Making flag inputs case insensitive [#123](https://github.com/magiclabs/create-magic-app/pull/123) ([@AdityaKulkarni](https://github.com/AdityaKulkarni) [@jamesrp13](https://github.com/jamesrp13))
+- Feat/132 injecting ejs data [#120](https://github.com/magiclabs/create-magic-app/pull/120) ([@AdityaKulkarni](https://github.com/AdityaKulkarni) [@jamesrp13](https://github.com/jamesrp13))
+- Removed deprecated package. Updated magic-sdk package to latest version [#121](https://github.com/magiclabs/create-magic-app/pull/121) ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+#### 🐛 Bug Fix
+
+- Removed testing logs. Linting fixes [#118](https://github.com/magiclabs/create-magic-app/pull/118) ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+#### Authors: 2
+
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+- James ([@jamesrp13](https://github.com/jamesrp13))
+
+---
+
 # v4.4.2 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
