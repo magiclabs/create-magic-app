@@ -14,12 +14,12 @@ export const definition = {
 
 export default class UniversalScaffold extends BaseScaffold {
   public templateName = 'nextjs-universal-wallet';
-  private data: Data | undefined;
+  private data: Data;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
   public source: string | string[] = './';
 
-  constructor(data: Data | undefined) {
+  constructor(data: Data) {
     super();
     this.data = data;
   }

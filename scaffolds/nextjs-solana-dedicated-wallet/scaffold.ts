@@ -17,7 +17,7 @@ export const definition = {
 
 export default class SolanaDedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-solana-dedicated-wallet';
-  private data: Data | undefined;
+  private data: Data;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
   public source: string | string[] = [
@@ -52,7 +52,7 @@ export default class SolanaDedicatedScaffold extends BaseScaffold {
     './src/utils',
   ];
 
-  constructor(data: Data | undefined) {
+  constructor(data: Data) {
     super();
     this.data = data;
 

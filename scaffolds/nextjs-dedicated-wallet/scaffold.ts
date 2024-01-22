@@ -17,7 +17,7 @@ export const definition = {
 
 export default class DedicatedScaffold extends BaseScaffold {
   public templateName = 'nextjs-dedicated-wallet';
-  private data: Data | undefined;
+  private data: Data;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
   public source: string | string[] = [
@@ -52,12 +52,12 @@ export default class DedicatedScaffold extends BaseScaffold {
     './src/utils',
   ];
 
-  constructor(data: Data | undefined) {
+  constructor(data: Data) {
     super();
     this.data = data;
 
     if (typeof this.source !== 'string') {
-      data.loginMethods.forEach((authType) => {
+      data?.loginMethods.forEach((authType) => {
         (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
         if (
           authType === 'Discord' ||

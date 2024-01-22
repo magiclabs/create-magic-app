@@ -18,12 +18,15 @@ if (!template) {
 
 const ejsData = templateDevData[template];
 
-const scaffoldInstance = new (require(`../../scaffolds/${template}/scaffold.ts`).default)();
+const scaffoldInstance = new (require(`../../scaffolds/${template}/scaffold.ts`).default)(ejsData);
 
 console.log('Rebuilding template...');
 fs.rmSync('./.template-dev', { recursive: true, force: true });
+fs.mkdir('./.template-dev');
 
-fs.cpSync(`./scaffolds/${template}/template`, './.template-dev', { recursive: true });
+scaffoldInstance.source.forEach((source) => {
+  fs.cpSync(`./scaffolds/${template}/template/${source}`, `./.template-dev/${source}`, { recursive: true });
+});
 
 process.chdir('./.template-dev');
 
