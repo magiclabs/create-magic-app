@@ -109,7 +109,7 @@ ul {
 }
 
 .home-page {
-  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px] bg-no-repeat bg-[url('/main.svg')];
+  @apply flex flex-col justify-center items-center min-h-screen relative bg-[length:100vw_320px];
 }
 
 .login-page {
@@ -124,7 +124,7 @@ ul {
 }
 
 .login-button {
-  @apply w-full h-12 text-white font-semibold text-base leading-6 transition-[0.1s] text-center transition-[0.1s] m-auto px-2 py-3 rounded-[300px] border-[none];
+  @apply w-full h-12 text-white font-semibold text-base leading-6 text-center transition-[0.1s] m-auto px-2 py-3 rounded-[300px] border-[none];
   background: #8271f3;
 }
 

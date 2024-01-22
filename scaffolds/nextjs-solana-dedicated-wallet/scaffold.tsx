@@ -75,9 +75,6 @@ export default class SolanaDedicatedScaffold extends BaseScaffold {
         if (authType.replaceAll(' ', '') === 'EmailOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
         }
-        if (authType.replaceAll(' ', '') === 'SMSOTP') {
-          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
-        }
       });
     }
   }

@@ -1,11 +1,10 @@
 import { getChainId, getNetworkUrl } from '@/utils/network';
 import { OAuthExtension } from '@magic-ext/oauth';
-import { AuthExtension } from '@magic-ext/auth';
 import { Magic as MagicBase } from 'magic-sdk';
 import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 const { Web3 } = require('web3');
 
-export type Magic = MagicBase<AuthExtension & OAuthExtension[]>;
+export type Magic = MagicBase<OAuthExtension[]>;
 
 type MagicContextType = {
   magic: Magic | null;
@@ -30,7 +29,7 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
           rpcUrl: getNetworkUrl(),
           chainId: getChainId(),
         },
-        extensions: [new AuthExtension(), new OAuthExtension()],
+        extensions: [new OAuthExtension()],
       });
 
       setMagic(magic);
