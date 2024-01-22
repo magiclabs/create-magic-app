@@ -6,7 +6,7 @@ Please note we have a **code of conduct**, please follow it in all your interact
 
 ## Setting up for Local Development
 
-1. Fork this repostiory.
+1. Fork this repository.
 2. Clone your fork.
 3. Create a new branch in your local repository with the following pattern:
 
@@ -20,13 +20,14 @@ Please note we have a **code of conduct**, please follow it in all your interact
 
 ### Development Scripts
 
-| NPM Script   | Description                                      |
-| ------------ | ------------------------------------------------ |
-| `yarn dev`   | Start building the CLI tool in development mode. |
-| `yarn build` | Build the CLI tool for production.               |
-| `yarn clean` | Run cleaning scripts.                            |
-| `yarn lint`  | Run the linter.                                  |
-| `yarn test`  | Run unit tests.                                  |
+| NPM Script          | Description                                     |
+| --------------------| ------------------------------------------------|
+| `yarn dev`          | Start building the CLI tool in development mode.|
+| `yarn build`        | Build the CLI tool for production.              |
+| `yarn clean`        | Run cleaning scripts.                           |
+| `yarn lint`         | Run the linter.                                 |
+| `yarn test`         | Run unit tests.                                 |
+| `yarn template-dev` | Run development command for a specific template. Most changes will hot-reload|
 
 ## Opening a Pull Request
 
@@ -36,7 +37,7 @@ Please note we have a **code of conduct**, please follow it in all your interact
 
 ## Cutting a release
 
-We use [`auto`](https://github.com/intuit/auto) as our continous delivery tool. Cutting a release is just a matter of merging to `master`. For pre-releases, you can create a `next` branch as the base for your experimental/W.I.P. feature. Please familiarize yourself with the [documentation for `auto`](https://intuit.github.io/auto/docs) if you are in a position to cut a release.
+We use [`auto`](https://github.com/intuit/auto) as our continuous delivery tool. Cutting a release is just a matter of merging to `master`. For pre-releases, you can create a `next` branch as the base for your experimental/W.I.P. feature. Please familiarize yourself with the [documentation for `auto`](https://intuit.github.io/auto/docs) if you are in a position to cut a release.
 
 ## Community Templates
 
