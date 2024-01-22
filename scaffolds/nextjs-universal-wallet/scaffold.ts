@@ -1,7 +1,7 @@
 import { Prompt } from 'enquirer';
-import { Flags } from 'core/flags';
-import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
-import { BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { Flags } from '../../core/flags';
+import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
+import { BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data;
 
