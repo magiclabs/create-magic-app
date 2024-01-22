@@ -22,9 +22,9 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
       try {
         setLoginInProgress(true);
         setEmailError(false);
-        const account = await magic?.auth.loginWithEmailOTP({ email });
-        if (account) {
-          saveToken(account, setToken, 'EMAIL');
+        const token = await magic?.auth.loginWithEmailOTP({ email });
+        if (token) {
+          saveToken(token, setToken, 'EMAIL');
           setEmail('');
         }
       } catch (e) {
