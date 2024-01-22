@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "template-dev": "node scripts/template_dev/ejs_dev_script.js",
     "dev": "yarn clean && tsc-watch --onSuccess \"yarn build-dev\"",
     "build-dev": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist",
     "build": "yarn clean && tsc && tsc-alias && copyfiles \"compiled/*/+(LICENSE|package.json)\" dist && ./scripts/minify.ts",
@@ -34,6 +35,7 @@
     "@types/react": "^17.0.0",
     "@types/react-is": "^17.0.0",
     "@types/tar": "^4.0.4",
+    "@types/watch": "^1.0.6",
     "@types/yargs-parser": "^20.2.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@vercel/ncc": "^0.36.1",
@@ -67,6 +69,7 @@
     "tsc-alias": "^1.5.0",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.1.2",
+    "watch": "^1.0.2",
     "wrap-ansi": "^7.0.0",
     "yargs-parser": "^20.2.4"
   },

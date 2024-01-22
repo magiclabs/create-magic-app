@@ -1,22 +1,22 @@
-import { Flags } from 'core/flags';
-import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { Flags } from '../../core/flags';
+import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
 
-export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
+export type Data = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
 export const flags: Flags<Partial<Data>> = {
-  ...BlockchainNetworkPrompt.flags,
+  ...NpmClientPrompt.flags,
   ...PublishableApiKeyPrompt.flags,
   ...AuthTypePrompt.flags,
 };
 
 export const definition = {
-  shortDescription: 'A dedicated wallet scaffold for Next.js',
+  shortDescription: 'A dedicated wallet scaffold for Next.js using Solana',
   featured: true,
 };
 
-export default class DedicatedScaffold extends BaseScaffold {
-  public templateName = 'nextjs-dedicated-wallet';
+export default class SolanaDedicatedScaffold extends BaseScaffold {
+  public templateName = 'nextjs-solana-dedicated-wallet';
   private data: Data;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };
@@ -61,7 +61,7 @@ export default class DedicatedScaffold extends BaseScaffold {
         AuthTypePrompt.mapInputToLoginMethods(authType),
       );
       this.data.loginMethods.forEach((authType) => {
-        (this.source as string[]).push(`./src/components/magic/auth/${authType}.tsx`);
+        (this.source as string[]).push(`./src/components/magic/auth/${authType.replaceAll(' ', '')}.tsx`);
         if (
           authType === 'Discord' ||
           authType === 'Facebook' ||
@@ -70,13 +70,10 @@ export default class DedicatedScaffold extends BaseScaffold {
           authType === 'Twitch' ||
           authType === 'Twitter'
         ) {
-          (this.source as string[]).push(`./public/social/${authType}.svg`);
+          (this.source as string[]).push(`./public/social/${authType.replaceAll(' ', '')}.svg`);
         }
-        if (authType === 'EmailOTP') {
+        if (authType.replaceAll(' ', '') === 'EmailOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
-        }
-        if (authType === 'SMSOTP') {
-          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
         }
       });
     }

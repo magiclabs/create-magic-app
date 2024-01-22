@@ -1,6 +1,6 @@
-import { Flags } from 'core/flags';
-import BaseScaffold, { ExecaCommand } from 'core/types/BaseScaffold';
-import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from 'scaffolds/prompts';
+import { Flags } from '../../core/flags';
+import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
 
 export type Data = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
@@ -11,12 +11,12 @@ export const flags: Flags<Partial<Data>> = {
 };
 
 export const definition = {
-  shortDescription: 'A dedicated wallet scaffold for Next.js using Solana',
+  shortDescription: 'A dedicated wallet scaffold for Next.js using Flow',
   featured: true,
 };
 
-export default class SolanaDedicatedScaffold extends BaseScaffold {
-  public templateName = 'nextjs-solana-dedicated-wallet';
+export default class FlowDedicatedScaffold extends BaseScaffold {
+  public templateName = 'nextjs-flow-dedicated-wallet';
   private data: Data;
   public installationCommand: ExecaCommand = { command: 'npm', args: ['install'] };
   public startCommand: ExecaCommand = { command: 'npm', args: ['run', 'dev'] };

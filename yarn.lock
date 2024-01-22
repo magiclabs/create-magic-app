@@ -600,6 +600,13 @@
     "@types/minipass" "*"
     "@types/node" "*"
 
+"@types/watch@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@types/watch/-/watch-1.0.6.tgz"
+  integrity sha512-FyGZcrtLHiajvMEqkFO+C42TvQl0lCJG4ZDVTuw4n6oeAOAfiO8iBRqOKHWxBe0z/b9pUk3kE8QtIUGQXsQP6A==
+  dependencies:
+    "@types/node" "*"
+
 "@types/yargs-parser@^20.2.0":
   version "20.2.2"
   resolved "https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-20.2.2.tgz"
@@ -1013,7 +1020,7 @@ binary-extensions@^2.0.0:
 
 binaryextensions@^4.18.0:
   version "4.18.0"
-  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-4.18.0.tgz#22aeada2d14de062c60e8ca59a504a5636a76ceb"
+  resolved "https://registry.npmjs.org/binaryextensions/-/binaryextensions-4.18.0.tgz"
   integrity sha512-PQu3Kyv9dM4FnwB7XGj1+HucW+ShvJzJqjuw1JkKVs1mWdwOKVcRjOi+pV9X52A0tNvrPCsPkbFFQb+wE1EAXw==
 
 bottleneck@^2.15.3:
@@ -1846,6 +1853,13 @@ event-stream@=3.3.4:
     split "0.3"
     stream-combiner "~0.0.4"
     through "~2.3.1"
+
+exec-sh@^0.2.0:
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/exec-sh/-/exec-sh-0.2.2.tgz"
+  integrity sha512-FIUCJz1RbuS0FKTdaAafAByGS0CPvU3R0MeHxgtl+djzCc//F8HakL8GzmVNZanasTbTAY/3DRFA0KpVqj/eAw==
+  dependencies:
+    merge "^1.2.0"
 
 execa@^4.1.0:
   version "4.1.0"
@@ -2813,6 +2827,11 @@ merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
+
+merge@^1.2.0:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/merge/-/merge-1.2.1.tgz"
+  integrity sha512-VjFo4P5Whtj4vsLzsYBu5ayHhoHJ0UqNm7ibvShmbmoz7tGi0vXaoJbGdB+GmDMLUdg8DpQXEIeVDAe8MaABvQ==
 
 micromatch@^4.0.2, micromatch@^4.0.4:
   version "4.0.5"
@@ -3861,7 +3880,7 @@ text-table@^0.2.0:
 
 textextensions@^5.16.0:
   version "5.16.0"
-  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-5.16.0.tgz#57dd60c305019bba321e848b1fdf0f99bfa59ec1"
+  resolved "https://registry.npmjs.org/textextensions/-/textextensions-5.16.0.tgz"
   integrity sha512-7D/r3s6uPZyU//MCYrX6I14nzauDwJ5CxazouuRGNuvSCihW87ufN6VLoROLCrHg6FblLuJrT6N2BVaPVzqElw==
 
 through2@^2.0.1:
@@ -4119,6 +4138,14 @@ v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.npmjs.org/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
+
+watch@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/watch/-/watch-1.0.2.tgz"
+  integrity sha512-1u+Z5n9Jc1E2c7qDO8SinPoZuHj7FgbgU1olSFoyaklduDvvtX7GMMtlE6OC9FTXq4KvNAOfj6Zu4vI1e9bAKA==
+  dependencies:
+    exec-sh "^0.2.0"
+    minimist "^1.2.0"
 
 wcwidth@^1.0.1:
   version "1.0.1"
