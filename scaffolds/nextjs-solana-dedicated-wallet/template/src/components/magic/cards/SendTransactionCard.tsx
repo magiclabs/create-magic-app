@@ -64,9 +64,11 @@ const SendTransaction = () => {
     try {
       setTransactionLoadingLoading(true);
       const hash = await connection?.getLatestBlockhash();
+      if (!hash) return;
+
       const transaction = new Transaction({
         feePayer: userPublicKey,
-        recentBlockhash: hash?.blockhash,
+        ...hash,
       });
 
       const lamportsAmount = Number(amount) * LAMPORTS_PER_SOL;
@@ -81,15 +83,16 @@ const SendTransaction = () => {
 
       transaction.add(transfer);
 
-      const serializeConfig = {
+      const signedTransaction = await magic?.solana.signTransaction(transaction, {
         requireAllSignatures: false,
         verifySignatures: true,
-      };
+      });
 
-      const signedTransaction = await magic?.solana.signTransaction(transaction, serializeConfig);
-      const rawTransaction = Transaction.from(signedTransaction.rawTransaction);
-      const signature = await connection?.sendRawTransaction(rawTransaction.serialize());
-      setHash(signature);
+      const signature = await connection?.sendRawTransaction(
+        Buffer.from(signedTransaction?.rawTransaction as string, 'base64'),
+      );
+
+      setHash(signature ?? '');
       showToast({
         message: `Transaction successful sig: ${signature}`,
         type: 'success',
@@ -114,7 +117,7 @@ const SendTransaction = () => {
       <div>
         <FormButton onClick={handleAirdrop} disabled={airdropLoading}>
           {airdropLoading ? (
-            <div className="loading-container w-full">
+            <div className="w-full loading-container">
               <Spinner />
             </div>
           ) : (
@@ -134,7 +137,7 @@ const SendTransaction = () => {
       {amountError ? <ErrorText className="error">Invalid amount</ErrorText> : null}
       <FormButton onClick={sendTransaction} disabled={!toAddress || !amount || disabled}>
         {transactionLoading ? (
-          <div className="loading-container w-full">
+          <div className="w-full loading-container">
             <Spinner />
           </div>
         ) : (
