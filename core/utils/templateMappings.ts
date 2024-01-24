@@ -201,7 +201,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     config.network === 'polygon-mumbai'
   ) {
     config.chain = 'evm';
-  } else if (config.network === 'solana-denvet' || config.network === 'solana-mainnet') {
+  } else if (config.network === 'solana-devnet' || config.network === 'solana-mainnet') {
     config.chain = 'solana';
   } else {
     config.chain = 'flow';
