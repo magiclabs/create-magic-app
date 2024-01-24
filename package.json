@@ -1,6 +1,6 @@
 {
   "name": "make-magic",
-  "version": "4.4.2",
+  "version": "4.8.0",
   "description": "A tool for quickly scaffolding an app with Magic authentication baked-in!",
   "repository": "magiclabs/create-magic-app",
   "license": "MIT",
