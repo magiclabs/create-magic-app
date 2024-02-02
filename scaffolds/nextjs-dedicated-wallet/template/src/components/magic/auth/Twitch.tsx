@@ -1,9 +1,8 @@
 import { LoginProps } from '@/utils/types';
 import { useMagic } from '../MagicProvider';
 import { useEffect, useState } from 'react';
-import { saveToken } from '@/utils/common';
+import { saveUserInfo } from '@/utils/common';
 import Spinner from '../../ui/Spinner';
-import classNames from 'classnames';
 import Image from 'next/image';
 import twitch from 'public/social/Twitch.svg';
 import Card from '../../ui/Card';
@@ -22,8 +21,10 @@ const Twitch = ({ token, setToken }: LoginProps) => {
       try {
         if (magic) {
           const result = await magic?.oauth.getRedirectResult();
-          //do stuff with user profile data
-          saveToken(result.magic.idToken, setToken, 'SOCIAL');
+          const metadata = await magic?.user.getMetadata();
+          if (!metadata?.publicAddress) return;
+          setToken(result.magic.idToken);
+          saveUserInfo(result.magic.idToken, 'SOCIAL', metadata?.publicAddress);
           setLoadingFlag('false');
         }
       } catch (e) {
@@ -63,7 +64,7 @@ const Twitch = ({ token, setToken }: LoginProps) => {
             disabled={false}
           >
             <Image src={twitch} alt="Twitch" height={24} width={24} className="mr-6" />
-            <div className="text-xs font-semibold text-center w-full">Continue with Twitch</div>
+            <div className="w-full text-xs font-semibold text-center">Continue with Twitch</div>
           </button>
         </div>
       )}

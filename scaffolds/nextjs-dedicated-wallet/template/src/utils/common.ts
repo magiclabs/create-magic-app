@@ -12,9 +12,9 @@ export const logout = async (setToken: Dispatch<SetStateAction<string>>, magic: 
   setToken('');
 };
 
-export const saveToken = (token: string, setToken: Dispatch<SetStateAction<string>>, loginMethod: LoginMethod) => {
+export const saveUserInfo = (token: string, loginMethod: LoginMethod, userAddress: string) => {
   localStorage.setItem('token', token);
-  setToken(token);
   localStorage.setItem('isAuthLoading', 'false');
   localStorage.setItem('loginMethod', loginMethod);
+  localStorage.setItem('user', userAddress);
 };

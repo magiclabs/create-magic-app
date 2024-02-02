@@ -3,7 +3,7 @@ import showToast from '@/utils/showToast';
 import Spinner from '../../ui/Spinner';
 import { RPCError, RPCErrorCode } from 'magic-sdk';
 import { LoginProps } from '@/utils/types';
-import { saveToken } from '@/utils/common';
+import { saveUserInfo } from '@/utils/common';
 import Card from '../../ui/Card';
 import CardHeader from '../../ui/CardHeader';
 import { useState } from 'react';
@@ -23,10 +23,16 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
         setLoginInProgress(true);
         setEmailError(false);
         const token = await magic?.auth.loginWithEmailOTP({ email });
-        if (token) {
-          saveToken(token, setToken, 'EMAIL');
-          setEmail('');
+
+        const metadata = await magic?.user.getMetadata();
+
+        if (!token || !metadata?.publicAddress) {
+          throw new Error('Magic login failed');
         }
+
+        setToken(token);
+        saveUserInfo(token, 'EMAIL', metadata?.publicAddress);
+        setEmail('');
       } catch (e) {
         console.log('login error: ' + JSON.stringify(e));
         if (e instanceof RPCError) {

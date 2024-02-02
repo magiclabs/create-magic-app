@@ -4,7 +4,7 @@ import showToast from '@/utils/showToast';
 import Spinner from '../../ui/Spinner';
 import { RPCError, RPCErrorCode } from 'magic-sdk';
 import { LoginProps } from '@/utils/types';
-import { saveToken } from '@/utils/common';
+import { saveUserInfo } from '@/utils/common';
 import Card from '../../ui/Card';
 import CardHeader from '../../ui/CardHeader';
 import FormInput from '@/components/ui/FormInput';
@@ -25,10 +25,15 @@ const SMSOTP = ({ token, setToken }: LoginProps) => {
         const token = await magic?.auth.loginWithSMS({
           phoneNumber: phone,
         });
-        if (token) {
-          saveToken(token, setToken, 'SMS');
-          setPhone('');
+        const metadata = await magic?.user.getMetadata();
+
+        if (!token || !metadata?.publicAddress) {
+          throw new Error('Magic login failed');
         }
+
+        setToken(token);
+        saveUserInfo(token, 'EMAIL', metadata?.publicAddress);
+        setPhone('');
       } catch (e) {
         console.log('login error: ' + JSON.stringify(e));
         if (e instanceof RPCError) {
