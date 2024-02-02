@@ -25,7 +25,7 @@ export const getChainId = () => {
     case Network.POLYGON:
       return 137;
     case Network.POLYGON_AMOY:
-      return 80001;
+      return 80002;
     case Network.ETHEREUM_SEPOLIA:
       return 1155111;
     case Network.ETHEREUM:
@@ -58,7 +58,7 @@ export const getNetworkName = () => {
     case Network.POLYGON:
       return 'Polygon (Mainnet)';
     case Network.POLYGON_AMOY:
-      return 'Polygon (Mumbai)';
+      return 'Polygon (Amoy)';
     case Network.ETHEREUM_SEPOLIA:
       return 'Ethereum (Sepolia)';
     case Network.ETHEREUM:
