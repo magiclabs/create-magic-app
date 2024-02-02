@@ -172,7 +172,7 @@ export namespace BlockchainNetworkPrompt {
       hint: 'We recommend starting with a test network',
       choices: [
         { name: 'ethereum', message: 'Ethereum (Mainnet)' },
-        { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
+        { name: 'ethereum-sepolia', message: 'Ethereum (Sepolia Testnet)' },
         { name: 'polygon', message: 'Polygon (Mainnet)' },
         { name: 'polygon-amoy', message: 'Polygon (Amoy Testnet)' },
       ],
