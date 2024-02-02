@@ -1,3 +1,28 @@
+# v4.5.0 (Fri Feb 02 2024)
+
+#### 🚀 Enhancement
+
+- replace mumbai testnet with amoy testnet [#127](https://github.com/magiclabs/create-magic-app/pull/127) ([@hcote](https://github.com/hcote))
+- fix: add address to local storage when auth'd [#128](https://github.com/magiclabs/create-magic-app/pull/128) ([@jamesrp13](https://github.com/jamesrp13))
+- Making flag inputs case insensitive [#123](https://github.com/magiclabs/create-magic-app/pull/123) ([@AdityaKulkarni](https://github.com/AdityaKulkarni) [@jamesrp13](https://github.com/jamesrp13))
+- Feat/132 injecting ejs data [#120](https://github.com/magiclabs/create-magic-app/pull/120) ([@AdityaKulkarni](https://github.com/AdityaKulkarni) [@jamesrp13](https://github.com/jamesrp13))
+- Removed deprecated package. Updated magic-sdk package to latest version [#121](https://github.com/magiclabs/create-magic-app/pull/121) ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+#### 🐛 Bug Fix
+
+- fix: typo denvet -> devnet [#126](https://github.com/magiclabs/create-magic-app/pull/126) ([@jamesrp13](https://github.com/jamesrp13))
+- Update SendTransactionCard.tsx [#125](https://github.com/magiclabs/create-magic-app/pull/125) ([@jamesrp13](https://github.com/jamesrp13))
+- Feat/81 contribution guide [#124](https://github.com/magiclabs/create-magic-app/pull/124) ([@AdityaKulkarni](https://github.com/AdityaKulkarni) [@jamesrp13](https://github.com/jamesrp13))
+- Removed testing logs. Linting fixes [#118](https://github.com/magiclabs/create-magic-app/pull/118) ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+
+#### Authors: 3
+
+- Aditya Kulkarni ([@AdityaKulkarni](https://github.com/AdityaKulkarni))
+- Hunter Cote ([@hcote](https://github.com/hcote))
+- James ([@jamesrp13](https://github.com/jamesrp13))
+
+---
+
 # v4.4.2 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement
