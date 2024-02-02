@@ -1,9 +1,8 @@
 import { LoginProps } from '@/utils/types';
 import { useMagic } from '../MagicProvider';
 import { useEffect, useState } from 'react';
-import { saveToken } from '@/utils/common';
+import { saveUserInfo } from '@/utils/common';
 import Spinner from '@/components/ui/Spinner';
-import classNames from 'classnames';
 import Image from 'next/image';
 import discord from 'public/social/Discord.svg';
 import Card from '@/components/ui/Card';
@@ -22,8 +21,10 @@ const Discord = ({ token, setToken }: LoginProps) => {
       try {
         if (magic) {
           const result = await magic?.oauth.getRedirectResult();
-          //do stuff with user profile data
-          saveToken(result.magic.idToken, setToken, 'SOCIAL');
+          const metadata = await magic?.user.getMetadata();
+          if (!metadata?.publicAddress) return;
+          setToken(result.magic.idToken);
+          saveUserInfo(result.magic.idToken, 'SOCIAL', metadata?.publicAddress);
           setLoadingFlag('false');
         }
       } catch (e) {
@@ -63,7 +64,7 @@ const Discord = ({ token, setToken }: LoginProps) => {
             disabled={false}
           >
             <Image src={discord} alt="Discord" height={24} width={24} className="mr-6" />
-            <div className="text-xs font-semibold text-center w-full">Continue with Discord</div>
+            <div className="w-full text-xs font-semibold text-center">Continue with Discord</div>
           </button>
         </div>
       )}

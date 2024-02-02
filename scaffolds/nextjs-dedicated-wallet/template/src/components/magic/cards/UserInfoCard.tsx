@@ -16,25 +16,7 @@ const UserInfo = ({ token, setToken }: LoginProps) => {
   const [copied, setCopied] = useState('Copy');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const [publicAddress, setPublicAddress] = useState(localStorage.getItem('user'));
-
-  useEffect(() => {
-    const checkLoginandGetBalance = async () => {
-      const isLoggedIn = await magic?.user.isLoggedIn();
-      if (isLoggedIn) {
-        try {
-          const metadata = await magic?.user.getInfo();
-          if (metadata) {
-            localStorage.setItem('user', metadata?.publicAddress!);
-            setPublicAddress(metadata?.publicAddress!);
-          }
-        } catch (e) {
-          console.log('error in fetching address: ' + e);
-        }
-      }
-    };
-    setTimeout(() => checkLoginandGetBalance(), 5000);
-  }, []);
+  const [publicAddress] = useState(localStorage.getItem('user'));
 
   const getBalance = useCallback(async () => {
     if (publicAddress && web3) {
