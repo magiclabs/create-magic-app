@@ -75,9 +75,6 @@ export default class DedicatedScaffold extends BaseScaffold {
         if (authType === 'EmailOTP') {
           (this.source as string[]).push('./src/components/magic/wallet-methods/UpdateEmail.tsx');
         }
-        if (authType === 'SMSOTP') {
-          (this.source as string[]).push('./src/components/magic/wallet-methods/UpdatePhone.tsx');
-        }
       });
     }
   }
