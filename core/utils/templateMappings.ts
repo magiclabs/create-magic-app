@@ -196,7 +196,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     }
   } else if (
     config.network === 'ethereum' ||
-    config.network === 'ethereum-goerli' ||
+    config.network === 'ethereum-sepolia' ||
     config.network === 'polygon' ||
     config.network === 'polygon-amoy'
   ) {
