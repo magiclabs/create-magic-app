@@ -174,7 +174,7 @@ export namespace BlockchainNetworkPrompt {
         { name: 'ethereum', message: 'Ethereum (Mainnet)' },
         { name: 'ethereum-goerli', message: 'Ethereum (Goerli Testnet)' },
         { name: 'polygon', message: 'Polygon (Mainnet)' },
-        { name: 'polygon-mumbai', message: 'Polygon (Mumbai Testnet)' },
+        { name: 'polygon-amoy', message: 'Polygon (Amoy Testnet)' },
       ],
     }).run();
 

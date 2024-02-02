@@ -144,7 +144,7 @@ export function mapTemplateToFlags(template: string): any {
 const quickstartConfig = (config: ConfigType): ConfigType => ({
   ...config,
   template: 'nextjs-dedicated-wallet',
-  network: 'polygon-mumbai',
+  network: 'polygon-amoy',
   product: 'dedicated',
   chain: 'evm',
   isChosenTemplateValid: true,
@@ -198,7 +198,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     config.network === 'ethereum' ||
     config.network === 'ethereum-goerli' ||
     config.network === 'polygon' ||
-    config.network === 'polygon-mumbai'
+    config.network === 'polygon-amoy'
   ) {
     config.chain = 'evm';
   } else if (config.network === 'solana-devnet' || config.network === 'solana-mainnet') {
