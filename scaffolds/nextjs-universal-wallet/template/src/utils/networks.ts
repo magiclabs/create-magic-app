@@ -78,9 +78,9 @@ export const getNetworkName = () => {
     case Network.ETHEREUM:
       return 'Ethereum (Mainnet)';
     case Network.ZKSYNC:
-      return 'Zksync (Mainnet)';
+      return 'zkSync (Mainnet)';
     case Network.ZKSYNC_SEPOLIA:
-      return 'Zksync (Sepolia)';
+      return 'zkSync (Sepolia)';
   }
 };
 

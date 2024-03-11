@@ -175,6 +175,8 @@ export namespace BlockchainNetworkPrompt {
         { name: 'ethereum-sepolia', message: 'Ethereum (Sepolia Testnet)' },
         { name: 'polygon', message: 'Polygon (Mainnet)' },
         { name: 'polygon-amoy', message: 'Polygon (Amoy Testnet)' },
+        { name: 'zksync', message: 'zkSync (Mainnet)' },
+        { name: 'zksync-sepolia', message: 'zkSync (Sepolia Testnet)' },
       ],
     }).run();
 
