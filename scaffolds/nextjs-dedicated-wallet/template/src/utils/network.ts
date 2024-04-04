@@ -4,6 +4,8 @@ export enum Network {
   ETHEREUM_SEPOLIA = 'ethereum-sepolia',
   ETHEREUM = 'ethereum',
   ETHERLINK_TESTNET = 'etherlink-testnet',
+  ZKSYNC = 'zksync',
+  ZKSYNC_SEPOLIA = 'zksync-sepolia',
 }
 
 export const getNetworkUrl = () => {
@@ -18,6 +20,10 @@ export const getNetworkUrl = () => {
       return 'https://eth-mainnet.g.alchemy.com/v2/fYFybLQFR9Zr2GCRcgALmAktStFKr0i0';
     case Network.ETHERLINK_TESTNET:
       return 'https://node.ghostnet.etherlink.com';
+    case Network.ZKSYNC:
+      return 'https://mainnet.era.zksync.io';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'https://sepolia.era.zksync.dev';
     default:
       throw new Error('Network not supported');
   }
@@ -31,6 +37,10 @@ export const getChainId = () => {
       return 80002;
     case Network.ETHEREUM_SEPOLIA:
       return 11155111;
+    case Network.ZKSYNC:
+      return 324;
+    case Network.ZKSYNC_SEPOLIA:
+      return 300;
     case Network.ETHEREUM:
       return 1;
     case Network.ETHERLINK_TESTNET:
@@ -45,6 +55,8 @@ export const getNetworkToken = () => {
       return 'MATIC';
     case Network.ETHEREUM:
     case Network.ETHEREUM_SEPOLIA:
+    case Network.ZKSYNC:
+    case Network.ZKSYNC_SEPOLIA:
       return 'ETH';
     case Network.ETHERLINK_TESTNET:
       return 'XTZ';
@@ -59,6 +71,8 @@ export const getFaucetUrl = () => {
       return 'https://sepoliafaucet.com/';
     case Network.ETHERLINK_TESTNET:
       return 'https://faucet.etherlink.com/';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'https://faucet.quicknode.com/ethereum/sepolia';
   }
 };
 
@@ -74,6 +88,10 @@ export const getNetworkName = () => {
       return 'Ethereum (Mainnet)';
     case Network.ETHERLINK_TESTNET:
       return 'Etherlink (Testnet)';
+    case Network.ZKSYNC:
+      return 'zkSync (Mainnet)';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'zkSync (Sepolia)';
   }
 };
 
@@ -89,5 +107,9 @@ export const getBlockExplorer = (address: string) => {
       return `https://sepolia.etherscan.io/address/${address}`;
     case Network.ETHERLINK_TESTNET:
       return `https://testnet-explorer.etherlink.com//address/${address}`;
+    case Network.ZKSYNC:
+      return `https://explorer.zksync.io/address/${address}`;
+    case Network.ZKSYNC_SEPOLIA:
+      return `https://sepolia.explorer.zksync.io/address/${address}`;
   }
 };
