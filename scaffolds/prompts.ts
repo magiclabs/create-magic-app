@@ -137,7 +137,7 @@ export namespace BlockchainNetworkPrompt {
       name: 'chain',
       message: 'Which blockchain do you want to use?',
       choices: [
-        { name: 'evm', message: 'EVM (Ethereum, Polygon, etc.)' },
+        { name: 'evm', message: 'EVM (Ethereum, Etherlink, Polygon, etc.)' },
         { name: 'solana', message: 'Solana' },
         { name: 'flow', message: 'Flow' },
       ],
@@ -173,6 +173,7 @@ export namespace BlockchainNetworkPrompt {
       choices: [
         { name: 'ethereum', message: 'Ethereum (Mainnet)' },
         { name: 'ethereum-sepolia', message: 'Ethereum (Sepolia Testnet)' },
+        { name: 'etherlink-testnet', message: 'Etherlink (Testnet)' },
         { name: 'polygon', message: 'Polygon (Mainnet)' },
         { name: 'polygon-amoy', message: 'Polygon (Amoy Testnet)' },
       ],

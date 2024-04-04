@@ -3,6 +3,7 @@ export enum Network {
   POLYGON = 'polygon',
   ETHEREUM_SEPOLIA = 'ethereum-sepolia',
   ETHEREUM = 'ethereum',
+  ETHERLINK_TESTNET = 'etherlink-testnet',
 }
 
 export const getNetworkUrl = () => {
@@ -15,6 +16,9 @@ export const getNetworkUrl = () => {
       return 'https://eth-sepolia.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
     case Network.ETHEREUM:
       return 'https://eth-mainnet.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
+    case Network.ETHERLINK_TESTNET:
+      return 'https://node.ghostnet.etherlink.com';
+
     default:
       throw new Error('Network not supported');
   }
@@ -25,11 +29,13 @@ export const getChainId = () => {
     case Network.POLYGON:
       return 137;
     case Network.POLYGON_AMOY:
-      return 80001;
+      return 80002;
     case Network.ETHEREUM_SEPOLIA:
-      return 1155111;
+      return 11155111;
     case Network.ETHEREUM:
       return 1;
+    case Network.ETHERLINK_TESTNET:
+      return 128123;
   }
 };
 
@@ -41,6 +47,8 @@ export const getNetworkToken = () => {
     case Network.ETHEREUM:
     case Network.ETHEREUM_SEPOLIA:
       return 'ETH';
+    case Network.ETHERLINK_TESTNET:
+      return 'XTZ';
   }
 };
 
@@ -50,6 +58,8 @@ export const getFaucetUrl = () => {
       return 'https://faucet.polygon.technology/';
     case Network.ETHEREUM_SEPOLIA:
       return 'https://sepoliafaucet.com/';
+    case Network.ETHERLINK_TESTNET:
+      return 'https://faucet.etherlink.com/';
   }
 };
 
@@ -58,11 +68,13 @@ export const getNetworkName = () => {
     case Network.POLYGON:
       return 'Polygon (Mainnet)';
     case Network.POLYGON_AMOY:
-      return 'Polygon (Mumbai)';
+      return 'Polygon (Amoy)';
     case Network.ETHEREUM_SEPOLIA:
       return 'Ethereum (Sepolia)';
     case Network.ETHEREUM:
       return 'Ethereum (Mainnet)';
+    case Network.ETHERLINK_TESTNET:
+      return 'Etherlink (Testnet)';
   }
 };
 
@@ -76,5 +88,7 @@ export const getBlockExplorer = (address: string) => {
       return `https://etherscan.io/address/${address}`;
     case Network.ETHEREUM_SEPOLIA:
       return `https://sepolia.etherscan.io/address/${address}`;
+    case Network.ETHERLINK_TESTNET:
+      return `https://testnet-explorer.etherlink.com//address/${address}`;
   }
 };
