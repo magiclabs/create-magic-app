@@ -113,3 +113,17 @@ export const getBlockExplorer = (address: string) => {
       return `https://sepolia.explorer.zksync.io/address/${address}`;
   }
 };
+
+export const isEip1559Supported = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
+    case Network.POLYGON:
+    case Network.POLYGON_AMOY:
+    case Network.ETHEREUM_SEPOLIA:
+    case Network.ETHEREUM:
+    case Network.ZKSYNC:
+    case Network.ZKSYNC_SEPOLIA:
+      return true;
+    case Network.ETHERLINK_TESTNET:
+      return false;
+  }
+};

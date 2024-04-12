@@ -10,7 +10,7 @@ import CardHeader from '../../ui/CardHeader';
 import TransactionHistory from '../../ui/TransactionHistory';
 import ErrorText from '../../ui/Error';
 import { useMagicContext } from '@/components/magic/MagicProvider';
-import { getFaucetUrl, getNetworkToken } from '@/utils/networks';
+import { getFaucetUrl, getNetworkToken, isEip1559Supported } from '@/utils/networks';
 
 const SendTransaction = () => {
   const { web3 } = useMagicContext();
@@ -30,7 +30,7 @@ const SendTransaction = () => {
     setToAddressError(false);
   }, [amount, toAddress]);
 
-  const sendTransaction = useCallback(() => {
+  const sendTransaction = useCallback(async () => {
     if (!web3?.utils.isAddress(toAddress)) {
       return setToAddressError(true);
     }
@@ -42,7 +42,8 @@ const SendTransaction = () => {
       from: publicAddress,
       to: toAddress,
       value: web3.utils.toWei(amount, 'ether'),
-      gas: 21000,
+      // Specify `gasPrice` if network doesn't support EIP-1559
+      ...(!isEip1559Supported() && { gasPrice: await web3.eth.getGasPrice() }),
     };
     web3.eth
       .sendTransaction(txnParams as any)
