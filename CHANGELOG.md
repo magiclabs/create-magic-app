@@ -1,3 +1,13 @@
+# v4.13.0 (Fri Apr 12 2024)
+
+#### 🚀 Enhancement
+
+- Adds Etherlink support
+  
+#### Authors: 1
+
+- Hunter Cote ([@hcote](https://github.com/hcote))
+
 # v4.12.0 (Mon Mar 11 2024)
 
 #### 🚀 Enhancement
