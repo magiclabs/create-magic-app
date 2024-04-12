@@ -6,7 +6,7 @@ import FormInput from '@/components/ui/FormInput';
 import ErrorText from '@/components/ui/ErrorText';
 import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
-import { getFaucetUrl, getNetworkToken } from '@/utils/network';
+import { getFaucetUrl, getNetworkToken, isEip1559Supported } from '@/utils/network';
 import showToast from '@/utils/showToast';
 import Spacer from '@/components/ui/Spacer';
 import TransactionHistory from '@/components/ui/TransactionHistory';
@@ -29,7 +29,7 @@ const SendTransaction = () => {
     setToAddressError(false);
   }, [amount, toAddress]);
 
-  const sendTransaction = useCallback(() => {
+  const sendTransaction = useCallback(async () => {
     if (!web3?.utils.isAddress(toAddress)) {
       return setToAddressError(true);
     }
@@ -41,7 +41,8 @@ const SendTransaction = () => {
       from: publicAddress,
       to: toAddress,
       value: web3.utils.toWei(amount, 'ether'),
-      gas: 21000,
+      // Specify `gasPrice` if network doesn't support EIP-1559
+      ...(!isEip1559Supported() && { gasPrice: await web3.eth.getGasPrice() }),
     };
     web3.eth
       .sendTransaction(txnParams as any)
