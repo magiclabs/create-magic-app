@@ -1,8 +1,8 @@
 import { LoginProps } from '@/utils/types'
-import Header from './Header'
+import Header from '@/components/ui/Header'
 <% loginMethods.forEach(authType => { %>
-<%-`import ${authType.replaceAll(' ', '')} from './auth/${authType.replaceAll(' ', '')}';`-%>
-<% }) %>
+  <%-`import ${authType.replaceAll(' ', '')} from './auth/${authType.replaceAll(' ', '')}';`-%>
+  <% }) %>
 
 const Login = ({ token, setToken }: LoginProps) => {
   return (

@@ -1,5 +1,5 @@
 import { LoginProps } from '@/utils/types';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import { useEffect, useState } from 'react';
 import { saveUserInfo } from '@/utils/common';
 import Spinner from '../../ui/Spinner';
@@ -21,7 +21,7 @@ const Twitch = ({ token, setToken }: LoginProps) => {
       try {
         if (magic) {
           const result = await magic?.oauth.getRedirectResult();
-          const metadata = await magic?.user.getMetadata();
+          const metadata = await magic?.user.getInfo();
           if (!metadata?.publicAddress) return;
           setToken(result.magic.idToken);
           saveUserInfo(result.magic.idToken, 'SOCIAL', metadata?.publicAddress);

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import showToast from '@/utils/showToast';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import Spinner from '@/components/ui/Spinner';
 
 const GetMetadata = () => {

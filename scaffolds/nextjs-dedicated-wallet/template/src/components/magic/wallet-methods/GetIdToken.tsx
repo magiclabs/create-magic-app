@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import showToast from '@/utils/showToast';
 import Spinner from '@/components/ui/Spinner';
 

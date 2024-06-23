@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import showToast from '@/utils/showToast';
 import Spinner from '../../ui/Spinner';
 import { RPCError, RPCErrorCode } from 'magic-sdk';
@@ -25,7 +25,7 @@ const SMSOTP = ({ token, setToken }: LoginProps) => {
         const token = await magic?.auth.loginWithSMS({
           phoneNumber: phone,
         });
-        const metadata = await magic?.user.getMetadata();
+        const metadata = await magic?.user.getInfo();
 
         if (!token || !metadata?.publicAddress) {
           throw new Error('Magic login failed');

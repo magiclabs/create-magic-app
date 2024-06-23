@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import ErrorText from '@/components/ui/ErrorText';
 import Spacer from '@/components/ui/Spacer';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import Spinner from '@/components/ui/Spinner';
 import FormInput from '@/components/ui/FormInput';
 import showToast from '@/utils/showToast';

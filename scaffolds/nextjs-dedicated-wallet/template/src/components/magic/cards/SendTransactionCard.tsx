@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Divider from '@/components/ui/Divider';
-import { useMagic } from '../MagicProvider';
+import useWeb3 from '@/hooks/Web3';
 import FormButton from '@/components/ui/FormButton';
 import FormInput from '@/components/ui/FormInput';
 import ErrorText from '@/components/ui/ErrorText';
@@ -14,7 +14,7 @@ import Image from 'next/image';
 import Link from 'public/link.svg';
 
 const SendTransaction = () => {
-  const { web3 } = useMagic();
+  const web3 = useWeb3();
   const [toAddress, setToAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [disabled, setDisabled] = useState(!toAddress || !amount);
