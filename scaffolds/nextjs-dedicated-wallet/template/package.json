@@ -9,13 +9,13 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
-    "@magic-ext/oauth": "^15.0.0",
+    "@magic-ext/oauth": "^22.0.7",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
     "classnames": "^2.3.2",
-    "magic-sdk": "^21.5.0",
+    "magic-sdk": "^28.0.7",
     "next": "13.4.7",
     "postcss": "8.4.24",
     "react": "18.2.0",
