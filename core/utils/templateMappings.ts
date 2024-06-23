@@ -14,24 +14,18 @@ import DedicatedScaffold, { flags as dedicatedFlags } from '../../scaffolds/next
 import FlowDedicatedScaffold, {
   flags as flowDedicatedFlags,
 } from '../../scaffolds/nextjs-flow-dedicated-wallet/scaffold';
-import FlowUniversalScaffold, {
-  flags as flowUniversalFlags,
-} from '../../scaffolds/nextjs-flow-universal-wallet/scaffold';
 import SolanaDedicatedScaffold, {
   flags as solanaDedicatedFlags,
 } from '../../scaffolds/nextjs-solana-dedicated-wallet/scaffold';
-import UniversalScaffold, { flags as universalFlags } from '../../scaffolds/nextjs-universal-wallet/scaffold';
 import { Timer } from './timer';
 
 export type Chain = 'evm' | 'solana' | 'flow';
 export type Template =
   | 'nextjs-dedicated-wallet'
-  | 'nextjs-universal-wallet'
   | 'nextjs-solana-dedicated-wallet'
-  | 'nextjs-flow-universal-wallet'
   | 'nextjs-flow-dedicated-wallet';
 
-export type Product = 'universal' | 'dedicated';
+export type Product = 'dedicated';
 type ConfigType = CreateMagicAppConfig & {
   chain: Chain | undefined;
   product: Product | undefined;
@@ -43,11 +37,9 @@ type ConfigType = CreateMagicAppConfig & {
 function mapTemplateToChain(template: string): Chain | undefined {
   switch (template) {
     case 'nextjs-dedicated-wallet':
-    case 'nextjs-universal-wallet':
       return 'evm';
     case 'nextjs-solana-dedicated-wallet':
       return 'solana';
-    case 'nextjs-flow-universal-wallet':
     case 'nextjs-flow-dedicated-wallet':
       return 'flow';
     default:
@@ -61,9 +53,6 @@ function mapTemplateToProduct(template: string): Product | undefined {
     case 'nextjs-solana-dedicated-wallet':
     case 'nextjs-flow-dedicated-wallet':
       return 'dedicated';
-    case 'nextjs-universal-wallet':
-    case 'nextjs-flow-universal-wallet':
-      return 'universal';
     default:
       return undefined;
   }
@@ -93,11 +82,6 @@ export async function mapTemplateToScaffold(
         data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
       }
       return new DedicatedScaffold(data);
-    case 'nextjs-universal-wallet':
-      if (!data.network) {
-        data.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
-      }
-      return new UniversalScaffold(data);
     case 'nextjs-solana-dedicated-wallet':
       if (!data.network) {
         data.network = await BlockchainNetworkPrompt.solanaNetworkPrompt();
@@ -106,11 +90,6 @@ export async function mapTemplateToScaffold(
         data.loginMethods = await AuthTypePrompt.loginMethodsPrompt();
       }
       return new SolanaDedicatedScaffold(data);
-    case 'nextjs-flow-universal-wallet':
-      if (!data.network) {
-        data.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
-      }
-      return new FlowUniversalScaffold(data);
     case 'nextjs-flow-dedicated-wallet':
       if (!data.network) {
         data.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
@@ -128,12 +107,8 @@ export function mapTemplateToFlags(template: string): any {
   switch (template) {
     case 'nextjs-dedicated-wallet':
       return dedicatedFlags;
-    case 'nextjs-universal-wallet':
-      return universalFlags;
     case 'nextjs-solana-dedicated-wallet':
       return solanaDedicatedFlags;
-    case 'nextjs-flow-universal-wallet':
-      return flowUniversalFlags;
     case 'nextjs-flow-dedicated-wallet':
       return flowDedicatedFlags;
     default:
@@ -209,21 +184,12 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
   }
 
   if (!config.product) {
-    config.product = await ProductPrompt.askProduct();
-
-    if (config.product === 'universal') {
-      if (config.chain === 'flow') {
-        config.template = 'nextjs-flow-universal-wallet';
-      } else {
-        config.template = 'nextjs-universal-wallet';
-      }
-    } else if (config.chain === 'flow') {
+    if (config.chain === 'flow') {
       config.template = 'nextjs-flow-dedicated-wallet';
     } else {
       config.template = 'nextjs-dedicated-wallet';
     }
     config.isChosenTemplateValid = true;
   }
-
   return config;
-};
+}
