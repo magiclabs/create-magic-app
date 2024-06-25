@@ -184,6 +184,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
   }
 
   if (!config.product) {
+    config.product = 'dedicated';
     if (config.chain === 'flow') {
       config.template = 'nextjs-flow-dedicated-wallet';
     } else {
