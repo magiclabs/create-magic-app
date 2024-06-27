@@ -3,6 +3,9 @@ export enum Network {
   POLYGON = 'polygon',
   ETHEREUM_SEPOLIA = 'ethereum-sepolia',
   ETHEREUM = 'ethereum',
+  ETHERLINK_TESTNET = 'etherlink-testnet',
+  ZKSYNC = 'zksync',
+  ZKSYNC_SEPOLIA = 'zksync-sepolia',
 }
 
 export const getNetworkUrl = () => {
@@ -15,6 +18,12 @@ export const getNetworkUrl = () => {
       return 'https://eth-sepolia.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
     case Network.ETHEREUM:
       return 'https://eth-mainnet.g.alchemy.com/v2/3jKhhva6zBqwp_dnwPlF4d0rFZhu2pjD';
+    case Network.ETHERLINK_TESTNET:
+      return 'https://node.ghostnet.etherlink.com';
+    case Network.ZKSYNC:
+      return 'https://mainnet.era.zksync.io';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'https://sepolia.era.zksync.dev';
     default:
       throw new Error('Network not supported');
   }
@@ -25,11 +34,17 @@ export const getChainId = () => {
     case Network.POLYGON:
       return 137;
     case Network.POLYGON_AMOY:
-      return 80001;
+      return 80002;
     case Network.ETHEREUM_SEPOLIA:
-      return 1155111;
+      return 11155111;
+    case Network.ZKSYNC:
+      return 324;
+    case Network.ZKSYNC_SEPOLIA:
+      return 300;
     case Network.ETHEREUM:
       return 1;
+    case Network.ETHERLINK_TESTNET:
+      return 128123;
   }
 };
 
@@ -40,7 +55,11 @@ export const getNetworkToken = () => {
       return 'MATIC';
     case Network.ETHEREUM:
     case Network.ETHEREUM_SEPOLIA:
+    case Network.ZKSYNC:
+    case Network.ZKSYNC_SEPOLIA:
       return 'ETH';
+    case Network.ETHERLINK_TESTNET:
+      return 'XTZ';
   }
 };
 
@@ -50,6 +69,10 @@ export const getFaucetUrl = () => {
       return 'https://faucet.polygon.technology/';
     case Network.ETHEREUM_SEPOLIA:
       return 'https://sepoliafaucet.com/';
+    case Network.ETHERLINK_TESTNET:
+      return 'https://faucet.etherlink.com/';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'https://faucet.quicknode.com/ethereum/sepolia';
   }
 };
 
@@ -58,11 +81,17 @@ export const getNetworkName = () => {
     case Network.POLYGON:
       return 'Polygon (Mainnet)';
     case Network.POLYGON_AMOY:
-      return 'Polygon (Mumbai)';
+      return 'Polygon (Amoy)';
     case Network.ETHEREUM_SEPOLIA:
       return 'Ethereum (Sepolia)';
     case Network.ETHEREUM:
       return 'Ethereum (Mainnet)';
+    case Network.ETHERLINK_TESTNET:
+      return 'Etherlink (Testnet)';
+    case Network.ZKSYNC:
+      return 'zkSync (Mainnet)';
+    case Network.ZKSYNC_SEPOLIA:
+      return 'zkSync (Sepolia)';
   }
 };
 
@@ -76,5 +105,25 @@ export const getBlockExplorer = (address: string) => {
       return `https://etherscan.io/address/${address}`;
     case Network.ETHEREUM_SEPOLIA:
       return `https://sepolia.etherscan.io/address/${address}`;
+    case Network.ETHERLINK_TESTNET:
+      return `https://testnet-explorer.etherlink.com//address/${address}`;
+    case Network.ZKSYNC:
+      return `https://explorer.zksync.io/address/${address}`;
+    case Network.ZKSYNC_SEPOLIA:
+      return `https://sepolia.explorer.zksync.io/address/${address}`;
+  }
+};
+
+export const isEip1559Supported = () => {
+  switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
+    case Network.POLYGON:
+    case Network.POLYGON_AMOY:
+    case Network.ETHEREUM_SEPOLIA:
+    case Network.ETHEREUM:
+    case Network.ZKSYNC:
+    case Network.ZKSYNC_SEPOLIA:
+      return true;
+    case Network.ETHERLINK_TESTNET:
+      return false;
   }
 };

@@ -1,3 +1,24 @@
+# v4.13.0 (Fri Apr 12 2024)
+
+#### 🚀 Enhancement
+
+- Adds Etherlink support
+  
+#### Authors: 1
+
+- Hunter Cote ([@hcote](https://github.com/hcote))
+
+# v4.12.0 (Mon Mar 11 2024)
+
+#### 🚀 Enhancement
+
+- Adds zkSync support
+  
+#### Authors: 2
+
+- James ([@jamesrp13](https://github.com/jamesrp13))
+- pbillingsby ([@PBillingsby](https://github.com/PBillingsby))
+
 # v4.4.2 (Wed Sep 27 2023)
 
 #### 🚀 Enhancement

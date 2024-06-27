@@ -198,7 +198,8 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     config.network === 'ethereum' ||
     config.network === 'ethereum-sepolia' ||
     config.network === 'polygon' ||
-    config.network === 'polygon-amoy'
+    config.network === 'polygon-amoy' ||
+    config.network === 'etherlink-testnet'
   ) {
     config.chain = 'evm';
   } else if (config.network === 'solana-devnet' || config.network === 'solana-mainnet') {
