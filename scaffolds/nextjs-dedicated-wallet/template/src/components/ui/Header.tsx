@@ -13,7 +13,7 @@ const Header = () => {
         </div>
       </div>
       <DevLinks />
-      <p className="text-sm font-semibold text-white">Read more about this template <a href="https://github.com/magiclabs/create-magic-app" target='_blank' className="cursor-pointer text-[#6851ff]">here</a></p>
+      <p className="text-sm font-semibold text-white">Take a look at our <a href="https://github.com/magiclabs/create-magic-app" target='_blank' className="cursor-pointer text-[#6851ff]">developer guide</a> to learn more about this template</p>
     </div>
   );
 };
