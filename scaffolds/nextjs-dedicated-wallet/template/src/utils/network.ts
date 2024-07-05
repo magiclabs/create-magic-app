@@ -116,13 +116,13 @@ export const getBlockExplorer = (address: string) => {
 
 export const isEip1559Supported = () => {
   switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
-    case Network.POLYGON:
-    case Network.POLYGON_AMOY:
     case Network.ETHEREUM_SEPOLIA:
     case Network.ETHEREUM:
     case Network.ZKSYNC:
     case Network.ZKSYNC_SEPOLIA:
       return true;
+    case Network.POLYGON:
+    case Network.POLYGON_AMOY:
     case Network.ETHERLINK_TESTNET:
       return false;
   }
