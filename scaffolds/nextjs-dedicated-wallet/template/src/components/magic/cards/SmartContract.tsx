@@ -4,14 +4,12 @@ import Card from '@/components/ui/Card';
 import CardHeader from '@/components/ui/CardHeader';
 import CardLabel from '@/components/ui/CardLabel';
 import Spinner from '@/components/ui/Spinner';
-import { getContractId, abi, getHashLink } from '@/utils/smartContract';
+import { getContractId, abi } from '@/utils/smartContract';
 import { useMagic } from '@/hooks/MagicProvider';
 import useWeb3 from '@/hooks/Web3';
 import FormInput from '@/components/ui/FormInput';
 import FormButton from '@/components/ui/FormButton';
 import showToast from '@/utils/showToast';
-import Image from 'next/image';
-import Link from 'public/link.svg';
 import Spacer from '@/components/ui/Spacer';
 
 const SmartContract = () => {
