@@ -54,7 +54,6 @@ const SmartContract = () => {
 
         const accounts = await web3.eth.getAccounts();
         const accountBalance = await web3.eth.getBalance(accounts[0]);
-        console.log(`Account balance: ${web3.utils.fromWei(accountBalance, 'ether')} MATIC/ETH`);
 
         const gasPrice = await web3.eth.getGasPrice();
         console.log(`Current gas price: ${gasPrice}`);

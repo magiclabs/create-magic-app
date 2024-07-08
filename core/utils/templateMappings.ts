@@ -3,7 +3,6 @@ import {
   AuthTypePrompt,
   BlockchainNetworkPrompt,
   ConfigurationPrompt,
-  ProductPrompt,
   ProjectNamePrompt,
   PublishableApiKeyPrompt,
 } from 'scaffolds/prompts';
@@ -25,10 +24,8 @@ export type Template =
   | 'nextjs-solana-dedicated-wallet'
   | 'nextjs-flow-dedicated-wallet';
 
-export type Product = 'dedicated';
 type ConfigType = CreateMagicAppConfig & {
   chain: Chain | undefined;
-  product: Product | undefined;
   configuration: string | undefined;
   isChosenTemplateValid: boolean;
   isQuickstart: boolean;
@@ -42,17 +39,6 @@ function mapTemplateToChain(template: string): Chain | undefined {
       return 'solana';
     case 'nextjs-flow-dedicated-wallet':
       return 'flow';
-    default:
-      return undefined;
-  }
-}
-
-function mapTemplateToProduct(template: string): Product | undefined {
-  switch (template) {
-    case 'nextjs-dedicated-wallet':
-    case 'nextjs-solana-dedicated-wallet':
-    case 'nextjs-flow-dedicated-wallet':
-      return 'dedicated';
     default:
       return undefined;
   }
@@ -120,7 +106,6 @@ const quickstartConfig = (config: ConfigType): ConfigType => ({
   ...config,
   template: 'nextjs-dedicated-wallet',
   network: 'polygon-amoy',
-  product: 'dedicated',
   chain: 'evm',
   isChosenTemplateValid: true,
   isQuickstart: true,
@@ -130,14 +115,14 @@ const solanaConfig = async (config: ConfigType): Promise<ConfigType> => ({
   ...config,
   template: 'nextjs-solana-dedicated-wallet',
   network: await BlockchainNetworkPrompt.solanaNetworkPrompt(),
-  product: 'dedicated',
   chain: 'solana',
   isChosenTemplateValid: true,
   isQuickstart: false,
 });
 
 export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> => {
-  let config = appConfig;
+  let config = { ...appConfig };
+
   if (!config.projectName) {
     config.projectName = await ProjectNamePrompt.askProjectName();
   }
@@ -146,51 +131,44 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     config.configuration = await ConfigurationPrompt.askConfiguration();
 
     if (config.configuration === 'quickstart') {
-      config = quickstartConfig(config);
-      return config;
+      return quickstartConfig(config);
     }
   } else {
-    config = {
-      ...config,
-      product: mapTemplateToProduct(config.template),
-      chain: mapTemplateToChain(config.template),
-    };
+    config.chain = mapTemplateToChain(config.template);
   }
 
-  if (!config.chain && !config.network) {
+  if (!config.chain) {
     config.chain = await BlockchainNetworkPrompt.chainPrompt();
   }
 
   if (!config.network) {
-    if (config.chain === 'solana') {
-      config = await solanaConfig(config);
-    } else if (config.chain === 'flow') {
-      config.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
-    } else if (config.chain === 'evm') {
-      config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+    switch (config.chain) {
+      case 'solana':
+        config = await solanaConfig(config);
+        break;
+      case 'flow':
+        config.network = await BlockchainNetworkPrompt.flowNetworkPrompt();
+        break;
+      case 'evm':
+        config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+        break;
     }
-  } else if (
-    config.network === 'ethereum' ||
-    config.network === 'ethereum-sepolia' ||
-    config.network === 'polygon' ||
-    config.network === 'polygon-amoy' ||
-    config.network === 'etherlink-testnet'
-  ) {
-    config.chain = 'evm';
-  } else if (config.network === 'solana-devnet' || config.network === 'solana-mainnet') {
-    config.chain = 'solana';
   } else {
-    config.chain = 'flow';
+    const evmNetworks = ['ethereum', 'ethereum-sepolia', 'polygon', 'polygon-amoy', 'etherlink-testnet', 'zksync', 'zksync-sepolia'];
+    const solanaNetworks = ['solana-devnet', 'solana-mainnet'];
+
+    if (evmNetworks.includes(config.network)) {
+      config.chain = 'evm';
+    } else if (solanaNetworks.includes(config.network)) {
+      config.chain = 'solana';
+    } else {
+      config.chain = 'flow';
+    }
   }
 
-  if (!config.product) {
-    config.product = 'dedicated';
-    if (config.chain === 'flow') {
-      config.template = 'nextjs-flow-dedicated-wallet';
-    } else {
-      config.template = 'nextjs-dedicated-wallet';
-    }
-    config.isChosenTemplateValid = true;
-  }
+  config.template = config.chain === 'flow' ?
+    'nextjs-flow-dedicated-wallet' : 'nextjs-dedicated-wallet';
+  config.isChosenTemplateValid = true;
+
   return config;
-}
+};

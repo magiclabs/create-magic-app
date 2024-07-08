@@ -23,7 +23,7 @@ export const getNetworkUrl = () => {
     case Network.ZKSYNC:
       return 'https://mainnet.era.zksync.io';
     case Network.ZKSYNC_SEPOLIA:
-      return 'https://sepolia.era.zksync.dev';
+      return 'https://zksync-era-sepolia.blockpi.network/v1/rpc/public';
     default:
       throw new Error('Network not supported');
   }
@@ -118,9 +118,9 @@ export const isEip1559Supported = () => {
   switch (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK) {
     case Network.ETHEREUM_SEPOLIA:
     case Network.ETHEREUM:
+      return true;
     case Network.ZKSYNC:
     case Network.ZKSYNC_SEPOLIA:
-      return true;
     case Network.POLYGON:
     case Network.POLYGON_AMOY:
     case Network.ETHERLINK_TESTNET:
