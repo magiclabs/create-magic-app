@@ -23,7 +23,7 @@ const EmailOTP = ({ token, setToken }: LoginProps) => {
         setLoginInProgress(true);
         setEmailError(false);
         const token = await magic?.auth.loginWithEmailOTP({ email });
-
+        // Rehydrates the user session whenever getInfo is invoked
         const metadata = await magic?.user.getInfo();
 
         if (!token || !metadata?.publicAddress) {

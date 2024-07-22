@@ -14,6 +14,8 @@ In the `/src/hooks` directory, the `MagicProvider` hook sets up and provides a M
 ### Login Functionality 
 The `Login.tsx` component, located in `/src/components/magic`, manages the display and functionality of various login methods on the login page. It is a central piece for handling user authentication.
 
+One thing to note is that whenever `getInfo` is called from any of the authentication providers, the user session is rehydrated.
+
 Here is a list of the available authentication methods:
 - `Discord.tsx` - Handles authentication using Discord OAuth.
 - `Facebook.tsx` - Handles authentication using Facebook OAuth.
@@ -33,7 +35,7 @@ Here is a list of the available authentication methods:
 - `/src/components/magic/wallet-methods`: This directory includes several components that provide specific functionalities:
     - `Disconnect.tsx` handles the disconnection of the user's session from the application.
     - `GetIdToken.tsx` retrieves the ID token for the authenticated user.
-    - `GetMetadata.tsx` retrieves metadata information about the authenticated user.
+    - `GetMetadata.tsx` retrieves metadata information about the authenticated user. This will rehydrate the user session every time it is rendered. It does this when calling the `getInfo` function. The user session is rehydrated whenever `getInfo` is invoked
     - `UpdateEmail.tsx` allows the user to update their email address.
 
 ### Utility Functions

@@ -21,6 +21,7 @@ const Twitter = ({ token, setToken }: LoginProps) => {
       try {
         if (magic) {
           const result = await magic?.oauth.getRedirectResult();
+          // Rehydrates the user session whenever getInfo is invoked
           const metadata = await magic?.user.getInfo();
           if (!metadata?.publicAddress) return;
           setToken(result.magic.idToken);

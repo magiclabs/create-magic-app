@@ -25,6 +25,7 @@ const SMSOTP = ({ token, setToken }: LoginProps) => {
         const token = await magic?.auth.loginWithSMS({
           phoneNumber: phone,
         });
+        // Rehydrates the user session whenever getInfo is invoked
         const metadata = await magic?.user.getInfo();
 
         if (!token || !metadata?.publicAddress) {

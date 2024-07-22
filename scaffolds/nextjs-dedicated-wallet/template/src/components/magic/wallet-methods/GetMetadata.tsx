@@ -11,6 +11,7 @@ const GetMetadata = () => {
     if (!magic) return;
     try {
       setDisabled(true);
+      // Rehydrates the user session whenever getInfo is invoked
       const userInfo = await magic.user.getInfo();
       setDisabled(false);
       showToast({
