@@ -1,6 +1,6 @@
 import { Flags } from '../../core/flags';
 import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
+import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../prompts';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 

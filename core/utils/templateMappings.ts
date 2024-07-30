@@ -19,10 +19,7 @@ import SolanaDedicatedScaffold, {
 import { Timer } from './timer';
 
 export type Chain = 'evm' | 'solana' | 'flow';
-export type Template =
-  | 'nextjs-dedicated-wallet'
-  | 'nextjs-solana-dedicated-wallet'
-  | 'nextjs-flow-dedicated-wallet';
+export type Template = 'nextjs-dedicated-wallet' | 'nextjs-solana-dedicated-wallet' | 'nextjs-flow-dedicated-wallet';
 
 type ConfigType = CreateMagicAppConfig & {
   chain: Chain | undefined;
@@ -152,9 +149,20 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
       case 'evm':
         config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
         break;
+      default:
+        config.network = await BlockchainNetworkPrompt.evmNetworkPrompt();
+        break;
     }
   } else {
-    const evmNetworks = ['ethereum', 'ethereum-sepolia', 'polygon', 'polygon-amoy', 'etherlink-testnet', 'zksync', 'zksync-sepolia'];
+    const evmNetworks = [
+      'ethereum',
+      'ethereum-sepolia',
+      'polygon',
+      'polygon-amoy',
+      'etherlink-testnet',
+      'zksync',
+      'zksync-sepolia',
+    ];
     const solanaNetworks = ['solana-devnet', 'solana-mainnet'];
 
     if (evmNetworks.includes(config.network)) {
@@ -166,8 +174,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
     }
   }
 
-  config.template = config.chain === 'flow' ?
-    'nextjs-flow-dedicated-wallet' : 'nextjs-dedicated-wallet';
+  config.template = config.chain === 'flow' ? 'nextjs-flow-dedicated-wallet' : 'nextjs-dedicated-wallet';
   config.isChosenTemplateValid = true;
 
   return config;
