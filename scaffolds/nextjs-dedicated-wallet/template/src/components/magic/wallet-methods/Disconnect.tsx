@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { logout } from '@/utils/common';
 import { LoginProps } from '@/utils/types';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import Spinner from '@/components/ui/Spinner';
 
 const Disconnect = ({ setToken }: LoginProps) => {

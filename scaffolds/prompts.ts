@@ -55,16 +55,6 @@ export namespace ProductPrompt {
     product: string;
   };
 
-  export const askProduct = async () =>
-    new Select({
-      name: 'product',
-      message: 'Choose your wallet type',
-      choices: [
-        { name: 'universal', message: 'Universal' },
-        { name: 'dedicated', message: 'Dedicated' },
-      ],
-    }).run();
-
   export const flags: Flags<Partial<Data>> = {
     product: {
       type: String,

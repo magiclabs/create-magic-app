@@ -1,6 +1,6 @@
 import { Flags } from '../../core/flags';
 import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
-import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
+import { AuthTypePrompt, NpmClientPrompt, PublishableApiKeyPrompt } from '../prompts';
 
 export type Data = NpmClientPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 

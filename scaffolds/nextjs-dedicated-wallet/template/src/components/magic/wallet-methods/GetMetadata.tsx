@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import showToast from '@/utils/showToast';
-import { useMagic } from '../MagicProvider';
+import { useMagic } from '@/hooks/MagicProvider';
 import Spinner from '@/components/ui/Spinner';
 
 const GetMetadata = () => {
@@ -11,6 +11,7 @@ const GetMetadata = () => {
     if (!magic) return;
     try {
       setDisabled(true);
+      // Rehydrates the user session whenever getInfo is invoked
       const userInfo = await magic.user.getInfo();
       setDisabled(false);
       showToast({

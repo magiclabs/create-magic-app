@@ -1,10 +1,11 @@
-import MagicProvider from '../components/magic/MagicProvider';
+import MagicProvider from '@/hooks/MagicProvider';
+
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from '@/components/magic/Login';
-import Dashboard from '@/components/magic/Dashboard';
-import MagicDashboardRedirect from '@/components/magic/MagicDashboardRedirect';
+import Dashboard from '@/components/ui/Dashboard';
+import MagicDashboardRedirect from '@/components/ui/MagicDashboardRedirect';
 
 export default function Home() {
   const [token, setToken] = useState('');

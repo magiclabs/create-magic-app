@@ -1,3 +1,14 @@
+# v5.0.0 (Mon Jul 29 2024)
+
+#### 💥 Breaking Change
+
+- Removes Universal support with associated flags, prompts, and templates
+- Adds architectural updates to EVM templates
+  
+#### Authors: 1
+
+- pbillingsby ([@PBillingsby](https://github.com/PBillingsby))
+
 # v4.13.0 (Fri Apr 12 2024)
 
 #### 🚀 Enhancement

@@ -1,6 +1,6 @@
 import { Flags } from '../../core/flags';
 import BaseScaffold, { ExecaCommand } from '../../core/types/BaseScaffold';
-import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../../scaffolds/prompts';
+import { AuthTypePrompt, BlockchainNetworkPrompt, PublishableApiKeyPrompt } from '../prompts';
 
 export type Data = BlockchainNetworkPrompt.Data & PublishableApiKeyPrompt.Data & AuthTypePrompt.Data;
 
@@ -41,12 +41,13 @@ export default class DedicatedScaffold extends BaseScaffold {
     './src/components/magic/wallet-methods/Disconnect.tsx',
     './src/components/magic/wallet-methods/GetIdToken.tsx',
     './src/components/magic/wallet-methods/GetMetadata.tsx',
-    './src/components/magic/Dashboard.tsx',
-    './src/components/magic/DevLinks.tsx',
-    './src/components/magic/Header.tsx',
+    './src/components/ui/Dashboard.tsx',
+    './src/components/ui/DevLinks.tsx',
+    './src/components/ui/Header.tsx',
     './src/components/magic/Login.tsx',
-    './src/components/magic/MagicProvider.tsx',
-    './src/components/magic/MagicDashboardRedirect.tsx',
+    './src/hooks/MagicProvider.tsx',
+    './src/hooks/Web3.tsx',
+    './src/components/ui/MagicDashboardRedirect.tsx',
     './src/pages',
     './src/styles',
     './src/utils',
