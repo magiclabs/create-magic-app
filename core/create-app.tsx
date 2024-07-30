@@ -84,7 +84,6 @@ export async function createApp(config: CreateMagicAppConfig) {
     ...(await buildTemplate({
       ...config,
       chain: undefined,
-      product: undefined,
       configuration: undefined,
       isChosenTemplateValid: false,
       isQuickstart: false,

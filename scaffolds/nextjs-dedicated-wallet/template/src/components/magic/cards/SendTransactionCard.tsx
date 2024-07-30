@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Divider from '@/components/ui/Divider';
-import { useMagic } from '../MagicProvider';
+import useWeb3 from '@/hooks/Web3';
 import FormButton from '@/components/ui/FormButton';
 import FormInput from '@/components/ui/FormInput';
 import ErrorText from '@/components/ui/ErrorText';
@@ -12,9 +12,10 @@ import Spacer from '@/components/ui/Spacer';
 import TransactionHistory from '@/components/ui/TransactionHistory';
 import Image from 'next/image';
 import Link from 'public/link.svg';
+import { TxnParams } from '@/utils/types';
 
 const SendTransaction = () => {
-  const { web3 } = useMagic();
+  const web3 = useWeb3();
   const [toAddress, setToAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [disabled, setDisabled] = useState(!toAddress || !amount);
@@ -37,13 +38,21 @@ const SendTransaction = () => {
       return setAmountError(true);
     }
     setDisabled(true);
-    const txnParams = {
+
+    const txnParams: TxnParams = {
       from: publicAddress,
       to: toAddress,
       value: web3.utils.toWei(amount, 'ether'),
-      // Specify `gasPrice` if network doesn't support EIP-1559
-      ...(!isEip1559Supported() && { gasPrice: await web3.eth.getGasPrice() }),
     };
+
+    if (isEip1559Supported()) {
+      const feeData = await web3.eth.calculateFeeData();
+      txnParams.maxFeePerGas = BigInt(feeData.maxFeePerGas);
+      txnParams.maxPriorityFeePerGas = BigInt(feeData.maxPriorityFeePerGas);
+    } else {
+      txnParams.gasPrice = await web3.eth.getGasPrice();
+    }
+
     web3.eth
       .sendTransaction(txnParams as any)
       .on('transactionHash', (txHash) => {
@@ -60,9 +69,14 @@ const SendTransaction = () => {
         console.log('Transaction receipt:', receipt);
       })
       .catch((error) => {
-        console.error(error);
+        console.error('Transaction error:', error);
         setDisabled(false);
+        showToast({
+          message: 'Transaction Failed: ' + error.message,
+          type: 'error',
+        });
       });
+
   }, [web3, amount, publicAddress, toAddress]);
 
   return (
