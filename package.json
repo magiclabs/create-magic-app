@@ -87,5 +87,11 @@
     "ora": "^5.1.0",
     "pretty-time": "^1.1.0",
     "textextensions": "^5.16.0"
+  },
+  "resolutions": {
+    "ejs": "^3.1.10",
+    "tar": "^6.2.1",
+    "braces": "^3.0.3",
+    "merge": "^2.1.1"
   }
 }
