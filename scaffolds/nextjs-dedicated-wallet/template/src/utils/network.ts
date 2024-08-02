@@ -64,7 +64,6 @@ export const getNetworkToken = () => {
     case Network.ZKSYNC_SEPOLIA:
       return 'ETH';
     case Network.ETHERLINK:
-      return 'XTZ';
     case Network.ETHERLINK_TESTNET:
       return 'XTZ';
   }
