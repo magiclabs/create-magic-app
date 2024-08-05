@@ -159,6 +159,7 @@ export const buildTemplate = async (appConfig: ConfigType): Promise<ConfigType> 
       'ethereum-sepolia',
       'polygon',
       'polygon-amoy',
+      'etherlink',
       'etherlink-testnet',
       'zksync',
       'zksync-sepolia',

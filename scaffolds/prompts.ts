@@ -163,6 +163,7 @@ export namespace BlockchainNetworkPrompt {
       choices: [
         { name: 'ethereum', message: 'Ethereum (Mainnet)' },
         { name: 'ethereum-sepolia', message: 'Ethereum (Sepolia Testnet)' },
+        { name: 'etherlink', message: 'Etherlink (Mainnet)' },
         { name: 'etherlink-testnet', message: 'Etherlink (Testnet)' },
         { name: 'polygon', message: 'Polygon (Mainnet)' },
         { name: 'polygon-amoy', message: 'Polygon (Amoy Testnet)' },
