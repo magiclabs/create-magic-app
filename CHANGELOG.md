@@ -1,3 +1,9 @@
+# v5.1.0 (Mon Aug 7 2024)
+
+#### 🚀 Enhancement
+
+- Adds etherlink mainnet
+
 # v5.0.3 (Mon Jul 29 2024)
 
 #### 💥 Breaking Change
